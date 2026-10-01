@@ -1,0 +1,46 @@
+/* Temporary accessible baseline; branding and final UI are a later task. */
+:root {
+  --brand-primary: #245c50;
+  --brand-secondary: #245c50;
+  --brand-neutral: #64748b;
+  --brand-outline: #174ea6;
+  --foreground-color: #172c27;
+  --background-color: #fff;
+  --link-color: #245c50;
+  --link-hover-color: #123e34;
+  --outline-color: #174ea6;
+  --text-decoration-color: #245c50;
+}
+
+html { scroll-padding-block-start: 1rem; }
+body { overflow-wrap: anywhere; }
+.prose-content { max-inline-size: 70ch; }
+.prose-content > * + * { margin-block-start: 1.5rem; }
+em, i { font-synthesis: style; }
+a, button { min-block-size: 44px; }
+a { display: inline-flex; align-items: center; }
+.prose-content p a { display: inline; }
+:focus-visible { outline: 3px solid #174ea6; outline-offset: 4px; }
+.skip-link {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 1rem;
+  transform: translateY(-150%);
+  z-index: 1000;
+  padding: 0.75rem;
+  background: #fff;
+  color: #172c27;
+}
+.skip-link:focus { transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
+}
+@media (scripting: none) {
+  #main-navigation .mobile-menu { display: block; }
+  #main-navigation .responsive-toggle, #main-navigation .desktop-menu { display: none; }
+}

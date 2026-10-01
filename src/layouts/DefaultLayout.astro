@@ -1,0 +1,147 @@
+---
+import '../styles/tailwind.css'
+import '../assets/scss/index.scss'
+import themeConfig from '@theme-config'
+import { SEO } from 'astro-seo'
+import Header from '@components/Header.astro'
+import Footer from '@components/Footer.astro'
+import '../styles/foundation.css'
+import type { ImageMetadata } from 'astro'
+
+interface Props {
+  /**
+   * The title of the page
+   */
+  title?: string
+  /**
+   * The description of the page
+   */
+  description?: string
+  /**
+   * The URL of the page
+   */
+  url?: string
+  /**
+   * The image path for social sharing (can be ImageMetadata or string path)
+   */
+  image?: ImageMetadata | string | null
+  /**
+   * The author of the page
+   */
+  author?: string
+  /**
+   * The type of content (default: 'website')
+   */
+  type?: 'website' | 'article'
+  /**
+   * Whether to use the title template (default: true)
+   * Set to false to use the title as-is without appending site name
+   */
+  useTitleTemplate?: boolean
+}
+
+const {
+  title = themeConfig.seo.title,
+  description = themeConfig.seo.description ?? '',
+  url = Astro.url.href,
+  image = themeConfig.seo.image ?? null,
+  author = themeConfig.seo.author ?? '',
+  type = 'website',
+  useTitleTemplate = true,
+} = Astro.props
+
+// For social sharing, we need the full absolute URL
+// If image is an ImageMetadata object, use its src, otherwise treat as string path
+const imagePath = image ? (typeof image === 'string' ? image : image.src) : null
+const imageUrl = imagePath ? new URL(imagePath, Astro.site).href : undefined
+---
+
+<html lang="uk" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    {import.meta.env.PROD && <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'" />}
+
+    <SEO
+      noindex={true}
+      nofollow={true}
+      title={title}
+      titleTemplate={useTitleTemplate ? `%s - ${themeConfig.seo.title}` : undefined}
+      titleDefault={themeConfig.seo.title}
+      description={description}
+      canonical={url}
+      openGraph={imageUrl ? {
+        basic: {
+          title: title,
+          type: type,
+          image: imageUrl,
+          url: url,
+        },
+        optional: {
+          description: description,
+          locale: 'uk_UA',
+        },
+      } : undefined}
+      twitter={imageUrl ? {
+        card: 'summary_large_image',
+        title: title,
+        description: description,
+        image: imageUrl,
+      } : undefined}
+      extend={{
+        meta: [
+          {
+            name: 'author',
+            content: author,
+          },
+        ],
+      }}
+    />
+
+  </head>
+  <body>
+    <Header />
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <style lang="scss" is:global>
+      @use 'scss/base/mixins' as *;
+
+      // sticky footer on low content pages
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        overflow-x: clip;
+
+        main {
+          flex: 1 0 auto;
+        }
+
+        footer {
+          flex-shrink: 0;
+        }
+      }
+
+      pre {
+        border: 2px solid var(--link-color);
+        border-radius: 0.35rem;
+        padding: 1rem;
+      }
+
+      .card {
+        a {
+          @include text-decoration(transparent, var(--foreground-color), 4px, 2px);
+        }
+      }
+    </style>
+  </body>
+</html>

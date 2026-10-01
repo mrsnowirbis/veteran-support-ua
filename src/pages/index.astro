@@ -1,0 +1,15 @@
+---
+import { getEntry, render } from 'astro:content'
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+
+const page = await getEntry('pages', 'home')
+if (!page || page.data.draft) throw new Error('Published home content is required')
+const { Content } = await render(page)
+---
+
+<DefaultLayout title={page.data.title} description={page.data.description} useTitleTemplate={false}>
+  <div class="container py-12 prose-content">
+    <h1>{page.data.title}</h1>
+    <Content />
+  </div>
+</DefaultLayout>

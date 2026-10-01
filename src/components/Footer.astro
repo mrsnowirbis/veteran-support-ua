@@ -1,3 +1,42 @@
-<footer class="container py-8">
-  <p>Волонтерський проєкт підтримки ветеранів</p>
+---
+import Logo from './Logo.astro'
+const nav = [
+  ['Про нас', '/pro-nas'],
+  ['Відновлення', '/vidnovlennia'],
+  ['Історії', '/istorii'],
+  ['Кінотерапія', '/kinoterapiia'],
+  ['Освіта', '/osvita'],
+  ['Події', '/podii'],
+]
+---
+
+<footer class="site-footer">
+  <div class="shell footer-grid">
+    <div>
+      <Logo loading="lazy" /><p class="muted">Підтримка, повага та простір<br />для власного шляху відновлення.</p><span
+        class="demo-tag">Попередня версія сайту</span>
+    </div>
+    <nav aria-label="Розділи сайту">
+      <h2>Дізнатися більше</h2><ul>
+        {
+          nav.map(([label, href]) => (
+            <li>
+              <a href={href}>{label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <nav aria-label="Допомога та участь">
+      <h2>Бути поруч</h2><ul>
+        <li><a href="/otrymaty-dopomohu">Отримати допомогу</a></li><li>
+          <a href="/volonterstvo">Стати волонтером</a>
+        </li><li><a href="/pidtrymaty">Як допомогти</a></li><li><a href="/kontakty">Контакти</a></li>
+      </ul><p class="muted">Контакти уточнюються.<br />Звернення ще не приймаються.</p>
+    </nav>
+  </div>
+  <div class="shell footer-bottom">
+    <p>З повагою до кожного та кожної.</p><a href="/privacy">Політика конфіденційності</a><a href="/personal-data"
+      >Обробка персональних даних</a>
+  </div>
 </footer>

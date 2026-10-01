@@ -60,10 +60,17 @@ const imageUrl = imagePath ? new URL(imagePath, Astro.site).href : undefined
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/brand/logo-original.jpg" type="image/jpeg" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    {import.meta.env.PROD && <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'" />}
+    {
+      import.meta.env.PROD && (
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"
+        />
+      )
+    }
 
     <SEO
       noindex={true}
@@ -73,24 +80,28 @@ const imageUrl = imagePath ? new URL(imagePath, Astro.site).href : undefined
       titleDefault={themeConfig.seo.title}
       description={description}
       canonical={url}
-      openGraph={imageUrl ? {
-        basic: {
-          title: title,
-          type: type,
-          image: imageUrl,
-          url: url,
-        },
-        optional: {
-          description: description,
-          locale: 'uk_UA',
-        },
-      } : undefined}
-      twitter={imageUrl ? {
-        card: 'summary_large_image',
-        title: title,
-        description: description,
-        image: imageUrl,
-      } : undefined}
+      openGraph={imageUrl
+        ? {
+            basic: {
+              title: title,
+              type: type,
+              image: imageUrl,
+              url: url,
+            },
+            optional: {
+              description: description,
+              locale: 'uk_UA',
+            },
+          }
+        : undefined}
+      twitter={imageUrl
+        ? {
+            card: 'summary_large_image',
+            title: title,
+            description: description,
+            image: imageUrl,
+          }
+        : undefined}
       extend={{
         meta: [
           {
@@ -100,7 +111,6 @@ const imageUrl = imagePath ? new URL(imagePath, Astro.site).href : undefined
         ],
       }}
     />
-
   </head>
   <body>
     <Header />

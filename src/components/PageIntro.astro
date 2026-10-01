@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string
+  description: string
+  eyebrow?: string
+}
+const { title, description, eyebrow = 'Підтримка ветеранів' } = Astro.props
+---
+
+<section class="page-intro">
+  <div class="shell">
+    <a class="back-link" href="/">Головна <span aria-hidden="true">/</span></a><p class="eyebrow">{eyebrow}</p><h1>
+      {title}
+    </h1><p class="lead">{description}</p>
+  </div>
+</section>

@@ -1,0 +1,31 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+import PageIntro from '../components/PageIntro.astro'
+const sections = [
+  [
+    'Напрями участі',
+    'Заплановані напрями: робота з матеріалами, організація подій, інформаційна підтримка та допомога команді.',
+  ],
+  [
+    'Як долучитися',
+    'Опис ролей, вимоги та порядок знайомства з командою ще готуються. Актуальні способи зв’язку з’являться на сторінці контактів.',
+  ],
+]
+---
+
+<DefaultLayout title="Стати волонтером" description="Ваш час і навички можуть стати підтримкою для інших."
+  ><PageIntro title="Стати волонтером" description="Ваш час і навички можуть стати підтримкою для інших." /><div
+    class="shell section reading"
+  >
+    <p class="notice">Попередній зміст: тексти та фактичні відомості ще потребують погодження командою.</p>{
+      sections.map(([heading, text]) => (
+        <section class="text-section">
+          <>
+            <h2>{heading}</h2>
+            <p>{text}</p>
+          </>
+        </section>
+      ))
+    }<a class="button" href="/kontakty">Перейти до контактів →</a>
+  </div></DefaultLayout
+>

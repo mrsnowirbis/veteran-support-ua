@@ -1,0 +1,73 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+import PageIntro from '../components/PageIntro.astro'
+---
+
+<DefaultLayout
+  title="Отримати допомогу"
+  description="Напрями майбутньої підтримки та пояснення безпечного звернення. Приймання заявок ще не розпочато."
+>
+  <PageIntro
+    title="Отримати допомогу"
+    description="Перший крок — дізнатися про підтримку. Ви самі обираєте, чим готові поділитися."
+  />
+  <div class="shell section help-grid">
+    <div>
+      <h2>З чим можна буде звернутися</h2><p>
+        Заплановані напрями: психологічна підтримка, освітні можливості, участь у спільноті та пошук інформації.
+        Доступність допомоги команда ще має підтвердити.
+      </p><h2>Що відбуватиметься далі</h2><ol class="steps">
+        <li>Ви обираєте напрям та зручний спосіб зв’язку.</li><li>
+          Після запуску команда зможе опрацювати звернення й уточнити запит.
+        </li><li>Можливі наступні кроки погоджуються з вами. Строк відповіді ще не визначений.</li>
+      </ol><h2>Мінімум даних</h2><p>Ім’я, контакт, місто або область, категорія допомоги та коротке повідомлення.</p><p
+        class="notice"
+      >
+        Не надсилайте діагнози, медичні документи чи іншу чутливу медичну інформацію.
+      </p>
+    </div>
+    <section class="form-panel" aria-labelledby="form-title">
+      <span class="demo-tag">Демонстраційний макет</span><h2 id="form-title">Майбутня форма звернення</h2><p
+        id="form-status"
+      >
+        Форма вимкнена. Не вводьте персональні дані: звернення не надсилаються й не зберігаються.
+      </p>
+      <form aria-describedby="form-status" autocomplete="off">
+        <fieldset disabled>
+          <legend class="sr-only">Дані звернення — недоступно в демоверсії</legend>
+          <label for="help-name">Ім’я</label><input id="help-name" name="name" type="text" maxlength="80" />
+          <label for="help-method">Спосіб зв’язку</label><select id="help-method" name="method"
+            ><option>Оберіть спосіб зв’язку</option><option>Телефон</option><option>Електронна пошта</option><option
+              >Месенджер</option
+            ></select
+          >
+          <label for="help-contact">Контакт</label><input
+            id="help-contact"
+            name="contact"
+            type="text"
+            aria-describedby="contact-hint"
+          /><p id="contact-hint" class="field-hint">Номер, адреса пошти або ім’я в обраному месенджері.</p>
+          <label for="help-city">Місто / область</label><input id="help-city" name="city" type="text" maxlength="120" />
+          <label for="help-category">Категорія звернення</label><select id="help-category" name="category"
+            ><option>Оберіть напрям</option><option>Психологічна підтримка</option><option>Освіта та робота</option
+            ><option>Події та спільнота</option><option>Інформаційна підтримка</option></select
+          >
+          <label for="help-message">Коротке повідомлення</label><textarea
+            id="help-message"
+            name="message"
+            rows="4"
+            maxlength="500"
+            aria-describedby="message-hint"></textarea><p id="message-hint" class="field-hint">
+            До 500 символів. Без медичних подробиць.
+          </p>
+          <label class="checkbox-label" for="help-consent"
+            ><input id="help-consent" name="consent" type="checkbox" />Згода на обробку наданих даних</label
+          >
+        </fieldset><p class="field-hint">
+          Умови: <a href="/personal-data">обробка персональних даних</a> · <a href="/privacy">конфіденційність</a>.
+          Обидва документи поки є чернетками.
+        </p><button class="button" type="submit" disabled>Надсилання поки недоступне</button>
+      </form>
+    </section>
+  </div>
+</DefaultLayout>

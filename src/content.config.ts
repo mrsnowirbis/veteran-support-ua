@@ -1,15 +1,95 @@
-import { defineCollection } from 'astro:content'
+import { defineCollection, reference } from 'astro:content'
 import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
 
-// Keep this content contract when replacing the local loader with a future CMS.
-const pages = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/pages' }),
-  schema: z.object({
-    title: z.string().min(1),
-    description: z.string().min(1),
-    draft: z.boolean().default(true),
-  }),
-})
+const text = z.string().min(1)
+const slug = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+const external = z.string().url().startsWith('https://')
+const media = z
+  .string()
+  .refine(
+    (v) => (v.startsWith('/') && !v.startsWith('//')) || v.startsWith('https://'),
+    'Use a local path or HTTPS URL',
+  )
+const state = { draft: z.boolean().default(true), demo: z.boolean().default(true) }
+const collection = <T extends z.ZodRawShape>(name: string, schema: z.ZodObject<T>) =>
+  defineCollection({ loader: glob({ pattern: '**/*.md', base: './src/content/' + name }), schema })
 
-export const collections = { pages }
+const pages = collection('pages', z.object({ title: text, description: text, ...state }))
+const recovery = collection(
+  'recovery',
+  z.object({
+    title: text,
+    slug,
+    description: text,
+    category: z.enum(['Стабілізаційні вправи', 'Майндфулнес', 'Психологічні рекомендації', 'Психоедукація']),
+    publishedDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    author: text,
+    image: media.optional(),
+    video: media.optional(),
+    audio: media.optional(),
+    ...state,
+  }),
+)
+const stories = collection(
+  'stories',
+  z.object({
+    title: text,
+    slug,
+    excerpt: text,
+    image: media.optional(),
+    publishedDate: z.coerce.date(),
+    anonymous: z.boolean().default(true),
+    relatedMaterials: z.array(reference('recovery')).default([]),
+    ...state,
+  }),
+)
+const films = collection(
+  'films',
+  z.object({
+    title: text,
+    year: z.number().int(),
+    description: text,
+    themes: z.array(text),
+    contentWarning: text.optional(),
+    poster: media.optional(),
+    externalUrl: external.optional(),
+    ...state,
+  }),
+)
+const education = collection(
+  'education',
+  z.object({
+    title: text,
+    description: text,
+    category: z.enum([
+      'Навчання',
+      'Перекваліфікація',
+      'Курси',
+      'Програми для ветеранів',
+      'Гранти та стипендії',
+      'Працевлаштування',
+      'Дистанційні професії',
+    ]),
+    provider: text.optional(),
+    externalUrl: external.optional(),
+    deadline: z.coerce.date().optional(),
+    publishedDate: z.coerce.date(),
+    ...state,
+  }),
+)
+const events = collection(
+  'events',
+  z.object({
+    title: text,
+    description: text,
+    date: z.coerce.date(),
+    location: text.optional(),
+    online: z.boolean().default(false),
+    registrationUrl: external.optional(),
+    image: media.optional(),
+    ...state,
+  }),
+)
+export const collections = { pages, recovery, stories, films, education, events }

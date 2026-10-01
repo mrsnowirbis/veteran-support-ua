@@ -7,11 +7,11 @@ export default defineThemeConfig({
   seo: {
     title: 'Підтримка ветеранів',
     description: 'Волонтерський проєкт допомоги пораненим ветеранам та їхнім близьким.',
-    image: null,
+    image: '/brand/logo-original.jpg',
   },
   colors: {
-    primary: '#245c50',
-    secondary: '#245c50',
+    primary: '#07558b',
+    secondary: '#f6d55b',
     neutral: '#64748b',
     outline: '#174ea6',
   },

@@ -1,0 +1,34 @@
+---
+interface Props {
+  title: string
+  description: string
+  href?: string
+  category?: string
+  meta?: string
+  demo?: boolean
+  index?: number
+}
+const { title, description, href, category, meta, demo = true, index = 0 } = Astro.props
+---
+
+<article class="content-card">
+  <div class:list={['card-art', 'art-' + (index % 3)]} aria-hidden="true">
+    <span>{String(index + 1).padStart(2, '0')}</span><i></i>
+  </div>
+  <div class="card-copy">
+    <div class="card-meta">{category && <span>{category}</span>}{demo && <span class="demo-tag">Демо</span>}</div><h3>
+      {
+        href ? (
+          <a href={href}>
+            {title}
+            <span class="card-arrow" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        ) : (
+          title
+        )
+      }
+    </h3><p>{description}</p>{meta && <p class="card-date">{meta}</p>}
+  </div>
+</article>

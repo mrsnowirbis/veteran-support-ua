@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+import DefaultLayout from '../../layouts/DefaultLayout.astro'
+import { dateLabel } from '../../utils/content'
+export async function getStaticPaths() {
+  const entries = await getCollection('recovery', ({ data }) => !data.draft)
+  const slugs = entries.map((e) => e.data.slug)
+  if (new Set(slugs).size !== slugs.length) throw new Error('Duplicate recovery slugs')
+  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }))
+}
+interface Props {
+  entry: CollectionEntry<'recovery'>
+}
+const { entry } = Astro.props
+const { Content } = await render(entry)
+---
+
+<DefaultLayout title={entry.data.title} description={entry.data.description} image={entry.data.image} type="article">
+  <article class="shell reading section">
+    <a class="back-link" href="/vidnovlennia">← Усі матеріали</a><p class="eyebrow">Матеріали для відновлення</p><h1>
+      {entry.data.title}
+    </h1><p class="muted">Демонстраційна дата: {dateLabel(entry.data.publishedDate)} · {entry.data.author}</p><p
+      class="notice"
+    >
+      Демонстраційний матеріал. Не містить професійних медичних рекомендацій.
+    </p><div class="article-body"><Content /></div>
+  </article>
+</DefaultLayout>

@@ -1,15 +1,135 @@
 ---
-import { getEntry, render } from 'astro:content'
 import DefaultLayout from '../layouts/DefaultLayout.astro'
-
-const page = await getEntry('pages', 'home')
-if (!page || page.data.draft) throw new Error('Published home content is required')
-const { Content } = await render(page)
+import ContentCard from '../components/ContentCard.astro'
+import SupportCTA from '../components/SupportCTA.astro'
+import { loadContent, dateLabel, splitEvents } from '../utils/content'
+const { recovery, stories, events } = await loadContent()
+const directions = [
+  ['01', 'Психологічне відновлення', 'Матеріали та простір для турботи про себе.', '/vidnovlennia'],
+  ['02', 'Освіта та професійний розвиток', 'Можливості навчання й нові орієнтири.', '/osvita'],
+  ['03', 'Історії відновлення', 'Різні шляхи. Власний темп. Спільна підтримка.', '/istorii'],
+  ['04', 'Події та спільнота', 'Зустрічі, спілкування та взаємна підтримка.', '/podii'],
+]
 ---
 
-<DefaultLayout title={page.data.title} description={page.data.description} useTitleTemplate={false}>
-  <div class="container py-12 prose-content">
-    <h1>{page.data.title}</h1>
-    <Content />
-  </div>
+<DefaultLayout
+  title="Підтримка ветеранів — поруч на шляху відновлення"
+  description="Простір підтримки ветеранів та їхніх близьких: відновлення, освіта, історії й спільнота."
+  useTitleTemplate={false}
+>
+  <section class="hero shell">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="small-dot"></span> Підтримка ветеранів та їхніх близьких</p><h1>
+        Відновлення починається<br /><em>з підтримки.</em>
+      </h1><p class="lead">
+        Поруч, щоб допомогти знайти опору, корисні знання та нові можливості. З повагою до вашого досвіду й вашого
+        темпу.
+      </p><div class="actions">
+        <a class="button" href="/otrymaty-dopomohu">Отримати допомогу <span aria-hidden="true">↗</span></a><a
+          class="text-link"
+          href="/vidnovlennia">Корисні матеріали <span aria-hidden="true">→</span></a>
+      </div><p class="hero-note">Для ветеранів, поранених військовослужбовців та їхніх близьких.</p>
+    </div><aside class="hero-aside" aria-label="Принципи підтримки">
+      <span class="eyebrow">Крок за кроком</span><p class="aside-title">
+        Ваш досвід.<br />Ваш шлях.<br /><strong>Ми поруч.</strong>
+      </p><div class="path-art" aria-hidden="true"><span></span><span></span><span></span></div><p>
+        Без поспіху.<br />З повагою та увагою.
+      </p>
+    </aside>
+  </section>
+  <section class="section shell">
+    <div class="section-heading">
+      <div><p class="eyebrow">Знайдіть свою опору</p><h2>Напрями підтримки</h2></div><a
+        class="text-link"
+        href="/pro-nas">Про наш підхід →</a>
+    </div><div class="directions">
+      {
+        directions.map(([n, title, desc, url]) => (
+          <a class="direction" href={url}>
+            <>
+              <span class="direction-number">{n}</span>
+              <h3>{title}</h3>
+              <p>{desc}</p>
+              <span class="direction-arrow" aria-hidden="true">
+                ↗
+              </span>
+            </>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+  <section class="section section-tint">
+    <div class="shell">
+      <div class="section-heading">
+        <div><p class="eyebrow">Знання, які можуть стати опорою</p><h2>Матеріали для відновлення</h2></div><a
+          class="text-link"
+          href="/vidnovlennia">Усі матеріали →</a>
+      </div><p class="demo-note">Демонстраційні матеріали. Перевірений зміст буде додано пізніше.</p><div
+        class="card-grid"
+      >
+        {
+          recovery
+            .slice(0, 3)
+            .map((e, index) => (
+              <ContentCard
+                title={e.data.title}
+                description={e.data.description}
+                category={e.data.category}
+                href={'/vidnovlennia/' + e.data.slug}
+                demo={e.data.demo}
+                index={index}
+              />
+            ))
+        }
+      </div>
+    </div>
+  </section>
+  <section class="section shell">
+    <div class="section-heading">
+      <div><p class="eyebrow">Кожен шлях має значення</p><h2>Шлях відновлення</h2></div><a
+        class="text-link"
+        href="/istorii">Усі історії →</a>
+    </div><p class="demo-note">Макети історій без реальних біографій і персональних даних.</p><div class="card-grid">
+      {
+        stories.map((e, index) => (
+          <ContentCard
+            title={e.data.title}
+            description={e.data.excerpt}
+            href={'/istorii/' + e.data.slug}
+            category="Історія відновлення"
+            demo={e.data.demo}
+            index={index}
+          />
+        ))
+      }
+    </div>
+  </section>
+  <section class="section shell events-home">
+    <div class="section-heading">
+      <div><p class="eyebrow">Разом — ближче</p><h2>Найближчі події</h2></div><a class="text-link" href="/podii"
+        >Календар подій →</a>
+    </div>{
+      splitEvents(events)
+        .upcoming.slice(0, 2)
+        .map((e) => (
+          <article class="event-row">
+            <>
+              <span class="event-date">{dateLabel(e.data.date)}</span>
+              <div>
+                <>
+                  <span class="demo-tag">Демонстраційна подія</span>
+                  <h3>{e.data.title}</h3>
+                  <p>{e.data.location}</p>
+                </>
+              </div>
+              <a class="text-link" href={'/podii#' + e.id}>
+                Про подію <span class="sr-only">{e.data.title}</span> →
+              </a>
+            </>
+          </article>
+        ))
+    }{!splitEvents(events).upcoming.length && <p>Нові події буде додано після погодження.</p>}
+  </section>
+  <SupportCTA />
 </DefaultLayout>

@@ -1,0 +1,27 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+import PageIntro from '../components/PageIntro.astro'
+const sections = [
+  ['Фінансова підтримка', 'Реквізити та порядок звітування ще не надані. Платежі через сайт не приймаються.'],
+  ['Партнерство', 'Місце для погоджених форматів співпраці з організаціями та фахівцями.'],
+  ['Інформаційна підтримка', 'Поширювати можна буде лише перевірені та погоджені матеріали проєкту.'],
+  ['Допомога ресурсами', 'Підтверджений перелік потреб буде оприлюднено після погодження командою.'],
+]
+---
+
+<DefaultLayout title="Як допомогти" description="Оберіть зручний для вас спосіб бути поруч."
+  ><PageIntro title="Як допомогти" description="Оберіть зручний для вас спосіб бути поруч." /><div
+    class="shell section reading"
+  >
+    <p class="notice">Попередній зміст: тексти та фактичні відомості ще потребують погодження командою.</p>{
+      sections.map(([heading, text]) => (
+        <section class="text-section">
+          <>
+            <h2>{heading}</h2>
+            <p>{text}</p>
+          </>
+        </section>
+      ))
+    }<a class="button" href="/kontakty">Перейти до контактів →</a>
+  </div></DefaultLayout
+>

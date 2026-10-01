@@ -1,0 +1,26 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+import PageIntro from '../components/PageIntro.astro'
+const sections = [
+  ['Електронна пошта', 'Тимчасове місце для контакту. Адресу ще не надано.'],
+  ['Телефон', 'Тимчасове місце для контакту. Номер ще не надано.'],
+  ['Де ми працюємо', 'Географія роботи та години зв’язку уточнюються. Звернення через сайт наразі не приймаються.'],
+]
+---
+
+<DefaultLayout title="Контакти" description="Залишаймося на зв’язку — перевірені контакти з’являться тут."
+  ><PageIntro title="Контакти" description="Залишаймося на зв’язку — перевірені контакти з’являться тут." /><div
+    class="shell section reading"
+  >
+    <p class="notice">Попередній зміст: тексти та фактичні відомості ще потребують погодження командою.</p>{
+      sections.map(([heading, text]) => (
+        <section class="text-section">
+          <>
+            <h2>{heading}</h2>
+            <p>{text}</p>
+          </>
+        </section>
+      ))
+    }
+  </div></DefaultLayout
+>

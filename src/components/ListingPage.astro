@@ -1,0 +1,204 @@
+---
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+import PageIntro from './PageIntro.astro'
+import ContentCard from './ContentCard.astro'
+import { loadContent, dateLabel, splitEvents, isExpired } from '../utils/content'
+interface Props {
+  kind: 'recovery' | 'stories' | 'films' | 'education' | 'events'
+  title: string
+  description: string
+}
+const { kind, title, description } = Astro.props
+const data = await loadContent()
+const categories =
+  kind === 'recovery'
+    ? ['Стабілізаційні вправи', 'Майндфулнес', 'Психологічні рекомендації', 'Психоедукація']
+    : [
+        'Навчання',
+        'Перекваліфікація',
+        'Курси',
+        'Програми для ветеранів',
+        'Гранти та стипендії',
+        'Працевлаштування',
+        'Дистанційні професії',
+      ]
+const eventGroups = splitEvents(data.events)
+---
+
+<DefaultLayout title={title} description={description}
+  ><PageIntro title={title} description={description} /><div class="shell section">
+    <p class="notice">
+      Попередній перегляд: усі записи на цій сторінці демонстраційні. Вони не є рекомендаціями, реальними пропозиціями
+      або анонсами.
+    </p>
+    {
+      (kind === 'recovery' || kind === 'education') && (
+        <nav class="chips" aria-label="Категорії">
+          {categories.map((c, i) => (
+            <a href={'#category-' + i}>{c}</a>
+          ))}
+        </nav>
+      )
+    }
+    {
+      kind === 'recovery' &&
+        categories.map((c, i) => (
+          <section class="category-section" id={'category-' + i}>
+            <>
+              <h2>{c}</h2>
+              <div class="card-grid">
+                {data.recovery
+                  .filter((e) => e.data.category === c)
+                  .map((e, index) => (
+                    <ContentCard
+                      title={e.data.title}
+                      description={e.data.description}
+                      href={'/vidnovlennia/' + e.data.slug}
+                      meta={dateLabel(e.data.publishedDate)}
+                      demo={e.data.demo}
+                      index={index}
+                    />
+                  ))}
+              </div>
+            </>
+          </section>
+        ))
+    }
+    {
+      kind === 'stories' && (
+        <section>
+          <>
+            <h2>Різні шляхи до відновлення</h2>
+            <div class="card-grid">
+              {data.stories.map((e, index) => (
+                <ContentCard
+                  title={e.data.title}
+                  description={e.data.excerpt}
+                  href={'/istorii/' + e.data.slug}
+                  category={e.data.anonymous ? 'Анонімний формат' : undefined}
+                  demo={e.data.demo}
+                  index={index}
+                />
+              ))}
+            </div>
+          </>
+        </section>
+      )
+    }
+    {
+      kind === 'films' && (
+        <>
+          <>
+            <div class="filter-preview">
+              <>
+                <label for="film-theme">Тема фільму</label>
+                <select id="film-theme" disabled aria-describedby="film-hint">
+                  <option>Усі теми</option>
+                  {[...new Set(data.films.flatMap((e) => e.data.themes))].map((t) => (
+                    <option>{t}</option>
+                  ))}
+                </select>
+                <p id="film-hint">Фільтр буде доступний після наповнення каталогу.</p>
+              </>
+            </div>
+            <section>
+              <>
+                <h2>Фільми для майбутніх обговорень</h2>
+                <div class="card-grid">
+                  {data.films.map((e, index) => (
+                    <div>
+                      <ContentCard
+                        title={e.data.title}
+                        description={e.data.description}
+                        category={e.data.themes.join(' · ')}
+                        meta={'Умовний рік: ' + e.data.year}
+                        demo={e.data.demo}
+                        index={index}
+                      />
+                      {e.data.contentWarning && <p class="media-note">Зверніть увагу: {e.data.contentWarning}</p>}
+                      {e.data.externalUrl && (
+                        <a href={e.data.externalUrl} rel="noopener noreferrer">
+                          Офіційна сторінка фільму
+                        </a>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </>
+            </section>
+          </>
+        </>
+      )
+    }
+    {
+      kind === 'education' &&
+        categories.map((c, i) => (
+          <section class="category-section" id={'category-' + i}>
+            <>
+              <h2>{c}</h2>
+              <div class="card-grid">
+                {data.education
+                  .filter((e) => e.data.category === c)
+                  .map((e, index) => (
+                    <article>
+                      <ContentCard
+                        title={e.data.title}
+                        description={e.data.description}
+                        meta={
+                          e.data.deadline
+                            ? (isExpired(e.data.deadline) ? 'Термін минув · ' : 'До ') + dateLabel(e.data.deadline)
+                            : 'Термін ще не визначено'
+                        }
+                        demo={e.data.demo}
+                        index={index}
+                      />
+                      {e.data.provider && <p>Організатор: {e.data.provider}</p>}
+                      {e.data.externalUrl && !isExpired(e.data.deadline) && (
+                        <a href={e.data.externalUrl} rel="noopener noreferrer">
+                          Умови участі
+                        </a>
+                      )}
+                    </article>
+                  ))}
+              </div>
+            </>
+          </section>
+        ))
+    }
+    {
+      kind === 'events' &&
+        (
+          [
+            ['Майбутні події', eventGroups.upcoming],
+            ['Минулі події', eventGroups.past],
+          ] as const
+        ).map(([heading, items]) => (
+          <section class="category-section">
+            <h2>{heading}</h2>
+            {items.length ? (
+              items.map((e) => (
+                <article class="event-row" id={e.id}>
+                  <span class="event-date">{dateLabel(e.data.date)}</span>
+                  <div>
+                    <span class="demo-tag">Демонстраційна подія</span>
+                    <h3>{e.data.title}</h3>
+                    <p>{e.data.description}</p>
+                    <p>
+                      {e.data.online ? 'Онлайн' : 'Офлайн'} · {e.data.location}
+                    </p>
+                    {e.data.registrationUrl && (
+                      <a href={e.data.registrationUrl} rel="noopener noreferrer">
+                        Реєстрація
+                      </a>
+                    )}
+                  </div>
+                </article>
+              ))
+            ) : (
+              <p>Подій у цьому розділі поки немає.</p>
+            )}
+          </section>
+        ))
+    }
+  </div></DefaultLayout
+>

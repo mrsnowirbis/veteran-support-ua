@@ -1,43 +1,48 @@
 # DONE
 
-- Главная приведена к утверждённой композиции: Header поверх художественного Hero, точные тексты/CTA, четыре карточки и «Наша мета» с тремя направлениями.
-- Header/Footer: официальный логотип и полное название организации; отдельная ссылка «Статут».
-- Предоставленный чистый исходник сохранён без изменений в src/assets/artwork/spirit-of-victory-original.jpg.
-- Hero использует public/images/hero-spirit-of-victory.webp: 1672×941, 542294 bytes, quality 88. Astro Image, eager/high priority; один запрос, оригинальный JPG не загружается браузером.
-- Заголовки, меню, CTA, карточки и подпись автора — отдельные HTML/CSS-элементы. Локальный светлый gradient обеспечивает читаемость.
-- Mobile: вертикальная композиция, картина целиком, подпись под изображением, доступное меню и крупные CTA.
-- Responsive polish: mobile Header собран в две естественные строки без наложения элементов; логотип 56 px, полное название, «Статут» и меню сохранены. При 390 px высота Header уменьшена примерно на 33 px.
-- Уплотнены только mobile-интервалы Hero: картина начинается примерно на 102 px выше, подпись помещается в первый экран 390×844. Основной текст остаётся над картиной; desktop-композиция, палитра и demo-карточки не изменены.
-- Сохранены нижние блоки главной, Content Collections, существующие URL, SEO и отключённая форма.
-- Общие blue/gold tokens согласованы с внутренними страницами. Новых зависимостей нет.
+- Checkpoint дизайна 21ca854 сохранён: Hero, Header/Footer, mobile, тексты и нижние demo-карточки не изменены.
+- Этап 4A: отдельный статический /admin/, Decap CMS 3.16.3 с закреплённым CDN URL и SRI.
+- Подключена только events: существующие src/content/events/*.md, все поля schema и имеющееся тело Markdown.
+- Schema, Content Collections, публичные маршруты, SEO, /statut и отключённая форма не изменены.
+- Media: public/uploads/events/ → /uploads/events/. Исходник Hero и авторство сохранены.
+- Подготовлен GitHub editorial workflow + Open Authoring. Production login блокируется до замены repo/OAuth placeholders.
+- Локальный режим — явный ?local=1 только на localhost/127.0.0.1, официальный decap-server 3.11.3 без npm-зависимостей проекта.
+- docs/CMS.md описывает редакторский процесс, настоящие ограничения ролей и deployment.
 
 # VALIDATION
 
-- Production build (23 страницы), lint и TypeScript: PASS.
-- Существующие smoke и browser tests: PASS; 23 маршрута, ссылки/assets, SEO/OG, headings, официальный логотип, disabled form, no-JS navigation.
-- Keyboard/skip-link/menu/Escape, focus, reflow и overflow 320–1600 px: PASS. Нет внешних запросов или CSP/JS errors.
-- Desktop 1600×900 и mobile 390×844 проверены визуально; исходная художественная композиция сохранена.
-- Проверен контраст золотых букв на фактическом фоне при ширинах 390, 950, 1024, 1280, 1350 и 1600: минимум 3.05:1 (крупный текст).
-- Финальные screenshots: outputs/homepage-desktop.png, outputs/homepage-mobile.png, outputs/homepage-lower.png.
-- После responsive polish повторно выполнены build/lint/TypeScript и все существующие browser tests: PASS; mobile screenshot проверен визуально. Размеры touch targets сохранены (минимум 44 px).
+- Финальные production build (23 публичные страницы + статический admin), lint, TypeScript: PASS.
+- Через настоящий Decap UI и loopback proxy: прочитаны существующие события, создан временный event,
+  загружено PNG, изменён description, запись сохранена и повторно открыта: PASS.
+- ISO date, boolean defaults, отсутствие пустых optional keys, Markdown body и media URL: PASS.
+- Fixture, созданный CMS, прошёл Astro schema/build; draft не попал на сайт, media скопировано в dist.
+- Fixture и его изображение удалены; финальная сборка без тестовых данных: PASS. Proxy остановлен.
+- GitHub/editorial/Open Authoring config прошёл валидацию Decap; login UI проверен с тестовой подстановкой
+  placeholders. Реальный OAuth, PR/merge, несколько аккаунтов и Cloudflare ещё не проверены.
+- Существующие smoke/browser tests 23 публичных маршрутов: PASS. Admin исключён из публичного SEO-теста
+  и проверен отдельно. Lint дополнительно охватил public/admin/admin.js.
+- Desktop 1600×900 и mobile 390×844 проверены визуально: дизайн сохранён; keyboard/reflow/overflow PASS.
+- Другие коллекции, package.json и lockfile не изменены. Секреты не добавлены.
 
-# CURRENT
+# SECURITY / DECISIONS
 
-Финальный responsive polish завершён; ожидается визуальное одобрение пользователя перед следующим этапом.
+- CMS только для публичного контента: никаких обращений, медицинских или персональных данных в Git.
+- Editor не получает write/admin основного repo; изменения — fork/PR, merge делает Admin в GitHub.
+  Это не RBAC Decap: редактор может предложить любой diff из fork; нужны review и branch protection.
+- GitHub repo/видимость, аккаунты, домен, OAuth broker и secrets на хостинге ещё не предоставлены.
+- Публичные security headers/CSP сохранены. Только /admin/* снимает унаследованную HTTP CSP и использует
+  раннюю meta CSP; X-Frame-Options DENY сохранён. Admin-only unsafe-eval нужен AJV, inline styles — Decap,
+  blob connect — upload; необходимость проверена браузером. Inline scripts запрещены.
+- Статический сайт не импортирует CMS и продолжает работать при недоступности CMS/CDN/OAuth.
+- /statut остаётся заглушкой; example.invalid + noindex сохранены; CMS/backend форм и deployment не выполнялись.
 
-# IMPORTANT DECISIONS
+# KNOWN LIMITS
 
-- Точная HTML-подпись: Олена Біла — «Дух Перемоги / Spirit of Victory», 2025.
-- Исходник картины не перерисовывать и не удалять.
-- /statut — безопасная страница-заглушка с TODO: настоящий проверенный документ ещё необходимо подключить.
-- Поиск не добавлен. CMS/backend/deployment не выполнялись.
-- example.invalid + noindex сохранены; форма отключена, CSP и privacy-ограничения сохранены.
-
-# KNOWN ISSUES
-
-- Полный WCAG-аудит/скринридер не выполнены; автоматические проверки не подтверждают полное соответствие WCAG.
-- Noto Sans TTF ~2 MB требует будущей оптимизации.
+- В текущем публичном списке events image/body не выводятся: данные сохраняются, UI не менялся.
+- Local proxy без auth пишет в рабочие файлы и не поддерживает editorial workflow; не использовать для команды/production.
+- Полный WCAG-аудит/скринридер не выполнены; Noto Sans TTF ~2 MB требует будущей оптимизации.
+- При deployment проверить роли реальными аккаунтами, OAuth, protections, media и фактическую CSP Cloudflare.
 
 # NEXT TASK
 
-Visual approval before CMS integration.
+Manual CMS UX approval before enabling remaining collections.

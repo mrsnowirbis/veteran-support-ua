@@ -1,0 +1,69 @@
+# Deployment placeholders, not credentials. See docs/CMS.md before enabling login.
+backend:
+  name: github
+  repo: REPLACE_OWNER/REPLACE_REPO
+  branch: main
+  base_url: https://auth.example.invalid
+  auth_endpoint: auth
+  auth_scope: public_repo
+  open_authoring: true
+publish_mode: editorial_workflow
+local_backend: false
+locale: uk
+media_folder: public/uploads/events
+public_folder: /uploads/events
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: '-'
+collections:
+  - name: events
+    label: Події
+    label_singular: Подія
+    folder: src/content/events
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    summary: '{{title}} — {{date}}'
+    sortable_fields: [date, title]
+    editor:
+      preview: false
+    fields:
+      - { name: title, label: Заголовок, widget: string }
+      - { name: description, label: Опис, widget: text }
+      - name: date
+        label: Дата й час
+        widget: datetime
+        format: YYYY-MM-DDTHH:mm:ssZ
+        picker_utc: false
+        hint: 'Час показано у часовому поясі вашого пристрою. Перевірте його перед збереженням.'
+      - { name: location, label: Місце, widget: string, required: false }
+      - { name: online, label: Онлайн, widget: boolean, default: false, required: false }
+      - name: registrationUrl
+        label: Посилання на реєстрацію
+        widget: string
+        required: false
+        pattern: ['^https://[^\s/?#]+[^\s]*$', 'Вкажіть повну HTTPS-адресу або залиште порожнім.']
+      - name: image
+        label: Зображення
+        widget: image
+        required: false
+        choose_url: false
+        media_library:
+          config:
+            max_file_size: 2097152
+        hint: 'Публічне JPG, PNG або WebP до 2 МБ. Видаліть приватні метадані; перевірте права на використання.'
+      - name: draft
+        label: Приховати на сайті (чернетка)
+        widget: boolean
+        default: true
+        required: false
+        hint: 'Окремо від статусу перевірки CMS. Для публікації Admin має перевірити, що цей прапорець вимкнено.'
+      - { name: demo, label: Демонстраційний матеріал, widget: boolean, default: true, required: false }
+      - name: body
+        label: Текст Markdown
+        widget: text
+        required: false
+        hint: 'Наявний текст файлу зберігається. Поточний список подій показує опис, а не цей текст чи зображення.'

@@ -1,0 +1,5 @@
+/* Isolated from the public site. */
+#cms-status { max-width: 42rem; margin: 3rem auto; padding: 1.5rem; font: 1.1rem/1.6 system-ui, sans-serif; color: #123f6d; }
+#cms-status a { display: inline-block; padding: .75rem 0; color: #064d85; }
+#cms-status a:focus-visible { outline: 3px solid #064d85; outline-offset: 4px; }
+#cms-status[hidden] { display: none; }

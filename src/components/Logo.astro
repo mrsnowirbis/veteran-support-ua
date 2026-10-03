@@ -1,12 +1,14 @@
 ---
-import themeConfig from '@theme-config'
 interface Props {
   loading?: 'eager' | 'lazy'
 }
 const { loading = 'eager' } = Astro.props
 ---
 
-<a href="/" class="brand" aria-label="Підтримка ветеранів — головна">
+<div class="organization-brand">
+<a href="/" class="brand" aria-label="ГО «Всеукраїнська асоціація психологів травмафокусованої практики» — головна">
   <img src="/brand/logo-original.jpg" width="1536" height="1536" alt="" loading={loading} decoding="async" />
-  <span><strong>{themeConfig.name}</strong><small>Поруч на шляху відновлення</small></span>
+  <span><strong>ГО «Всеукраїнська асоціація<br class="organization-break" /> психологів травмафокусованої практики»</strong></span>
 </a>
+<a class="statut-link" href="/statut">Статут</a>
+</div>

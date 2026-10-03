@@ -1,0 +1,80 @@
+/* Shared blue/gold identity; content and SEO remain unchanged. */
+:root {
+  --blue: #064d85;
+  --ink: #123f6d;
+  --muted: #355875;
+  --gold: #aa7324;
+  --gold-line: #bd9147;
+  --brand-primary: #064d85;
+  --brand-secondary: #d6ac62;
+  --foreground-color: #123f6d;
+  --background-color: #fffefa;
+  --link-color: #064d85;
+  --link-hover-color: #04345c;
+  --outline-color: #064d85;
+  --soft: #f3f6f5;
+}
+body { font-size: 1.0625rem; }
+.button { border-radius: 999px; font-size: 1rem; min-height: 48px; }
+.button-outline { background: #fffefaab; color: var(--ink); border-color: var(--blue); }
+.button-outline:hover { background: #fffefa; color: var(--ink); }
+.text-link { font-size: 1rem; }
+.organization-brand { position: relative; max-width: 420px; flex-shrink: 1; }
+.organization-brand .brand { gap: 12px; min-width: 0; align-items: start; }
+.organization-brand .brand img { width: 76px; height: 76px; border-radius: 0; object-fit: contain; }
+.organization-brand .brand strong { font-size: .93rem; line-height: 1.35; font-weight: 750; color: var(--ink); padding-top: 4px; }
+.organization-brand .statut-link { position: relative; display: flex; align-items: center; width: max-content; margin: -27px 0 0 88px; min-height: 44px; font-size: .94rem; color: #805615; text-decoration: underline; }
+.navigation { width: min(1440px, calc(100% - 48px)); padding-block: 14px; gap: 16px; }
+#mobile-navigation { font-size: .9rem; }
+#mobile-navigation li a { font-size: .9rem; white-space: nowrap; }
+#mobile-navigation .button { font-size: .9rem; }
+.site-header { position: relative; z-index: 5; }
+.site-header-overlay { position: absolute; top: 0; left: 0; width: 100%; border: 0; background: transparent; }
+.site-header-overlay .organization-brand { border-radius: 8px; background: #fffefaac; }
+.site-header-overlay #mobile-navigation { background: #fffefae8; border-radius: 999px; padding: 6px 8px 6px 18px; }
+.site-footer { background: #f7f6f1; }
+.site-footer .organization-brand { max-width: 400px; }
+.site-footer .organization-brand .brand strong { font-size: .88rem; }
+.site-footer .organization-brand .statut-link { display: flex; color: #805615; text-decoration: underline; }
+.footer-grid { grid-template-columns: 1.5fr 1fr 1fr; }
+.footer-grid .muted,.footer-grid a:not(.brand),.footer-grid h2,.footer-bottom { font-size: .94rem; }
+.eyebrow,.demo-note,.card-meta,.card-copy p,.card-copy .card-date,.event-date,.event-row p,.hero-note { font-size: .92rem; }
+.demo-tag { font-size: .8rem; }
+.content-card { background: #fffefa; border-radius: 16px; box-shadow: 0 3px 14px #183f6207; }
+.card-copy h3 { font-size: 1.38rem; }
+.art-2 { background: #edf3f7; }.art-2 i { border-color: #cbdce8; }
+.support-cta { border-color: var(--gold-line); background: #f6f3ea; }
+.support-cta p:not(.eyebrow) { font-size: 1.0625rem; }
+.support-icon { width: 52px; height: 52px; flex-shrink: 0; color: var(--gold-line); }
+@media (min-width:1350px) {
+  .navigation { flex-wrap: nowrap; }
+  #mobile-navigation { display: flex; gap: 20px; flex-basis: auto; border: 0; padding-top: 0; }
+  #mobile-navigation ul { display: flex; gap: 16px; }
+  .responsive-toggle { display: none; }
+}
+@media (max-width:1349px) {
+  .site-header-overlay { position: relative; background: #fffefa; }
+  .navigation { flex-wrap: wrap; }
+  .responsive-toggle { position: relative; z-index: 1; display: flex; min-height: 44px; font-size: 1rem; background: #fffefa; border-color: var(--blue); }
+  #mobile-navigation { flex-basis: 100%; display: block; }
+  #mobile-navigation ul { display: grid; gap: 4px; }
+  #mobile-navigation li a { font-size: 1rem; }
+  #mobile-navigation .button { margin-top: 16px; }
+  .site-header-overlay #mobile-navigation { border-radius: 8px; padding: 16px; }
+  .organization-brand { max-width: calc(100% - 105px); }
+  .organization-brand .brand { flex-shrink: 1; }
+  .organization-brand .brand img { width: 64px; height: 64px; }
+  .organization-brand .brand strong { font-size: .88rem; }
+  .organization-brand .statut-link { margin: 0 0 0 76px; }
+  .site-footer .organization-brand { max-width: 100%; }
+}
+@media (max-width:649px) {
+  .navigation { width: calc(100% - 32px); align-items: start; }
+  .organization-brand { max-width: 100%; flex-basis: 100%; }
+  .organization-brand .brand img { width: 64px; height: 64px; }
+  .organization-brand .brand strong { font-size: .92rem; }
+  .organization-break { display: none; }
+  .organization-brand .statut-link { margin-top: 0; }
+  .responsive-toggle { margin-left: auto; margin-top: -44px; }
+  .footer-grid { grid-template-columns: 1fr; }
+}

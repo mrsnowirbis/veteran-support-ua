@@ -1,0 +1,11 @@
+---
+interface Props { name: 'heart' | 'plant' | 'people' | 'education' | 'book' }
+const { name } = Astro.props
+---
+<svg class="support-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+ {name === 'heart' && <><path d="M24 25S10 17 10 10c0-7 10-8 14-2 4-6 14-5 14 2 0 7-14 15-14 15Z"/><path d="m3 28 7 2 7 7h14l7-7 7-2-6 10-15 7-15-7-6-10Z"/><path d="m15 33 5-5 4 3 4-3 5 5M24 32v7"/></>}
+ {name === 'plant' && <><path d="M25 44V20M25 30C8 31 7 22 8 15c13 0 17 7 17 15ZM25 21C24 9 32 5 40 4c1 11-5 17-15 17ZM25 39c1-11 8-15 16-14 0 10-5 15-16 14Z"/><path d="m14 22 11 8M25 20l8-9M26 37l8-6"/></>}
+ {name === 'people' && <><circle cx="24" cy="11" r="6"/><circle cx="8" cy="17" r="4"/><circle cx="40" cy="17" r="4"/><path d="M13 39v-8a11 11 0 0 1 22 0v8H13ZM3 35v-6a6 6 0 0 1 9-5M36 24a6 6 0 0 1 9 5v6M3 35h6m30 0h6"/></>}
+ {name === 'education' && <><path d="m3 15 21-10 21 10-21 10L3 15ZM12 20v16l12 6 12-6V20M42 17v15M40 34h4M24 25v17"/></>}
+ {name === 'book' && <><path d="M24 10c-7-5-13-6-20-4v32c7-2 13-1 20 4 7-5 13-6 20-4V6c-7-2-13-1-20 4ZM24 10v32M9 10v24M39 10v24M16 11v25M32 11v25"/></>}
+</svg>

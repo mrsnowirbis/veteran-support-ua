@@ -7,7 +7,8 @@ const items = [
   ['Історії', '/istorii'],
   ['Кінотерапія', '/kinoterapiia'],
   ['Освіта', '/osvita'],
-  ['Події', '/podii'],
+  ['Волонтерство', '/volonterstvo'],
+  ['Контакти', '/kontakty'],
 ]
 const current = Astro.url.pathname.replace(/\/$/, '') || '/'
 ---
@@ -32,7 +33,7 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/'
         ))
       }
     </ul>
-    <a class="button button-small" href="/otrymaty-dopomohu">Отримати допомогу <span aria-hidden="true">↗</span></a>
+    <a class="button button-small" href="/otrymaty-dopomohu">Отримати допомогу <span aria-hidden="true">→</span></a>
   </nav>
 </div>
 <script>
@@ -40,7 +41,7 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/'
   const menu = document.querySelector<HTMLElement>('#mobile-navigation')
   if (toggle && menu) {
     toggle.hidden = false
-    const wide = window.matchMedia('(min-width: 1200px)')
+    const wide = window.matchMedia('(min-width: 1350px)')
     const close = () => {
       toggle.setAttribute('aria-expanded', 'false')
       menu.hidden = !wide.matches

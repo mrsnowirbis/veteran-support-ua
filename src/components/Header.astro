@@ -1,7 +1,8 @@
 ---
 import Navigation from './Navigation.astro'
+const isHome = Astro.url.pathname === '/'
 ---
 
-<header class="site-header">
+<header class:list={['site-header', { 'site-header-overlay': isHome }]}>
   <a class="skip-link" href="#main-content">Перейти до основного вмісту</a><Navigation />
 </header>

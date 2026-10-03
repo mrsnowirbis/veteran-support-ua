@@ -77,4 +77,12 @@ body { font-size: 1.0625rem; }
   .organization-brand .statut-link { margin-top: 0; }
   .responsive-toggle { margin-left: auto; margin-top: -44px; }
   .footer-grid { grid-template-columns: 1fr; }
+  /* Two natural rows keep the full identity and controls compact without overlap. */
+  .site-header .navigation { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 0 12px; padding-block: 10px; }
+  .site-header .organization-brand { display: contents; }
+  .site-header .brand { grid-column: 1 / -1; }
+  .site-header .brand img { width: 56px; height: 56px; }
+  .site-header .statut-link { grid-column: 1; grid-row: 2; margin: 0 0 0 68px; }
+  .site-header .responsive-toggle { grid-column: 2; grid-row: 2; margin: 0; }
+  .site-header #mobile-navigation { grid-column: 1 / -1; margin-top: 8px; }
 }

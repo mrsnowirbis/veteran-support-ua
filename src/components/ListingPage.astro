@@ -2,7 +2,7 @@
 import DefaultLayout from '../layouts/DefaultLayout.astro'
 import PageIntro from './PageIntro.astro'
 import ContentCard from './ContentCard.astro'
-import { loadContent, dateLabel, splitEvents, isExpired } from '../utils/content'
+import { loadContent, dateLabel, splitEvents, isExpired, dateTimeLabel, contentPath, localMedia } from '../utils/content'
 interface Props {
   kind: 'recovery' | 'stories' | 'films' | 'education' | 'events'
   title: string
@@ -27,10 +27,9 @@ const eventGroups = splitEvents(data.events)
 
 <DefaultLayout title={title} description={description}
   ><PageIntro title={title} description={description} /><div class="shell section">
-    <p class="notice">
-      Попередній перегляд: усі записи на цій сторінці демонстраційні. Вони не є рекомендаціями, реальними пропозиціями
-      або анонсами.
-    </p>
+    {data[kind].some((entry) => entry.data.demo) && <p class="notice">
+      Записи з позначкою «Демо» або «Демонстраційна подія» є прикладами, а не реальними історіями, рекомендаціями або пропозиціями.
+    </p>}
     {
       (kind === 'recovery' || kind === 'education') && (
         <nav class="chips" aria-label="Категорії">
@@ -54,6 +53,7 @@ const eventGroups = splitEvents(data.events)
                       title={e.data.title}
                       description={e.data.description}
                       href={'/vidnovlennia/' + e.data.slug}
+                      image={e.data.image}
                       meta={dateLabel(e.data.publishedDate)}
                       demo={e.data.demo}
                       index={index}
@@ -75,6 +75,7 @@ const eventGroups = splitEvents(data.events)
                   title={e.data.title}
                   description={e.data.excerpt}
                   href={'/istorii/' + e.data.slug}
+                  image={e.data.image}
                   category={e.data.anonymous ? 'Анонімний формат' : undefined}
                   demo={e.data.demo}
                   index={index}
@@ -111,7 +112,9 @@ const eventGroups = splitEvents(data.events)
                         title={e.data.title}
                         description={e.data.description}
                         category={e.data.themes.join(' · ')}
-                        meta={'Умовний рік: ' + e.data.year}
+                        meta={(e.data.demo ? 'Умовний рік: ' : 'Рік: ') + e.data.year}
+                        href={contentPath('kinoterapiia', e.id)}
+                        image={e.data.poster}
                         demo={e.data.demo}
                         index={index}
                       />
@@ -144,6 +147,7 @@ const eventGroups = splitEvents(data.events)
                       <ContentCard
                         title={e.data.title}
                         description={e.data.description}
+                        href={contentPath('osvita', e.id)}
                         meta={
                           e.data.deadline
                             ? (isExpired(e.data.deadline) ? 'Термін минув · ' : 'До ') + dateLabel(e.data.deadline)
@@ -178,13 +182,14 @@ const eventGroups = splitEvents(data.events)
             {items.length ? (
               items.map((e) => (
                 <article class="event-row" id={e.id}>
-                  <span class="event-date">{dateLabel(e.data.date)}</span>
+                  <time class="event-date" datetime={e.data.date.toISOString()}>{dateTimeLabel(e.data.date)}</time>
                   <div>
-                    <span class="demo-tag">Демонстраційна подія</span>
-                    <h3>{e.data.title}</h3>
+                    {e.data.demo && <span class="demo-tag">Демонстраційна подія</span>}
+                    {localMedia(e.data.image) && <img class="event-cover" src={e.data.image} alt="" loading="lazy" decoding="async" />}
+                    <h3><a href={contentPath('podii', e.id)}>{e.data.title}</a></h3>
                     <p>{e.data.description}</p>
                     <p>
-                      {e.data.online ? 'Онлайн' : 'Офлайн'} · {e.data.location}
+                      {e.data.online ? 'Онлайн' : 'Офлайн'}{e.data.location && ` · ${e.data.location}`}
                     </p>
                     {e.data.registrationUrl && (
                       <a href={e.data.registrationUrl} rel="noopener noreferrer">
@@ -202,3 +207,5 @@ const eventGroups = splitEvents(data.events)
     }
   </div></DefaultLayout
 >
+
+<style>.event-cover { width: min(100%, 24rem); height: 12rem; object-fit: cover; border-radius: 1rem; } .event-row { overflow-wrap: anywhere; }</style>

@@ -1,44 +1,14 @@
 ---
-import { getCollection, render, getEntry } from 'astro:content'
+import { getCollection } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
-import DefaultLayout from '../../layouts/DefaultLayout.astro'
-import { dateLabel } from '../../utils/content'
+import Publication from '../../components/Publication.astro'
+import { visibleContent } from '../../utils/content'
 export async function getStaticPaths() {
-  const entries = await getCollection('stories', ({ data }) => !data.draft)
-  const slugs = entries.map((e) => e.data.slug)
-  if (new Set(slugs).size !== slugs.length) throw new Error('Duplicate stories slugs')
-  return entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }))
+  const entries = await getCollection('stories', visibleContent)
+  const paths = entries.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }))
+  if (new Set(paths.map((path) => path.params.slug)).size !== paths.length) throw new Error('Duplicate stories URLs')
+  return paths
 }
-interface Props {
-  entry: CollectionEntry<'stories'>
-}
-const { entry } = Astro.props
-const { Content } = await render(entry)
-const related = (await Promise.all(entry.data.relatedMaterials.map((ref) => getEntry(ref)))).filter(
-  (e) => e && !e.data.draft,
-)
+interface Props { entry: CollectionEntry<'stories'> }
 ---
-
-<DefaultLayout title={entry.data.title} description={entry.data.excerpt} image={entry.data.image} type="article">
-  <article class="shell reading section">
-    <a class="back-link" href="/istorii">← Усі історії</a><p class="eyebrow">Шлях відновлення</p><h1>
-      {entry.data.title}
-    </h1><p class="muted">Демонстраційна дата: {dateLabel(entry.data.publishedDate)}</p><p class="notice">
-      Демонстраційний матеріал. Не є реальною біографією.
-    </p><div class="article-body"><Content /></div>
-    <section class="category-section">
-      <h2>Пов’язані матеріали</h2><ul class="related-links">
-        {
-          related.map(
-            (e) =>
-              e && (
-                <li>
-                  <a href={'/vidnovlennia/' + e.data.slug}>{e.data.title}</a>
-                </li>
-              ),
-          )
-        }
-      </ul>
-    </section>
-  </article>
-</DefaultLayout>
+<Publication entry={Astro.props.entry} />

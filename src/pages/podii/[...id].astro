@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+import Publication from '../../components/Publication.astro'
+import { visibleContent } from '../../utils/content'
+export async function getStaticPaths() {
+  const entries = await getCollection('events', visibleContent)
+  const paths = entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }))
+  if (new Set(paths.map((path) => path.params.id)).size !== paths.length) throw new Error('Duplicate events URLs')
+  return paths
+}
+interface Props { entry: CollectionEntry<'events'> }
+---
+<Publication entry={Astro.props.entry} />

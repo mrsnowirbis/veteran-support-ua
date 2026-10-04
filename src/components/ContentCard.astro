@@ -1,4 +1,5 @@
 ---
+import { localMedia } from '../utils/content'
 interface Props {
   title: string
   description: string
@@ -7,14 +8,15 @@ interface Props {
   meta?: string
   demo?: boolean
   index?: number
+  image?: string
 }
-const { title, description, href, category, meta, demo = true, index = 0 } = Astro.props
+const { title, description, href, category, meta, demo = true, index = 0, image } = Astro.props
 ---
 
 <article class="content-card">
-  <div class:list={['card-art', 'art-' + (index % 3)]} aria-hidden="true">
+  {localMedia(image) ? <img class="cover" src={image} alt="" loading="lazy" decoding="async" /> : <div class:list={['card-art', 'art-' + (index % 3)]} aria-hidden="true">
     <span>{String(index + 1).padStart(2, '0')}</span><i></i>
-  </div>
+  </div>}
   <div class="card-copy">
     <div class="card-meta">{category && <span>{category}</span>}{demo && <span class="demo-tag">Демо</span>}</div><h3>
       {
@@ -32,3 +34,4 @@ const { title, description, href, category, meta, demo = true, index = 0 } = Ast
     </h3><p>{description}</p>{meta && <p class="card-date">{meta}</p>}
   </div>
 </article>
+<style>.cover { width: 100%; height: 12rem; object-fit: cover; }</style>

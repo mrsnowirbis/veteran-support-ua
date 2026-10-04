@@ -1,48 +1,57 @@
 # DONE
 
-- Checkpoint дизайна 21ca854 сохранён: Hero, Header/Footer, mobile, тексты и нижние demo-карточки не изменены.
-- Этап 4A: отдельный статический /admin/, Decap CMS 3.16.3 с закреплённым CDN URL и SRI.
-- Подключена только events: существующие src/content/events/*.md, все поля schema и имеющееся тело Markdown.
-- Schema, Content Collections, публичные маршруты, SEO, /statut и отключённая форма не изменены.
-- Media: public/uploads/events/ → /uploads/events/. Исходник Hero и авторство сохранены.
-- Подготовлен GitHub editorial workflow + Open Authoring. Production login блокируется до замены repo/OAuth placeholders.
-- Локальный режим — явный ?local=1 только на localhost/127.0.0.1, официальный decap-server 3.11.3 без npm-зависимостей проекта.
-- docs/CMS.md описывает редакторский процесс, настоящие ограничения ролей и deployment.
+- Этап 4B поверх 5f03557: Decap управляет events, stories, recovery, films, education.
+  Существующие Astro schemas и Markdown остаются единственным источником; новых зависимостей нет.
+- Украинские формы, визуальный редактор текста, media upload, выбор связанных материалов по названию.
+  Optional-поля очищаются перед сохранением; новые slug историй/материалов генерируются автоматически,
+  существующие URL сохраняются. Новые записи: draft=true, demo=false.
+- Events: карточка/список → отдельная страница с изображением, датой/временем (Киев), местом,
+  online/offline, registration URL, описанием и полным Markdown. Optional-поля обрабатываются.
+- Stories/recovery используют общий безопасный вывод; films/education получили отдельные страницы.
+  Обложки, даты, автор, предупреждения, связанные материалы и предусмотренные schema ссылки отображаются.
+- Media разделены по public/uploads/{events,stories,recovery,films,education}; education — изображения в body,
+  без добавления отсутствующего в schema поля обложки. Внешние обложки открываются ссылкой, CSP сохранена.
+- Draft исключены всегда; demo — только в dev/явной preview-сборке SHOW_DEMO_CONTENT=true с маркировкой.
+  Production по умолчанию исключает demo из списков, страниц и связанных материалов.
+- Утверждённые Hero/Header/Footer, artwork/attribution, главные карточки, mobile layout, палитра,
+  системные страницы и отключённая форма сохранены. Homepage изменён только ранее согласованной
+  условной demo-пометкой события; нижние demo-тексты не редактировались.
+- docs/CMS.md и PROJECT.md актуализированы. Production auth/deployment не включены.
 
 # VALIDATION
 
-- Финальные production build (23 публичные страницы + статический admin), lint, TypeScript: PASS.
-- Через настоящий Decap UI и loopback proxy: прочитаны существующие события, создан временный event,
-  загружено PNG, изменён description, запись сохранена и повторно открыта: PASS.
-- ISO date, boolean defaults, отсутствие пустых optional keys, Markdown body и media URL: PASS.
-- Fixture, созданный CMS, прошёл Astro schema/build; draft не попал на сайт, media скопировано в dist.
-- Fixture и его изображение удалены; финальная сборка без тестовых данных: PASS. Proxy остановлен.
-- GitHub/editorial/Open Authoring config прошёл валидацию Decap; login UI проверен с тестовой подстановкой
-  placeholders. Реальный OAuth, PR/merge, несколько аккаунтов и Cloudflare ещё не проверены.
-- Существующие smoke/browser tests 23 публичных маршрутов: PASS. Admin исключён из публичного SEO-теста
-  и проверен отдельно. Lint дополнительно охватил public/admin/admin.js.
-- Desktop 1600×900 и mobile 390×844 проверены визуально: дизайн сохранён; keyboard/reflow/overflow PASS.
-- Другие коллекции, package.json и lockfile не изменены. Секреты не добавлены.
+- Реальный локальный Decap + существующий loopback proxy: создание и сохранение всех пяти коллекций,
+  rich text, украинские имена файлов, автогенерация schema slug, image upload events/stories/recovery/films,
+  пустые optional-поля: PASS. Сохранённые через CMS файлы прошли Astro build и public rendering.
+- Дополнительные временные fixtures всех коллекций: полные/минимальные поля, изображения (включая
+  education body), Markdown, internal/external links, даты, draft/demo, related filtering: PASS.
+- Вредоносные HTML/scripts/event handlers/iframe/javascript URL удаляются при сборке: PASS.
+- С fixtures проверены 31 маршрут, SEO/canonical/OG, ссылки/media, 320/375/768/1280, keyboard/no-JS,
+  отсутствие overflow, внешних загрузок, ошибок CSP/JS: PASS. Все fixtures и их uploads удалены.
+- Финальные build (16 локальных public routes), lint (включая admin.js), TypeScript: PASS.
+- Существующие smoke/browser tests: PASS; preview с demo — 37 маршрутов, production — 16.
+- Desktop/mobile visual check и approved-visual: PASS, точные Hero-текст/подпись, 4 карточки,
+  3 направления миссии, reflow 320–1600, eager Hero. Снимки в ignored outputs/.
+- /admin/ static smoke/config и local UX: PASS. Production login остаётся заблокирован placeholders.
+- Schemas, package/lockfile, публичные и admin CSP, утверждённые assets не изменены; secrets не добавлены.
 
-# SECURITY / DECISIONS
+# SECURITY / LIMITS
 
-- CMS только для публичного контента: никаких обращений, медицинских или персональных данных в Git.
-- Editor не получает write/admin основного repo; изменения — fork/PR, merge делает Admin в GitHub.
-  Это не RBAC Decap: редактор может предложить любой diff из fork; нужны review и branch protection.
-- GitHub repo/видимость, аккаунты, домен, OAuth broker и secrets на хостинге ещё не предоставлены.
-- Публичные security headers/CSP сохранены. Только /admin/* снимает унаследованную HTTP CSP и использует
-  раннюю meta CSP; X-Frame-Options DENY сохранён. Admin-only unsafe-eval нужен AJV, inline styles — Decap,
-  blob connect — upload; необходимость проверена браузером. Inline scripts запрещены.
-- Статический сайт не импортирует CMS и продолжает работать при недоступности CMS/CDN/OAuth.
-- /statut остаётся заглушкой; example.invalid + noindex сохранены; CMS/backend форм и deployment не выполнялись.
-
-# KNOWN LIMITS
-
-- В текущем публичном списке events image/body не выводятся: данные сохраняются, UI не менялся.
-- Local proxy без auth пишет в рабочие файлы и не поддерживает editorial workflow; не использовать для команды/production.
-- Полный WCAG-аудит/скринридер не выполнены; Noto Sans TTF ~2 MB требует будущей оптимизации.
-- При deployment проверить роли реальными аккаунтами, OAuth, protections, media и фактическую CSP Cloudflare.
+- CMS только для публичного контента. Никогда не хранить обращения, медицинские или приватные данные в Git.
+  Все uploads доступны публично после build, включая uploads черновиков; Git сохраняет историю.
+- Markdown очищается существующим sanitize-html при build; MDX/iframe не используются.
+  Изображения Markdown — из локальной медиатеки; небезопасные ссылки удаляются.
+- Editor без write/admin основного repo → fork/PR; Admin проверяет весь diff и делает merge.
+  Это не RBAC Decap. Нужны реальные branch protection/CODEOWNERS и двухаккаунтная проверка при deployment.
+- Repo/domain/hosting/OAuth ещё не предоставлены. Public repo scope public_repo; private требует отдельного решения.
+  OAuth broker/secrets/callback/origin и Cloudflare headers нужно настроить и проверить отдельно.
+- Local proxy без auth пишет рабочие файлы; только 127.0.0.1, ?local=1, simple workflow без PR/review.
+  Существующая среда 127.0.0.1:4321 и proxy :8081 сохранены. В Astro dev: /admin/index.html?local=1.
+- Даты событий/сроки рассчитываются при build; обновлять сборку для актуального разделения по времени.
+- Локальная новость src/content/events/2026-10-03-.md и пять ранее загруженных JPG сохранены;
+  в commit инфраструктуры CMS не включены. Теперь локально доступны image/body новости.
+- /statut placeholder, example.invalid/noindex, отключённая форма остаются. Полный WCAG-аудит не выполнялся.
 
 # NEXT TASK
 
-Manual CMS UX approval before enabling remaining collections.
+Production repository, Cloudflare Pages and GitHub/OAuth setup.

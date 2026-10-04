@@ -1,0 +1,59 @@
+---
+import { render, getEntry } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+import DefaultLayout from '../layouts/DefaultLayout.astro'
+import SafeContent from './SafeContent.astro'
+import { dateLabel, dateTimeLabel, isExpired, visibleContent, localMedia } from '../utils/content'
+interface Props { entry: CollectionEntry<'events' | 'stories' | 'recovery' | 'films' | 'education'> }
+const { entry } = Astro.props
+const { Content } = await render(entry)
+const sections = { events: ['podii', 'Усі події'], stories: ['istorii', 'Усі історії'], recovery: ['vidnovlennia', 'Усі матеріали'], films: ['kinoterapiia', 'Кінотерапія'], education: ['osvita', 'Освіта'] }
+const [section, label] = sections[entry.collection]
+const data = entry.data
+const description = 'excerpt' in data ? data.excerpt : data.description
+const image = 'image' in data ? data.image : 'poster' in data ? data.poster : undefined
+const related = entry.collection === 'stories'
+  ? (await Promise.all(entry.data.relatedMaterials.map((ref) => getEntry(ref)))).filter((item) => item && visibleContent(item)) : []
+---
+<DefaultLayout title={data.title} description={`${data.title}. ${description}`} image={image} type="article">
+  <article class="shell reading section publication">
+    <a class="back-link" href={'/' + section}>← {label}</a>
+    <h1>{data.title}</h1>
+    {data.demo && <p class="notice">Демонстраційний матеріал. Не є реальною історією, рекомендацією або пропозицією.</p>}
+    {'publishedDate' in data && <p class="muted"><time datetime={data.publishedDate.toISOString()}>{dateLabel(data.publishedDate)}</time></p>}
+    {entry.collection === 'events' && <>
+      <p><time datetime={entry.data.date.toISOString()}>{dateTimeLabel(entry.data.date)}</time></p>
+      <p>{entry.data.online ? 'Онлайн' : 'Офлайн'}{entry.data.location && ` · ${entry.data.location}`}</p>
+      {entry.data.registrationUrl && <p><a class="button" href={entry.data.registrationUrl} rel="noopener noreferrer">Реєстрація</a></p>}
+    </>}
+    {entry.collection === 'recovery' && <>
+      <p>{entry.data.category} · {entry.data.author}</p>
+      {entry.data.updatedDate && <p>Оновлено: <time datetime={entry.data.updatedDate.toISOString()}>{dateLabel(entry.data.updatedDate)}</time></p>}
+    </>}
+    {entry.collection === 'stories' && entry.data.anonymous && <p class="muted">Анонімна історія</p>}
+    {entry.collection === 'films' && <>
+      <p>{entry.data.year} · {entry.data.themes.join(' · ')}</p>
+      {entry.data.contentWarning && <p class="notice">Зверніть увагу: {entry.data.contentWarning}</p>}
+      {entry.data.externalUrl && <p><a href={entry.data.externalUrl} rel="noopener noreferrer">Офіційна сторінка фільму</a></p>}
+    </>}
+    {entry.collection === 'education' && <>
+      <p>{entry.data.category}{entry.data.provider && ` · ${entry.data.provider}`}</p>
+      {entry.data.deadline && <p>{isExpired(entry.data.deadline) ? 'Термін минув · ' : 'Подати заявку до '}{dateLabel(entry.data.deadline)}</p>}
+      {entry.data.externalUrl && !isExpired(entry.data.deadline) && <p><a href={entry.data.externalUrl} rel="noopener noreferrer">Умови участі</a></p>}
+    </>}
+    <p class="lead">{description}</p>
+    {image && (localMedia(image) ? <img class="publication-image" src={image} alt="" loading="eager" decoding="async" /> : <p><a href={image} rel="noopener noreferrer">Переглянути зображення на зовнішньому сайті</a></p>)}
+    <SafeContent><Content /></SafeContent>
+    {entry.collection === 'recovery' && <>
+      {entry.data.audio && <p><a href={entry.data.audio} rel="noopener noreferrer">Аудіоматеріал</a></p>}
+      {entry.data.video && <p><a href={entry.data.video} rel="noopener noreferrer">Відеоматеріал</a></p>}
+    </>}
+    {related.length > 0 && <section class="category-section"><h2>Пов’язані матеріали</h2><ul class="related-links">
+      {related.map((item) => item && <li><a href={'/vidnovlennia/' + item.data.slug}>{item.data.title}</a></li>)}
+    </ul></section>}
+  </article>
+</DefaultLayout>
+<style>
+  .publication { overflow-wrap: anywhere; }
+  .publication-image { display: block; width: 100%; height: auto; max-height: 38rem; object-fit: contain; border-radius: 1rem; margin-block: 1.5rem; }
+</style>

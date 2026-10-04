@@ -65,7 +65,7 @@ READ PROJECT.md → READ STATUS.md → READ ONLY REQUIRED FILES → IMPLEMENT �
 Основа: https://github.com/incluud/accessible-astro-starter (MIT; сохранить LICENSE).
 Node >=24.19; npm >=11.17. Установка: npm ci. Скрипты установки зависимостей отключены в .npmrc.
 Проверки: npm run build; npm run lint; npm audit. Отключать телеметрию Astro переменной ASTRO_TELEMETRY_DISABLED=1.
-Статическая сборка; пилот Decap CMS изолирован в /admin/ и управляет только events (docs/CMS.md).
+Статическая сборка; Decap CMS изолирован в /admin/ и управляет events, stories, recovery, films, education (docs/CMS.md).
 Production authentication ещё не настроен. Backend и активные формы отсутствуют.
 До отдельной задачи запуска: example.invalid и noindex; не публиковать.
 public/_headers — шаблон для совместимого хостинга, не активные заголовки локального preview.

@@ -98,7 +98,7 @@ const directions = [
               <span class="event-date">{dateLabel(e.data.date)}</span>
               <div>
                 <>
-                  <span class="demo-tag">Демонстраційна подія</span>
+                  {e.data.demo && <span class="demo-tag">Демонстраційна подія</span>}
                   <h3>{e.data.title}</h3>
                   <p>{e.data.location}</p>
                 </>

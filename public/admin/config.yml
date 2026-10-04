@@ -1,4 +1,4 @@
-# Deployment placeholders, not credentials. See docs/CMS.md before enabling login.
+# Public content only. Production auth is intentionally disabled until deployment.
 backend:
   name: github
   repo: REPLACE_OWNER/REPLACE_REPO
@@ -10,10 +10,10 @@ backend:
 publish_mode: editorial_workflow
 local_backend: false
 locale: uk
-media_folder: public/uploads/events
-public_folder: /uploads/events
+media_folder: public/uploads
+public_folder: /uploads
 slug:
-  encoding: ascii
+  encoding: unicode
   clean_accents: true
   sanitize_replacement: '-'
 collections:
@@ -21,31 +21,48 @@ collections:
     label: Події
     label_singular: Подія
     folder: src/content/events
+    media_folder: /public/uploads/events
+    public_folder: /uploads/events
     create: true
     delete: false
     extension: md
     format: frontmatter
-    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
-    summary: '{{title}} — {{date}}'
-    sortable_fields: [date, title]
+    slug: '{{slug}}'
+    summary: '{{title}}'
     editor:
       preview: false
     fields:
-      - { name: title, label: Заголовок, widget: string }
-      - { name: description, label: Опис, widget: text }
+      - name: title
+        label: Заголовок
+        widget: string
+        required: true
+      - name: description
+        label: Короткий опис
+        widget: text
+        required: true
       - name: date
         label: Дата й час
         widget: datetime
+        required: true
         format: YYYY-MM-DDTHH:mm:ssZ
         picker_utc: false
-        hint: 'Час показано у часовому поясі вашого пристрою. Перевірте його перед збереженням.'
-      - { name: location, label: Місце, widget: string, required: false }
-      - { name: online, label: Онлайн, widget: boolean, default: false, required: false }
+        hint: Час вашого пристрою; на сайті відображається київський час.
+      - name: location
+        label: Місце
+        widget: string
+        required: false
+      - name: online
+        label: Онлайн
+        widget: boolean
+        default: false
+        required: false
       - name: registrationUrl
         label: Посилання на реєстрацію
         widget: string
         required: false
-        pattern: ['^https://[^\s/?#]+[^\s]*$', 'Вкажіть повну HTTPS-адресу або залиште порожнім.']
+        pattern:
+          - ^https://[^\s/?#]+[^\s]*$
+          - Вкажіть повну HTTPS-адресу або залиште порожнім.
       - name: image
         label: Зображення
         widget: image
@@ -54,16 +71,408 @@ collections:
         media_library:
           config:
             max_file_size: 2097152
-        hint: 'Публічне JPG, PNG або WebP до 2 МБ. Видаліть приватні метадані; перевірте права на використання.'
+        hint: JPG, PNG або WebP до 2 МБ. Лише публічні матеріали з дозволом на використання.
       - name: draft
         label: Приховати на сайті (чернетка)
         widget: boolean
         default: true
         required: false
-        hint: 'Окремо від статусу перевірки CMS. Для публікації Admin має перевірити, що цей прапорець вимкнено.'
-      - { name: demo, label: Демонстраційний матеріал, widget: boolean, default: true, required: false }
-      - name: body
-        label: Текст Markdown
-        widget: text
+        hint: Вимкніть перед передачею на публікацію. Остаточне рішення — за адміністратором.
+      - name: demo
+        label: Демонстраційний приклад
+        widget: boolean
+        default: false
         required: false
-        hint: 'Наявний текст файлу зберігається. Поточний список подій показує опис, а не цей текст чи зображення.'
+        hint: Приклади не потрапляють у звичайну production-збірку.
+      - name: body
+        label: Повний текст
+        widget: markdown
+        required: false
+        modes:
+          - rich_text
+        buttons:
+          - bold
+          - italic
+          - heading-two
+          - heading-three
+          - quote
+          - bulleted-list
+          - numbered-list
+          - link
+        editor_components:
+          - image
+        sanitize_preview: true
+  - name: stories
+    label: Історії
+    label_singular: Історія
+    folder: src/content/stories
+    media_folder: /public/uploads/stories
+    public_folder: /uploads/stories
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    summary: '{{title}}'
+    editor:
+      preview: false
+    fields:
+      - name: title
+        label: Заголовок
+        widget: string
+        required: true
+      - name: slug
+        widget: hidden
+        default: ''
+        required: false
+      - name: excerpt
+        label: Короткий вступ
+        widget: text
+        required: true
+      - name: image
+        label: Зображення
+        widget: image
+        required: false
+        choose_url: false
+        media_library:
+          config:
+            max_file_size: 2097152
+        hint: JPG, PNG або WebP до 2 МБ. Лише публічні матеріали з дозволом на використання.
+      - name: publishedDate
+        label: Дата публікації
+        widget: datetime
+        required: true
+        format: YYYY-MM-DDTHH:mm:ssZ
+        picker_utc: false
+        time_format: false
+      - name: anonymous
+        label: Анонімна історія
+        widget: boolean
+        default: true
+        required: false
+      - name: relatedMaterials
+        label: Пов’язані матеріали
+        widget: relation
+        collection: recovery
+        search_fields:
+          - title
+        display_fields:
+          - title
+        value_field: '{{slug}}'
+        multiple: true
+        required: false
+        default: []
+      - name: draft
+        label: Приховати на сайті (чернетка)
+        widget: boolean
+        default: true
+        required: false
+        hint: Вимкніть перед передачею на публікацію. Остаточне рішення — за адміністратором.
+      - name: demo
+        label: Демонстраційний приклад
+        widget: boolean
+        default: false
+        required: false
+        hint: Приклади не потрапляють у звичайну production-збірку.
+      - name: body
+        label: Повний текст
+        widget: markdown
+        required: false
+        modes:
+          - rich_text
+        buttons:
+          - bold
+          - italic
+          - heading-two
+          - heading-three
+          - quote
+          - bulleted-list
+          - numbered-list
+          - link
+        editor_components:
+          - image
+        sanitize_preview: true
+  - name: recovery
+    label: Матеріали для відновлення
+    label_singular: Матеріал
+    folder: src/content/recovery
+    media_folder: /public/uploads/recovery
+    public_folder: /uploads/recovery
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    summary: '{{title}}'
+    editor:
+      preview: false
+    fields:
+      - name: title
+        label: Заголовок
+        widget: string
+        required: true
+      - name: slug
+        widget: hidden
+        default: ''
+        required: false
+      - name: description
+        label: Короткий опис
+        widget: text
+        required: true
+      - name: category
+        label: Категорія
+        widget: select
+        options:
+          - Стабілізаційні вправи
+          - Майндфулнес
+          - Психологічні рекомендації
+          - Психоедукація
+      - name: publishedDate
+        label: Дата публікації
+        widget: datetime
+        required: true
+        format: YYYY-MM-DDTHH:mm:ssZ
+        picker_utc: false
+        time_format: false
+      - name: updatedDate
+        label: Дата оновлення
+        widget: datetime
+        required: false
+        format: YYYY-MM-DDTHH:mm:ssZ
+        picker_utc: false
+        time_format: false
+      - name: author
+        label: Автор
+        widget: string
+        required: true
+      - name: image
+        label: Зображення
+        widget: image
+        required: false
+        choose_url: false
+        media_library:
+          config:
+            max_file_size: 2097152
+        hint: JPG, PNG або WebP до 2 МБ. Лише публічні матеріали з дозволом на використання.
+      - name: video
+        label: Відео
+        widget: file
+        required: false
+        choose_url: false
+        media_library:
+          config:
+            max_file_size: 10485760
+        hint: Лише публічні медіа до 10 МБ; перевірте права та відсутність приватних даних.
+      - name: audio
+        label: Аудіо
+        widget: file
+        required: false
+        choose_url: false
+        media_library:
+          config:
+            max_file_size: 10485760
+        hint: Лише публічні медіа до 10 МБ; перевірте права та відсутність приватних даних.
+      - name: draft
+        label: Приховати на сайті (чернетка)
+        widget: boolean
+        default: true
+        required: false
+        hint: Вимкніть перед передачею на публікацію. Остаточне рішення — за адміністратором.
+      - name: demo
+        label: Демонстраційний приклад
+        widget: boolean
+        default: false
+        required: false
+        hint: Приклади не потрапляють у звичайну production-збірку.
+      - name: body
+        label: Повний текст
+        widget: markdown
+        required: false
+        modes:
+          - rich_text
+        buttons:
+          - bold
+          - italic
+          - heading-two
+          - heading-three
+          - quote
+          - bulleted-list
+          - numbered-list
+          - link
+        editor_components:
+          - image
+        sanitize_preview: true
+  - name: films
+    label: Кінотерапія
+    label_singular: Фільм
+    folder: src/content/films
+    media_folder: /public/uploads/films
+    public_folder: /uploads/films
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    summary: '{{title}}'
+    editor:
+      preview: false
+    fields:
+      - name: title
+        label: Заголовок
+        widget: string
+        required: true
+      - name: year
+        label: Рік
+        widget: number
+        value_type: int
+      - name: description
+        label: Короткий опис
+        widget: text
+        required: true
+      - name: themes
+        label: Теми
+        widget: list
+        field:
+          name: theme
+          label: Тема
+          widget: string
+          required: true
+      - name: contentWarning
+        label: Попередження про чутливий зміст
+        widget: string
+        required: false
+      - name: poster
+        label: Постер
+        widget: image
+        required: false
+        choose_url: false
+        media_library:
+          config:
+            max_file_size: 2097152
+        hint: JPG, PNG або WebP до 2 МБ. Лише публічні матеріали з дозволом на використання.
+      - name: externalUrl
+        label: Офіційне посилання
+        widget: string
+        required: false
+        pattern:
+          - ^https://[^\s/?#]+[^\s]*$
+          - Вкажіть повну HTTPS-адресу або залиште порожнім.
+      - name: draft
+        label: Приховати на сайті (чернетка)
+        widget: boolean
+        default: true
+        required: false
+        hint: Вимкніть перед передачею на публікацію. Остаточне рішення — за адміністратором.
+      - name: demo
+        label: Демонстраційний приклад
+        widget: boolean
+        default: false
+        required: false
+        hint: Приклади не потрапляють у звичайну production-збірку.
+      - name: body
+        label: Повний текст
+        widget: markdown
+        required: false
+        modes:
+          - rich_text
+        buttons:
+          - bold
+          - italic
+          - heading-two
+          - heading-three
+          - quote
+          - bulleted-list
+          - numbered-list
+          - link
+        editor_components:
+          - image
+        sanitize_preview: true
+  - name: education
+    label: Освіта
+    label_singular: Освітня можливість
+    folder: src/content/education
+    media_folder: /public/uploads/education
+    public_folder: /uploads/education
+    create: true
+    delete: false
+    extension: md
+    format: frontmatter
+    slug: '{{slug}}'
+    summary: '{{title}}'
+    editor:
+      preview: false
+    fields:
+      - name: title
+        label: Заголовок
+        widget: string
+        required: true
+      - name: description
+        label: Короткий опис
+        widget: text
+        required: true
+      - name: category
+        label: Категорія
+        widget: select
+        options:
+          - Навчання
+          - Перекваліфікація
+          - Курси
+          - Програми для ветеранів
+          - Гранти та стипендії
+          - Працевлаштування
+          - Дистанційні професії
+      - name: provider
+        label: Організатор
+        widget: string
+        required: false
+      - name: externalUrl
+        label: Умови участі
+        widget: string
+        required: false
+        pattern:
+          - ^https://[^\s/?#]+[^\s]*$
+          - Вкажіть повну HTTPS-адресу або залиште порожнім.
+      - name: deadline
+        label: Кінцевий термін
+        widget: datetime
+        required: false
+        format: YYYY-MM-DDTHH:mm:ssZ
+        picker_utc: false
+        time_format: false
+      - name: publishedDate
+        label: Дата публікації
+        widget: datetime
+        required: true
+        format: YYYY-MM-DDTHH:mm:ssZ
+        picker_utc: false
+        time_format: false
+      - name: draft
+        label: Приховати на сайті (чернетка)
+        widget: boolean
+        default: true
+        required: false
+        hint: Вимкніть перед передачею на публікацію. Остаточне рішення — за адміністратором.
+      - name: demo
+        label: Демонстраційний приклад
+        widget: boolean
+        default: false
+        required: false
+        hint: Приклади не потрапляють у звичайну production-збірку.
+      - name: body
+        label: Повний текст
+        widget: markdown
+        required: false
+        modes:
+          - rich_text
+        buttons:
+          - bold
+          - italic
+          - heading-two
+          - heading-three
+          - quote
+          - bulleted-list
+          - numbered-list
+          - link
+        editor_components:
+          - image
+        sanitize_preview: true

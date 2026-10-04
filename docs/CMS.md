@@ -82,6 +82,8 @@ PR/review тут не відтворюються. Ctrl+C зупиняє proxy; �
 
 ## Deployment TODO
 
+Послідовність GitHub → Pages → OAuth, параметри builder та rollback: [DEPLOYMENT.md](DEPLOYMENT.md).
+
 1. Визначити repository/видимість/main, акаунти та fork policy; увімкнути protections/CODEOWNERS.
 2. Налаштувати GitHub OAuth App і перевірений broker для Cloudflare (Worker/Pages Functions або
    підтримуваний зовнішній сервіс). Secret — лише у hosting secrets; перевірити state/CSRF,

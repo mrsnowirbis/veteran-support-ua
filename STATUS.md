@@ -1,57 +1,56 @@
 # DONE
 
-- Этап 4B поверх 5f03557: Decap управляет events, stories, recovery, films, education.
-  Существующие Astro schemas и Markdown остаются единственным источником; новых зависимостей нет.
-- Украинские формы, визуальный редактор текста, media upload, выбор связанных материалов по названию.
-  Optional-поля очищаются перед сохранением; новые slug историй/материалов генерируются автоматически,
-  существующие URL сохраняются. Новые записи: draft=true, demo=false.
-- Events: карточка/список → отдельная страница с изображением, датой/временем (Киев), местом,
-  online/offline, registration URL, описанием и полным Markdown. Optional-поля обрабатываются.
-- Stories/recovery используют общий безопасный вывод; films/education получили отдельные страницы.
-  Обложки, даты, автор, предупреждения, связанные материалы и предусмотренные schema ссылки отображаются.
-- Media разделены по public/uploads/{events,stories,recovery,films,education}; education — изображения в body,
-  без добавления отсутствующего в schema поля обложки. Внешние обложки открываются ссылкой, CSP сохранена.
-- Draft исключены всегда; demo — только в dev/явной preview-сборке SHOW_DEMO_CONTENT=true с маркировкой.
-  Production по умолчанию исключает demo из списков, страниц и связанных материалов.
-- Утверждённые Hero/Header/Footer, artwork/attribution, главные карточки, mobile layout, палитра,
-  системные страницы и отключённая форма сохранены. Homepage изменён только ранее согласованной
-  условной demo-пометкой события; нижние demo-тексты не редактировались.
-- docs/CMS.md и PROJECT.md актуализированы. Production auth/deployment не включены.
+- Этап 5A поверх 2974dac: подготовлены docs/DEPLOYMENT.md и ссылка из docs/CMS.md.
+  Изменения только документационные; сайт, CMS config, schemas, dependencies и CSP не изменены.
+- Проверена статическая архитектура Astro → GitHub main → Cloudflare Pages dist.
+  Adapter/SSR/Functions/новые зависимости не нужны и не добавлены.
+- Зафиксированы Node 24.19.0 (.nvmrc), npm >=11.17, воспроизводимая установка с lockfile/devDependencies,
+  environment, маршруты/admin/404, проверка security headers и HTTPS после deployment.
+- Checklist A–N описывает repository/push/protection/Pages/domain/OAuth/два аккаунта/полный цикл/rollback.
+- Минимальная auth-архитектура: отдельный будущий OAuth Worker с /auth и /callback,
+  state/PKCE/origin checks; client secret и session secret только в Worker Secrets.
+- GitHub main: обязательный PR, Admin/CODEOWNER review, успешные CI checks, запрет force-push/delete.
+  Editor без write/admin → Open Authoring fork/PR; это не встроенный RBAC Decap.
+- Rollback: предыдущий успешный Pages production deployment, затем reviewed revert/restore commit;
+  история сохраняется, OAuth Worker/secrets управляются отдельно.
+- Внешние ресурсы/аккаунты не созданы, push/deployment/OAuth не выполнялись, credentials не создавались.
 
-# VALIDATION
+# VALIDATION — 5A
 
-- Реальный локальный Decap + существующий loopback proxy: создание и сохранение всех пяти коллекций,
-  rich text, украинские имена файлов, автогенерация schema slug, image upload events/stories/recovery/films,
-  пустые optional-поля: PASS. Сохранённые через CMS файлы прошли Astro build и public rendering.
-- Дополнительные временные fixtures всех коллекций: полные/минимальные поля, изображения (включая
-  education body), Markdown, internal/external links, даты, draft/demo, related filtering: PASS.
-- Вредоносные HTML/scripts/event handlers/iframe/javascript URL удаляются при сборке: PASS.
-- С fixtures проверены 31 маршрут, SEO/canonical/OG, ссылки/media, 320/375/768/1280, keyboard/no-JS,
-  отсутствие overflow, внешних загрузок, ошибок CSP/JS: PASS. Все fixtures и их uploads удалены.
-- Финальные build (16 локальных public routes), lint (включая admin.js), TypeScript: PASS.
-- Существующие smoke/browser tests: PASS; preview с demo — 37 маршрутов, production — 16.
-- Desktop/mobile visual check и approved-visual: PASS, точные Hero-текст/подпись, 4 карточки,
-  3 направления миссии, reflow 320–1600, eager Hero. Снимки в ignored outputs/.
-- /admin/ static smoke/config и local UX: PASS. Production login остаётся заблокирован placeholders.
-- Schemas, package/lockfile, публичные и admin CSP, утверждённые assets не изменены; secrets не добавлены.
+- Production build локально: PASS, static output, 16 публичных страниц с локальной новостью.
+- Lint (включая admin.js), TypeScript: PASS.
+- Существующие browser/smoke tests: PASS, 16 маршрутов, SEO/canonical/OG, links/media,
+  keyboard/no-JS, widths 320/375/768/1280, без overflow/внешних загрузок/CSP/JS errors.
+- Admin static smoke: PASS, /admin/ и config загружаются, пять коллекций, GitHub/main/Open Authoring,
+  editorial workflow, local_backend=false, production login заблокирован placeholders.
+  OAuth запросы и CMS записи при проверке не выполнялись.
+- dist содержит admin, _headers и 404.html; server Worker bundle отсутствует.
+- Это локальная проверка, не проверка Linux builder/HTTP edge Cloudflare или реального OAuth.
 
-# SECURITY / LIMITS
+# СОХРАНЁННЫЙ CHECKPOINT 4B
 
-- CMS только для публичного контента. Никогда не хранить обращения, медицинские или приватные данные в Git.
-  Все uploads доступны публично после build, включая uploads черновиков; Git сохраняет историю.
-- Markdown очищается существующим sanitize-html при build; MDX/iframe не используются.
-  Изображения Markdown — из локальной медиатеки; небезопасные ссылки удаляются.
-- Editor без write/admin основного repo → fork/PR; Admin проверяет весь diff и делает merge.
-  Это не RBAC Decap. Нужны реальные branch protection/CODEOWNERS и двухаккаунтная проверка при deployment.
-- Repo/domain/hosting/OAuth ещё не предоставлены. Public repo scope public_repo; private требует отдельного решения.
-  OAuth broker/secrets/callback/origin и Cloudflare headers нужно настроить и проверить отдельно.
-- Local proxy без auth пишет рабочие файлы; только 127.0.0.1, ?local=1, simple workflow без PR/review.
-  Существующая среда 127.0.0.1:4321 и proxy :8081 сохранены. В Astro dev: /admin/index.html?local=1.
-- Даты событий/сроки рассчитываются при build; обновлять сборку для актуального разделения по времени.
-- Локальная новость src/content/events/2026-10-03-.md и пять ранее загруженных JPG сохранены;
-  в commit инфраструктуры CMS не включены. Теперь локально доступны image/body новости.
-- /statut placeholder, example.invalid/noindex, отключённая форма остаются. Полный WCAG-аудит не выполнялся.
+- Decap: events, stories, recovery, films, education; существующие schemas и Markdown.
+- Украинские формы, rich text, media uploads, автоматические slug; новые записи draft=true/demo=false.
+- Отдельные страницы полного контента, локальные media, безопасные ссылки, очистка Markdown sanitize-html.
+- Draft исключены всегда; demo — только dev или явная preview-сборка SHOW_DEMO_CONTENT=true.
+- Hero/Header/Footer/artwork/attribution/mobile/layout/палитра и системные страницы сохранены.
+- Форма помощи отключена; CMS/Git только для публичного контента, никогда для обращений/приватных данных.
+  Все uploads публичны после build, включая изображения черновиков; Git сохраняет историю.
+- Локальный режим: сайт 127.0.0.1:4321, proxy 127.0.0.1:8081; /admin/index.html?local=1.
+  Proxy без auth пишет рабочие файлы; не выставлять в LAN/интернет. Среда этой итерацией не менялась.
+
+# BLOCKERS / DEPLOYMENT GATES
+
+- Нужны реальный repository/visibility, аккаунты Admin/Editor/reviewer, Cloudflare account и domain/DNS.
+- CI/required checks/CODEOWNERS/branch protection ещё не настроены. Локальные browser tests находятся
+  в ignored work/ и не являются готовым GitHub CI. Для Admin PR требуется другой доверенный reviewer.
+- OAuth App/broker/secrets отсутствуют; production Decap сохраняет безопасные repo/auth placeholders.
+- Чистая установка в Linux Pages, реальные redirect/headers/TLS/OAuth/два аккаунта/rollback не проверены.
+- example.invalid, noindex/nofollow и /statut placeholder остаются до отдельного согласованного запуска.
+- Локальная новость src/content/events/2026-10-03-.md и пять JPG в public/uploads/events/ не коммитились;
+  сохранены без изменений. До push отдельно решить, какие материалы включать. Attachments не добавлять.
+- Даты/сроки контента обновляются при build. Полный WCAG-аудит не выполнялся.
 
 # NEXT TASK
 
-Production repository, Cloudflare Pages and GitHub/OAuth setup.
+Production deployment after repository and account details are available.

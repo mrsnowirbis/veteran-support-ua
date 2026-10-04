@@ -1,7 +1,7 @@
 # Public content only. Production auth is intentionally disabled until deployment.
 backend:
   name: github
-  repo: REPLACE_OWNER/REPLACE_REPO
+  repo: mrsnowirbis/veteran-support-ua
   branch: main
   base_url: https://auth.example.invalid
   auth_endpoint: auth

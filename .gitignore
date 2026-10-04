@@ -35,3 +35,6 @@ yarn-error.log*
 !.env.example
 work/
 outputs/
+.codex-remote-attachments/
+.dev.vars
+.dev.vars.*

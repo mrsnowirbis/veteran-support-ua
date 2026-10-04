@@ -1,4 +1,16 @@
-# Production deployment — підготовка, без публікації
+# Production deployment
+
+## Поточний етап 5B
+
+Підтверджений public repository: https://github.com/mrsnowirbis/veteran-support-ua,
+production branch — `main`. Git Credential Manager авторизований власником локально.
+Підготовлено перший push лише затвердженої Git-історії та deployment-конфігурації;
+локальна новина та п'ять некомічених JPG не входять до публікації.
+Decap використовує реальний repo, але login залишається вимкненим через auth placeholder.
+Cloudflare Pages, branch protection та OAuth ще не налаштовані.
+Перший сайт — тимчасовий `*.pages.dev` із збереженим noindex; custom domain пізніше.
+Секрети не додавалися. Не завантажувати локальний dist: він може містити некомічені матеріали.
+Deployment має будувати тільки файли з GitHub `main`.
 
 Стан після `2974dac`: Astro static → GitHub `main` → Cloudflare Pages `dist`.
 Adapter, SSR, Functions, Wrangler у сайті та runtime CMS не потрібні. Production login
@@ -133,7 +145,7 @@ Admin призупиняє нові merge/auto deploy на час інциден
 
 ## Що ще не підтверджено
 
-Немає production repo/account/domain, CI protections, broker або OAuth App. Чистий build у Linux Pages,
+Repository/власник підтверджені вище; ще немає Pages/domain, CI protections, broker або OAuth App. Чистий build у Linux Pages,
 edge redirects/headers, реальні OAuth/два акаунти/rollback потребують deployment-перевірки.
 Залишаються `example.invalid`, noindex, `/statut` placeholder і локальні некомічені новина/JPG.
-Це явні умови до публічного запуску; поточний етап нічого не публікує.
+Це явні умови до повного запуску; стан зовнішніх етапів зазначений на початку документа.

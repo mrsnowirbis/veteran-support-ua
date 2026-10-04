@@ -1,5 +1,15 @@
 # DONE
 
+- Этап 5B: подтверждён существующий PUBLIC mrsnowirbis/veteran-support-ua (пока пустой).
+  Владелец завершил авторизацию Git Credential Manager; подготовлен первый push main.
+  Decap repo указан; auth placeholder сохраняет production login выключенным.
+  Attachments и локальные Worker secret-файлы исключены через .gitignore.
+  Локальная новость и пять JPG остаются вне Git; approved UI/assets не изменены.
+  Cloudflare deployment, branch protection и OAuth ещё не выполнены.
+- Preflight: проверены 7 commits / 153 версии Git blobs по известным secret patterns;
+  совпадений не найдено. Credentials/private-data files и временные fixtures в истории не обнаружены.
+  Это проверка известных шаблонов, не гарантия отсутствия любых чувствительных данных.
+
 - Этап 5A поверх 2974dac: подготовлены docs/DEPLOYMENT.md и ссылка из docs/CMS.md.
   Изменения только документационные; сайт, CMS config, schemas, dependencies и CSP не изменены.
 - Проверена статическая архитектура Astro → GitHub main → Cloudflare Pages dist.
@@ -13,7 +23,14 @@
   Editor без write/admin → Open Authoring fork/PR; это не встроенный RBAC Decap.
 - Rollback: предыдущий успешный Pages production deployment, затем reviewed revert/restore commit;
   история сохраняется, OAuth Worker/secrets управляются отдельно.
-- Внешние ресурсы/аккаунты не созданы, push/deployment/OAuth не выполнялись, credentials не создавались.
+- На этапе 5A внешние ресурсы/аккаунты не создавались, push/deployment/OAuth не выполнялись.
+
+# VALIDATION — 5B (перед push)
+
+- Build, lint, TypeScript: PASS. Локальный dist не публикуется: содержит некомічену новость.
+- Admin browser smoke: PASS; реальный repo/main/Open Authoring, пять коллекций,
+  editorial workflow, production login по-прежнему заблокирован auth placeholder.
+- Git diff check: PASS; changes только .gitignore, CMS repo и документация.
 
 # VALIDATION — 5A
 
@@ -41,10 +58,11 @@
 
 # BLOCKERS / DEPLOYMENT GATES
 
-- Нужны реальный repository/visibility, аккаунты Admin/Editor/reviewer, Cloudflare account и domain/DNS.
+- Repository: mrsnowirbis/veteran-support-ua, PUBLIC; Admin — владелец mrsnowirbis.
+  Нужны Editor/reviewer, авторизация Cloudflare и позднее domain/DNS.
 - CI/required checks/CODEOWNERS/branch protection ещё не настроены. Локальные browser tests находятся
   в ignored work/ и не являются готовым GitHub CI. Для Admin PR требуется другой доверенный reviewer.
-- OAuth App/broker/secrets отсутствуют; production Decap сохраняет безопасные repo/auth placeholders.
+- OAuth App/broker/secrets отсутствуют; production Decap сохраняет безопасный auth placeholder.
 - Чистая установка в Linux Pages, реальные redirect/headers/TLS/OAuth/два аккаунта/rollback не проверены.
 - example.invalid, noindex/nofollow и /statut placeholder остаются до отдельного согласованного запуска.
 - Локальная новость src/content/events/2026-10-03-.md и пять JPG в public/uploads/events/ не коммитились;

@@ -1,11 +1,17 @@
 # DONE
 
-- Этап 5B: подтверждён существующий PUBLIC mrsnowirbis/veteran-support-ua (пока пустой).
-  Владелец завершил авторизацию Git Credential Manager; подготовлен первый push main.
+- Этап 5B: PUBLIC https://github.com/mrsnowirbis/veteran-support-ua, main опубликована.
+  Первый production deployment 2026-10-05: https://veteran-support-ua.pages.dev/.
+  Cloudflare Dashboard подтвердил Success; Git SHA 5c8fe36fe36429956d76672f1f3d42bcfbe217eb.
+  Node 24.19.0, npm run build, dist; Astro static, без SSR/adapter/Functions.
+  ASTRO_TELEMETRY_DISABLED=1, SHOW_DEMO_CONTENT=false; noindex в коде сохранён.
+  GitHub App Cloudflare авторизован владельцем только для veteran-support-ua.
   Decap repo указан; auth placeholder сохраняет production login выключенным.
   Attachments и локальные Worker secret-файлы исключены через .gitignore.
   Локальная новость и пять JPG остаются вне Git; approved UI/assets не изменены.
-  Cloudflare deployment, branch protection и OAuth ещё не выполнены.
+  Main protection: PR + 1 approval, dismiss stale approvals, resolve conversations,
+  no bypass даже для Admin; force push/delete выключены. CI checks пока отсутствуют.
+  OAuth не настроен. Production verification после исправления View Transition: PASS (ниже).
 - Preflight: проверены 7 commits / 153 версии Git blobs по известным secret patterns;
   совпадений не найдено. Credentials/private-data files и временные fixtures в истории не обнаружены.
   Это проверка известных шаблонов, не гарантия отсутствия любых чувствительных данных.
@@ -31,6 +37,25 @@
 - Admin browser smoke: PASS; реальный repo/main/Open Authoring, пять коллекций,
   editorial workflow, production login по-прежнему заблокирован auth placeholder.
 - Git diff check: PASS; changes только .gitignore, CMS repo и документация.
+
+# VALIDATION — 5B (после deployment)
+
+- Cloudflare Linux build и deployment: PASS по Dashboard; журнал подтверждает clone SHA,
+  установку Node 24.19.0, npm clean-install, npm run build и Astro static output.
+- Финальную npm-версию проверить: detection до установки Node показывал npm 10.9.2,
+  тогда как package.json требует >=11.17. Это не подтверждение версии после установки Node.
+- Live verification 5c8fe36: routes/collections/admin/artwork/headers/CSP/noindex/HTTPS/404 PASS;
+  единственная ошибка console ViewTransition устранена в 062d868, merged через PR #1.
+- Production main: 6fa554d9a6b35f429d25244701ba777b1ff1fadb; Cloudflare deployment
+  7f0c021f-2078-4049-8cb1-b5dae1970c31, success 2026-10-05. Live HTML совпадает с deployment URL.
+- Повторная проверка: HTTPS 200, HTTP 301 → HTTPS, /pro-nas/ и /admin/ 200;
+  desktop 1600/mobile 390, повторные Home/About переходы без console warnings/errors;
+  overflow отсутствует на 1600/390/320. CSP/security headers и noindex,nofollow сохранены.
+- HTML совпадает с предыдущим deployment кроме имени CSS; CSS отличается только удалённым opt-in;
+  logo/Hero побайтно неизменны, attribution сохранена. HSTS на pages.dev не возвращается.
+- Required approval временно отключено с разрешения владельца для merge PR #1, затем восстановлено (1).
+  Остальные правила main сохранены; OAuth/CMS/domain/backend не изменялись.
+- OAuth, два аккаунта CMS E2E и rollback ещё не проверены.
 
 # VALIDATION — 5A
 
@@ -59,11 +84,11 @@
 # BLOCKERS / DEPLOYMENT GATES
 
 - Repository: mrsnowirbis/veteran-support-ua, PUBLIC; Admin — владелец mrsnowirbis.
-  Нужны Editor/reviewer, авторизация Cloudflare и позднее domain/DNS.
-- CI/required checks/CODEOWNERS/branch protection ещё не настроены. Локальные browser tests находятся
+  Cloudflare авторизован; нужны Editor/reviewer и позднее domain/DNS.
+- CI/required checks/CODEOWNERS ещё не настроены; branch protection включена. Локальные browser tests находятся
   в ignored work/ и не являются готовым GitHub CI. Для Admin PR требуется другой доверенный reviewer.
 - OAuth App/broker/secrets отсутствуют; production Decap сохраняет безопасный auth placeholder.
-- Чистая установка в Linux Pages, реальные redirect/headers/TLS/OAuth/два аккаунта/rollback не проверены.
+- Linux Pages build, live redirect/headers/TLS проверены; OAuth/два аккаунта/rollback ещё не проверены.
 - example.invalid, noindex/nofollow и /statut placeholder остаются до отдельного согласованного запуска.
 - Локальная новость src/content/events/2026-10-03-.md и пять JPG в public/uploads/events/ не коммитились;
   сохранены без изменений. До push отдельно решить, какие материалы включать. Attachments не добавлять.
@@ -71,4 +96,13 @@
 
 # NEXT TASK
 
-Production deployment after repository and account details are available.
+Configure GitHub OAuth and perform real Admin/Editor CMS test.
+Documentation updates after deployment are local until reviewed through protected-main workflow.
+
+## View transition fix verification
+
+- Removed only the optional CSS cross-document view-transition opt-in; no design, navigation, CMS or dependency changes.
+- Build, lint, TypeScript and all four existing browser checks passed.
+- Desktop/mobile navigation, including repeated Home/About transitions: no console warnings/errors or horizontal overflow.
+- Compiled styles match production after excluding the removed rule; visual checks passed.
+- Production verification passed on main 6fa554d after PR #1 merge and automatic Cloudflare deployment.

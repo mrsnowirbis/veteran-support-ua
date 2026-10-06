@@ -15,9 +15,14 @@
   Source and mock-provider security tests: workers/decap-oauth/; 5 tests and Worker ESLint PASS.
   Broker: encrypted 10-minute cookie, random state, PKCE S256, exact callback/origin/window checks,
   fixed public_repo scope, no logging of tokens/secrets. Worker logs remain enabled;
-  Include Invocation logs disabled, traces disabled. No credentials entered.
-  Next owner gate: create GitHub OAuth App using the factual Worker /callback URL,
-  then enter Client ID as Worker Text and secrets directly as Worker Secrets.
+  Include Invocation logs disabled, traces disabled.
+  OAuth App 3909261 created by owner; exact callback/Homepage, no wildcard/device flow,
+  expiring access tokens verified. Owner added Client ID as Text and both Worker Secrets;
+  only encrypted presence was inspected, never secret values. SITE_ORIGIN/AUTH_ORIGIN set;
+  OAUTH_ENABLED=false until explicit activation confirmation.
+  PR #3 prepares the production Decap base_url; main still awaits that PR and Worker activation.
+  Configuration checks: build, ESLint and TypeScript PASS; local /admin/ displays GitHub login,
+  with no console warnings/errors. No login grant was performed; public UI/CSP unchanged.
   Real login, Admin/Editor E2E, fork checks and cleanup are not tested yet.
 
 - Этап 5B: PUBLIC https://github.com/mrsnowirbis/veteran-support-ua, main опубликована.

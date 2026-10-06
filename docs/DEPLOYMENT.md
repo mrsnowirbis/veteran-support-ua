@@ -15,12 +15,15 @@ Do not weaken protection if a fork check is unavailable; configure suitable secr
 OAuth Worker deployed with login disabled:
 `https://veteran-support-ua-oauth.mr-snowirbis.workers.dev`.
 `/auth` and `/callback`: 503 until owner setup; other paths: 404.
-Worker logs enabled, Include Invocation logs disabled, traces disabled; no credentials entered.
+Worker logs enabled, Include Invocation logs disabled, traces disabled.
+Owner created OAuth App 3909261 and entered Client ID and both encrypted Worker Secrets;
+values were not read or copied. `OAUTH_ENABLED=false` pending activation confirmation.
+PR #3 prepares Decap's real base_url; merge, login and Admin/Editor E2E are pending.
 Source, tests and setup: [workers/decap-oauth/README.md](../workers/decap-oauth/README.md).
 GitHub OAuth App fields: name `Veteran Support UA — Decap CMS`,
 Homepage `https://veteran-support-ua.pages.dev`,
 callback `https://veteran-support-ua-oauth.mr-snowirbis.workers.dev/callback`.
-Owner must create the App and enter secrets directly in Worker Secrets. Keep login disabled meanwhile.
+Owner configured the App and entered secrets directly in Worker Secrets. Keep login disabled until activation approval.
 Keep expiring access tokens enabled; after expiry, sign out and sign in again. No refresh token is retained.
 
 ## Поточний етап 5B
@@ -183,7 +186,7 @@ Admin призупиняє нові merge/auto deploy на час інциден
 ## Що ще не підтверджено
 
 Repository/Pages/власник і required Pages check підтверджені; broker deployed disabled.
-Ще немає domain, GitHub CI, OAuth App або secrets.
+Domain і GitHub CI ще відсутні; OAuth App/secrets налаштовані, activation/E2E ще не виконані.
 Linux build та edge redirects/headers перевірено; реальні OAuth/два акаунти/rollback потребують перевірки.
 Залишаються `example.invalid`, noindex, `/statut` placeholder і локальні некомічені новина/JPG.
 Це явні умови до повного запуску; стан зовнішніх етапів зазначений на початку документа.

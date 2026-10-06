@@ -1,9 +1,9 @@
-# Public content only. Production auth is intentionally disabled until deployment.
+# Public content only. Authentication is handled by the isolated OAuth Worker.
 backend:
   name: github
   repo: mrsnowirbis/veteran-support-ua
   branch: main
-  base_url: https://auth.example.invalid
+  base_url: https://veteran-support-ua-oauth.mr-snowirbis.workers.dev
   auth_endpoint: auth
   auth_scope: public_repo
   open_authoring: true

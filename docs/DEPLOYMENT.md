@@ -4,11 +4,25 @@
 
 Підтверджений public repository: https://github.com/mrsnowirbis/veteran-support-ua,
 production branch — `main`. Git Credential Manager авторизований власником локально.
-Підготовлено перший push лише затвердженої Git-історії та deployment-конфігурації;
+Виконано перший push лише затвердженої Git-історії та deployment-конфігурації;
 локальна новина та п'ять некомічених JPG не входять до публікації.
 Decap використовує реальний repo, але login залишається вимкненим через auth placeholder.
-Cloudflare Pages, branch protection та OAuth ще не налаштовані.
-Перший сайт — тимчасовий `*.pages.dev` із збереженим noindex; custom domain пізніше.
+Cloudflare Pages підтвердив успішний deployment 2026-10-05:
+https://veteran-support-ua.pages.dev/ — початковий SHA `5c8fe36fe36429956d76672f1f3d42bcfbe217eb`.
+Поточний production після PR #1: `6fa554d9a6b35f429d25244701ba777b1ff1fadb`,
+deployment `7f0c021f-2078-4049-8cb1-b5dae1970c31`, success 2026-10-05.
+Node `24.19.0`, команда `npm run build`, output `dist`; noindex у коді збережений.
+GitHub App має доступ лише до цього repo. Для main: PR, одне approval, скасування застарілих
+approvals, закриті discussions, без admin bypass/force push/delete. Required CI checks ще немає.
+OAuth не налаштований; custom domain пізніше.
+Live verification: PASS. HTTPS 200, HTTP 301 → HTTPS; desktop/mobile Home/About transitions без
+console warnings/errors; overflow відсутній на 1600/390/320. CSP, security headers і noindex,nofollow
+збережено; /admin/ доступний. Початкові routes/collections/404 перевірено раніше.
+HTML/CSS незмінні, крім видаленого View Transition opt-in та імені CSS; logo/Hero і attribution збережено.
+Live HTML відповідає URL поточного deployment. HSTS для pages.dev не повертається.
+Для merge PR #1 власник дозволив тимчасово вимкнути approval; після merge вимогу 1 approval відновлено.
+Лог до встановлення Node показував npm 10.9.2; перевірити фактичну версію після встановлення Node
+на відповідність package.json >=11.17. Налаштування builder автоматично не змінювалися.
 Секрети не додавалися. Не завантажувати локальний dist: він може містити некомічені матеріали.
 Deployment має будувати тільки файли з GitHub `main`.
 
@@ -145,7 +159,7 @@ Admin призупиняє нові merge/auto deploy на час інциден
 
 ## Що ще не підтверджено
 
-Repository/власник підтверджені вище; ще немає Pages/domain, CI protections, broker або OAuth App. Чистий build у Linux Pages,
-edge redirects/headers, реальні OAuth/два акаунти/rollback потребують deployment-перевірки.
+Repository/Pages/власник підтверджені вище; ще немає domain, required CI checks, broker або OAuth App.
+Linux build та edge redirects/headers перевірено; реальні OAuth/два акаунти/rollback потребують перевірки.
 Залишаються `example.invalid`, noindex, `/statut` placeholder і локальні некомічені новина/JPG.
 Це явні умови до повного запуску; стан зовнішніх етапів зазначений на початку документа.

@@ -39,15 +39,20 @@ Admin перевіряє зміст, права на media та `draft: false` �
 ## Ролі та workflow
 
 Production: **Editor → власний fork/PR → review → Admin merge → Astro build → Cloudflare Pages**.
-GitHub backend, Open Authoring та editorial workflow підготовлені; production login заблоковано,
-поки repo/auth містять placeholders. Жодних credentials у frontend/Git.
+GitHub backend, реальний repo, Open Authoring та editorial workflow підготовлені.
+PR #3 підключає production base_url до окремого OAuth Worker; main ще очікує merge.
+OAuth App і Worker Secrets налаштовані власником; Worker увімкнено (`OAUTH_ENABLED=true`) —
+[налаштування](../workers/decap-oauth/README.md). Реальний login/E2E ще не перевірено.
+Жодних credentials у frontend/Git.
 
 - **Editor:** GitHub-акаунт без write/admin основного repo; лише контентні форми в CMS.
 - **Admin:** review/merge, конфігурація, доступи, secrets, структура та системні сторінки.
 
 Це НЕ RBAC Decap: Editor може запропонувати будь-які зміни у власному fork. Admin перевіряє весь
-diff: дозволено лише п’ять контентних папок та відповідні uploads. Потрібні branch protection,
-обов’язкове схвалення Admin/CODEOWNERS та успішний build. Не виконувати PR-код із secrets.
+diff: дозволено лише п’ять контентних папок та відповідні uploads. Branch protection вимагає PR
+та успішний Cloudflare Pages check. Поки є один довірений Admin, approvals=0: власник сам
+перевіряє та merge; Editor не має upstream Write/Merge. З появою другого довіреного Admin/reviewer
+повернути approvals=1. Не виконувати PR-код із secrets.
 Публічний Open Authoring допускає сторонні PR. Конфігурація передбачає public repo (`public_repo`);
 private repo потребує окремого рішення щодо read-доступу, private forks та ширшого scope `repo`.
 

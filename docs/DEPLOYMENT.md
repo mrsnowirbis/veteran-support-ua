@@ -1,5 +1,32 @@
 # Production deployment
 
+## Stage 6 — current policy (2026-10-06)
+
+Documentation PR #2 merged into `main`: `4208d32800a093d15f2e596814df62e7c9d01879`.
+Cloudflare production: `c1ed4b9d-4a84-427c-bd3e-a32e74d29108`, success.
+One trusted Admin: PR required, **approvals=0 temporarily**; owner reviews and merges after checks.
+Required check: **Cloudflare Pages**, source **Cloudflare Workers and Pages**; branch must be up to date.
+Conversation resolution, dismissal of stale approvals and no Admin bypass remain enabled;
+force pushes and branch deletion remain disabled. Editor receives no upstream Write/Merge permission.
+**Restore approvals=1 when a second trusted Admin/reviewer is available.**
+GitHub CI is not installed; whether the Pages check runs on Editor fork PRs must be tested before E2E.
+Do not weaken protection if a fork check is unavailable; configure suitable secret-free PR CI instead.
+
+OAuth Worker enabled by owner:
+`https://veteran-support-ua-oauth.mr-snowirbis.workers.dev`.
+Valid `/auth`: GitHub 302, exact callback/public_repo/PKCE S256, Secure/HttpOnly cookie.
+Invalid site/callback: 400; other paths: 404. No-store, strict CSP and no wildcard CORS verified.
+Worker logs enabled, Include Invocation logs disabled, traces disabled.
+Owner created OAuth App 3909261 and entered Client ID and both encrypted Worker Secrets;
+values were not read or copied. `OAUTH_ENABLED=true` verified after owner activation confirmation.
+PR #3 prepares Decap's real base_url; merge, login and Admin/Editor E2E are pending.
+Source, tests and setup: [workers/decap-oauth/README.md](../workers/decap-oauth/README.md).
+GitHub OAuth App fields: name `Veteran Support UA — Decap CMS`,
+Homepage `https://veteran-support-ua.pages.dev`,
+callback `https://veteran-support-ua-oauth.mr-snowirbis.workers.dev/callback`.
+Owner configured the App, entered secrets directly in Worker Secrets and approved activation.
+Keep expiring access tokens enabled; after expiry, sign out and sign in again. No refresh token is retained.
+
 ## Поточний етап 5B
 
 Підтверджений public repository: https://github.com/mrsnowirbis/veteran-support-ua,
@@ -12,8 +39,7 @@ https://veteran-support-ua.pages.dev/ — початковий SHA `5c8fe36fe364
 Поточний production після PR #1: `6fa554d9a6b35f429d25244701ba777b1ff1fadb`,
 deployment `7f0c021f-2078-4049-8cb1-b5dae1970c31`, success 2026-10-05.
 Node `24.19.0`, команда `npm run build`, output `dist`; noindex у коді збережений.
-GitHub App має доступ лише до цього repo. Для main: PR, одне approval, скасування застарілих
-approvals, закриті discussions, без admin bypass/force push/delete. Required CI checks ще немає.
+GitHub App має доступ лише до цього repo. Поточні правила main наведено у Stage 6 вище.
 OAuth не налаштований; custom domain пізніше.
 Live verification: PASS. HTTPS 200, HTTP 301 → HTTPS; desktop/mobile Home/About transitions без
 console warnings/errors; overflow відсутній на 1600/390/320. CSP, security headers і noindex,nofollow
@@ -79,25 +105,26 @@ Admin перевіряє та merge через GitHub. PR редактора н�
 каталогів та відповідні uploads; код/конфігурація/системні сторінки — окремі Admin PR.
 [Open Authoring](https://decapcms.org/docs/open-authoring/).
 
-Для `main`: PR обов’язковий, щонайменше одне схвалення реального Admin/CODEOWNER,
-скасування застарілих approvals, вирішені discussions, актуальний успішний build/lint/TypeScript;
-force-push/delete заборонені, правила застосовуються також до Admin. CODEOWNERS заповнити реальними
-акаунтами, включно із захистом самого CODEOWNERS. Для PR самого Admin потрібен інший довірений reviewer.
+Для `main`: PR обов’язковий; тимчасово approvals=0, review/merge виконує єдиний Admin.
+З появою другого довіреного Admin/reviewer повернути approvals=1. Поточний required check —
+Cloudflare Pages; branch up to date, stale approvals dismissed, discussions resolved.
+Force-push/delete заборонені, правила застосовуються також до Admin. Майбутній CODEOWNERS
+заповнювати лише реальними довіреними акаунтами, включно із захистом самого CODEOWNERS.
 Для private repo спочатку перевірити plan/protection/fork policy — не розширювати scope непомітно.
 [Branch protection](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches).
 
-GitHub CI ще не підключений: до ввімкнення required checks створити secret-free `pull_request` перевірку
+GitHub CI ще не підключений: для окремих build/lint/TypeScript checks створити secret-free `pull_request` перевірку
 build/lint/TypeScript, дочекатися її реальних status names і вибрати їх у protection. Використовувати
 GitHub-hosted runner, read-only token, перевірені actions, без `pull_request_target` з checkout коду PR.
 Не вимагати production deployment до merge і не вважати Pages preview гарантованим для fork PR.
 Локальні browser tests наразі у ignored `work/`, не є встановленим GitHub CI.
 Production deploy тільки з `main`; preview не отримує OAuth secrets або дозволу broker на login.
 
-## Мінімальний OAuth broker — майбутній окремий Worker
+## Мінімальний OAuth broker — окремий Worker
 
 Статичний браузерний Decap не може безпечно зберігати client secret для обміну GitHub code на token.
-Пропонується окремий невеликий Worker на `AUTH_ORIGIN` (майбутній HTTPS auth-піддомен), незалежний від
-статичного Pages. Реалізацію треба вибрати/перевірити окремо; список Decap — не гарантія її безпеки.
+Окремий Worker на фактичному `AUTH_ORIGIN` вище незалежний від статичного Pages.
+Mock-provider security tests пройдені; реальний OAuth і два акаунти ще потребують перевірки.
 [OAuth clients](https://decapcms.org/docs/external-oauth-clients/).
 
 | Endpoint | Дія |
@@ -159,7 +186,8 @@ Admin призупиняє нові merge/auto deploy на час інциден
 
 ## Що ще не підтверджено
 
-Repository/Pages/власник підтверджені вище; ще немає domain, required CI checks, broker або OAuth App.
+Repository/Pages/власник і required Pages check підтверджені; broker deployed disabled.
+Domain і GitHub CI ще відсутні; OAuth App/secrets налаштовані, activation/E2E ще не виконані.
 Linux build та edge redirects/headers перевірено; реальні OAuth/два акаунти/rollback потребують перевірки.
 Залишаються `example.invalid`, noindex, `/statut` placeholder і локальні некомічені новина/JPG.
 Це явні умови до повного запуску; стан зовнішніх етапів зазначений на початку документа.

@@ -1,5 +1,27 @@
 # DONE
 
+- Stage 6 CI/CMS E2E, 2026-10-07: PR #5 added `.github/workflows/pr-ci.yml`.
+  `pull_request` to main; Node 24.19.0, npm ci, build, lint and TypeScript PASS.
+  Official Actions pinned to release SHAs; contents: read, no persisted credentials,
+  custom secrets, cache, privileged fork trigger or Actions deployment.
+  Existing browser tests require local Windows Edge/bundled Playwright in ignored work/;
+  they are not portable CI. No dependencies added.
+  Real Editor redaktor111 fork PR #4 passed PR CI (run 37543535011).
+  Only then required Cloudflare Pages was replaced by PR CI from GitHub Actions;
+  all other main protections preserved. Editor remains without upstream Write/Merge.
+  Admin approved and merged PR #4 as dcb902d; Cloudflare deployment
+  112345f8-21a0-484f-bb81-9f948a58d639 succeeded. Event and plain Markdown verified live.
+  Cleanup PR #6 passed required CI and merged as 3fdb427; production deployment
+  61851a7f-4a7d-4405-b782-6b221dd3d747 succeeded. No Git history was removed.
+  Lists are clear; Pages retained the deleted detail URL in edge cache. An exact test-URL
+  302 to /podii handles retention without altering security policy; remove only after
+  2026-10-14 and confirmation the old asset is no longer served.
+  Admin login/all five collections confirmed by owner; real Editor login/fork/PR verified.
+  Design, artwork, noindex, public CSP, OAuth settings and help form were not changed.
+  Unapproved local event/uploads remain outside Git.
+
+## Historical checkpoints (superseded by the entry above)
+
 - Stage 6, 2026-10-06: documentation PR #2 merged as `4208d32800a093d15f2e596814df62e7c9d01879`.
   Cloudflare production deployment `c1ed4b9d-4a84-427c-bd3e-a32e74d29108`: success.
   Current main policy verified in GitHub: PR required; temporarily approvals=0 (one trusted Admin);
@@ -110,11 +132,11 @@
 
 - Repository: mrsnowirbis/veteran-support-ua, PUBLIC; Admin — владелец mrsnowirbis.
   Cloudflare авторизован; нужны Editor/reviewer и позднее domain/DNS.
-- Required Cloudflare Pages check включён; отдельные GitHub CI/CODEOWNERS ещё не настроены.
+- Required PR CI от GitHub Actions включён; CI PASS на реальном fork PR #4. CODEOWNERS не настроен.
   Локальные browser tests находятся в ignored work/ и не являются готовым GitHub CI.
   Пока Admin один, approvals=0; с появлением второго доверенного Admin вернуть approvals=1.
-- OAuth broker deployed disabled; OAuth App/secrets отсутствуют. Production Decap сохраняет auth placeholder.
-- Linux Pages build, live redirect/headers/TLS проверены; OAuth/два аккаунта/rollback ещё не проверены.
+- OAuth broker enabled by owner; Admin/Editor login и fork/PR/merge/deployment/cleanup проверены.
+- Linux Pages build, live redirect/headers/TLS проверены; отдельная rollback exercise ещё не выполнялась.
 - example.invalid, noindex/nofollow и /statut placeholder остаются до отдельного согласованного запуска.
 - Локальная новость src/content/events/2026-10-03-.md и пять JPG в public/uploads/events/ не коммитились;
   сохранены без изменений. До push отдельно решить, какие материалы включать. Attachments не добавлять.
@@ -122,7 +144,7 @@
 
 # NEXT TASK
 
-Configure GitHub OAuth and perform real Admin/Editor CMS test.
+Connect custom domain and perform final DNS/TLS/indexing review.
 Documentation commit 035e1de is published through merged PR #2. Stage 6 updates use a separate PR.
 
 ## View transition fix verification

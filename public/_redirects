@@ -1,0 +1,4 @@
+# The deleted CMS test URL may remain in Pages' asset cache for up to one week.
+# Resolve old test links to the event list without changing production content.
+/podii/temp-cms-test-event /podii 302
+/podii/temp-cms-test-event/ /podii 302

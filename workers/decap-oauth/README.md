@@ -26,7 +26,9 @@ Worker **Secret** variables (never Pages build environment, files, Git or chat):
   generated privately by the owner and pasted directly into Worker Secrets.
 
 OAuth App callback must be exactly `AUTH_ORIGIN/callback`; Homepage is `SITE_ORIGIN`.
-Do not enable device flow or expiring/refresh tokens for this minimal broker.
+Keep **Expire user access tokens enabled**; leave device flow and wildcard callbacks disabled.
+Refresh tokens are discarded. After token expiry, the editor logs out and signs in again;
+automatic refresh is outside this two-endpoint broker.
 Scope is fixed to `public_repo`; this covers public repos accessible to the account, not one folder.
 GitHub protections and owner review enforce upstream publishing permissions.
 

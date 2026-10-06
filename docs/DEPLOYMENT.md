@@ -21,6 +21,7 @@ GitHub OAuth App fields: name `Veteran Support UA — Decap CMS`,
 Homepage `https://veteran-support-ua.pages.dev`,
 callback `https://veteran-support-ua-oauth.mr-snowirbis.workers.dev/callback`.
 Owner must create the App and enter secrets directly in Worker Secrets. Keep login disabled meanwhile.
+Keep expiring access tokens enabled; after expiry, sign out and sign in again. No refresh token is retained.
 
 ## Поточний етап 5B
 

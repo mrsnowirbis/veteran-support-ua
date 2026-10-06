@@ -132,9 +132,10 @@ export default {
       if (!exchange.ok) throw new Error('Exchange failed')
       const result = await exchange.json()
       if (result.error || result.token_type !== 'bearer' || result.scope !== 'public_repo' ||
-          typeof result.access_token !== 'string' || !/^[A-Za-z0-9_]{1,512}$/.test(result.access_token) || result.refresh_token) {
+          typeof result.access_token !== 'string' || !/^[A-Za-z0-9_]{1,512}$/.test(result.access_token)) {
         throw new Error('Invalid token response')
       }
+      // Keep GitHub's expiring-token protection. Discard refresh tokens; editors sign in again on expiry.
       // GitHub requires identity revalidation after each exchange; do not retain/log the response.
       const identity = await fetch('https://api.github.com/user', {
         redirect: 'error', signal: AbortSignal.timeout(10000),

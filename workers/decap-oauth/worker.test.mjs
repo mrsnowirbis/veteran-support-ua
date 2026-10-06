@@ -80,7 +80,8 @@ test('exchange and popup only deliver to the exact originating site/window', asy
       assert.equal(options.body.get('redirect_uri'), env.AUTH_ORIGIN + '/callback')
       const digest = Buffer.from(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(options.body.get('code_verifier')))).toString('base64url')
       assert.equal(digest, authorize.searchParams.get('code_challenge'))
-      return Response.json({ access_token: 'synthetic_test_token', token_type: 'bearer', scope: 'public_repo' })
+      return Response.json({ access_token: 'synthetic_test_token', token_type: 'bearer', scope: 'public_repo',
+        expires_in: 28800, refresh_token: 'synthetic_refresh_token' })
     }
     assert.equal(url, 'https://api.github.com/user')
     return Response.json({ id: 123 })
@@ -106,6 +107,7 @@ test('exchange and popup only deliver to the exact originating site/window', asy
   assert.equal(sent[1][1], env.SITE_ORIGIN)
   assert.match(sent[1][0], /^authorization:github:success:/)
   assert.ok(!html.includes(env.GITHUB_CLIENT_SECRET))
+  assert.ok(!html.includes('synthetic_refresh_token'))
 })
 
 test('upstream errors are generic and clear the session', async (t) => {

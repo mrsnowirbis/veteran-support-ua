@@ -1,5 +1,25 @@
 # DONE
 
+- Stage 6, 2026-10-06: documentation PR #2 merged as `4208d32800a093d15f2e596814df62e7c9d01879`.
+  Cloudflare production deployment `c1ed4b9d-4a84-427c-bd3e-a32e74d29108`: success.
+  Current main policy verified in GitHub: PR required; temporarily approvals=0 (one trusted Admin);
+  required `Cloudflare Pages` check from Cloudflare Workers and Pages, branch up to date;
+  resolved conversations, stale approvals dismissed, no Admin bypass, no force push/deletion.
+  Editor has no upstream Write/Merge rights; owner reviews and merges after checks.
+  Restore approvals=1 when a second trusted Admin/reviewer is available.
+  Dedicated GitHub CI and fork-PR check availability remain unverified; OAuth is still disabled.
+
+- Stage 6 OAuth preparation: separate Worker `veteran-support-ua-oauth` deployed at
+  https://veteran-support-ua-oauth.mr-snowirbis.workers.dev; /auth and /callback return 503
+  without owner configuration, other paths 404. HTTPS/no-store/strict CSP/no wildcard CORS verified.
+  Source and mock-provider security tests: workers/decap-oauth/; 5 tests and Worker ESLint PASS.
+  Broker: encrypted 10-minute cookie, random state, PKCE S256, exact callback/origin/window checks,
+  fixed public_repo scope, no logging of tokens/secrets. Worker logs remain enabled;
+  Include Invocation logs disabled, traces disabled. No credentials entered.
+  Next owner gate: create GitHub OAuth App using the factual Worker /callback URL,
+  then enter Client ID as Worker Text and secrets directly as Worker Secrets.
+  Real login, Admin/Editor E2E, fork checks and cleanup are not tested yet.
+
 - Этап 5B: PUBLIC https://github.com/mrsnowirbis/veteran-support-ua, main опубликована.
   Первый production deployment 2026-10-05: https://veteran-support-ua.pages.dev/.
   Cloudflare Dashboard подтвердил Success; Git SHA 5c8fe36fe36429956d76672f1f3d42bcfbe217eb.
@@ -9,8 +29,7 @@
   Decap repo указан; auth placeholder сохраняет production login выключенным.
   Attachments и локальные Worker secret-файлы исключены через .gitignore.
   Локальная новость и пять JPG остаются вне Git; approved UI/assets не изменены.
-  Main protection: PR + 1 approval, dismiss stale approvals, resolve conversations,
-  no bypass даже для Admin; force push/delete выключены. CI checks пока отсутствуют.
+  Current main protection is documented in the Stage 6 entry above.
   OAuth не настроен. Production verification после исправления View Transition: PASS (ниже).
 - Preflight: проверены 7 commits / 153 версии Git blobs по известным secret patterns;
   совпадений не найдено. Credentials/private-data files и временные fixtures в истории не обнаружены.
@@ -85,9 +104,10 @@
 
 - Repository: mrsnowirbis/veteran-support-ua, PUBLIC; Admin — владелец mrsnowirbis.
   Cloudflare авторизован; нужны Editor/reviewer и позднее domain/DNS.
-- CI/required checks/CODEOWNERS ещё не настроены; branch protection включена. Локальные browser tests находятся
-  в ignored work/ и не являются готовым GitHub CI. Для Admin PR требуется другой доверенный reviewer.
-- OAuth App/broker/secrets отсутствуют; production Decap сохраняет безопасный auth placeholder.
+- Required Cloudflare Pages check включён; отдельные GitHub CI/CODEOWNERS ещё не настроены.
+  Локальные browser tests находятся в ignored work/ и не являются готовым GitHub CI.
+  Пока Admin один, approvals=0; с появлением второго доверенного Admin вернуть approvals=1.
+- OAuth broker deployed disabled; OAuth App/secrets отсутствуют. Production Decap сохраняет auth placeholder.
 - Linux Pages build, live redirect/headers/TLS проверены; OAuth/два аккаунта/rollback ещё не проверены.
 - example.invalid, noindex/nofollow и /statut placeholder остаются до отдельного согласованного запуска.
 - Локальная новость src/content/events/2026-10-03-.md и пять JPG в public/uploads/events/ не коммитились;
@@ -97,7 +117,7 @@
 # NEXT TASK
 
 Configure GitHub OAuth and perform real Admin/Editor CMS test.
-Documentation updates after deployment are local until reviewed through protected-main workflow.
+Documentation commit 035e1de is published through merged PR #2. Stage 6 updates use a separate PR.
 
 ## View transition fix verification
 

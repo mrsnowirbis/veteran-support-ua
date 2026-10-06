@@ -1,5 +1,40 @@
 # Production deployment
 
+## Verified CI/CMS workflow (2026-10-07)
+
+PR #5 installed `.github/workflows/pr-ci.yml`: pull_request to main, Node 24.19.0,
+npm ci, build, lint, TypeScript. Official Actions pinned to full release SHAs;
+contents: read, persist-credentials: false, no custom secrets/cache/deployment,
+no pull_request_target or privileged fork execution. Local browser scripts depend
+on Windows Edge/bundled Playwright in ignored work/ and are not included in CI.
+
+Real Editor fork PR #4 passed PR CI: run 37543535011. Only after that PASS,
+required Cloudflare Pages was replaced by **PR CI**, source **GitHub Actions**.
+PR required, branch up to date, resolved conversations, stale-approval dismissal,
+no bypass/force push/deletion unchanged. Temporarily approvals=0 (one Admin);
+restore approvals=1 when a second trusted reviewer is available. No Editor Write/Merge.
+First-contributor CI approval authorizes only the reviewed read-only run; it grants no repo rights.
+
+Admin review/approval and PR #4 merge: dcb902d70344f0416d7820395fb64667b60ffbac.
+Cloudflare production 112345f8-21a0-484f-bb81-9f948a58d639: success;
+TEMP event and plain Markdown appeared at /podii/temp-cms-test-event/.
+Cleanup Git PR #6 passed required CI and merged as 3fdb4276a35923de5fc4ed8e9659cdc3583dfa78;
+production 61851a7f-4a7d-4405-b782-6b221dd3d747: success. History preserved.
+Pages retained the deleted test URL in edge asset cache (200/HIT); the new deployment URL
+and an uncached request correctly returned 404. A temporary exact-path 302 in `_redirects`
+resolves old test links to /podii. It may be removed after the one-week asset retention window
+(after 2026-10-14) once the original URL is confirmed clear. No general cache/security policy changed.
+Pages continues automatic production deployments after main merges; fork previews are unsupported.
+Admin/Editor OAuth logins verified with real accounts; owner confirmed all five CMS collections.
+No OAuth/secrets/security-header/noindex/design changes were made for CI.
+
+Next: custom domain and separate final DNS/TLS/indexing review.
+Sources: [GitHub Actions security](https://docs.github.com/en/actions/reference/security/secure-use),
+[Cloudflare fork limitation](https://developers.cloudflare.com/pages/platform/known-issues/).
+[Pages asset retention](https://developers.cloudflare.com/pages/configuration/serving-pages/).
+
+## Historical preparation notes (superseded by the verification above)
+
 ## Stage 6 — current policy (2026-10-06)
 
 Documentation PR #2 merged into `main`: `4208d32800a093d15f2e596814df62e7c9d01879`.

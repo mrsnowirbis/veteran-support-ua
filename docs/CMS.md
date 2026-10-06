@@ -39,10 +39,13 @@ Admin перевіряє зміст, права на media та `draft: false` �
 ## Ролі та workflow
 
 Production: **Editor → власний fork/PR → review → Admin merge → Astro build → Cloudflare Pages**.
-GitHub backend, реальний repo, Open Authoring та editorial workflow підготовлені.
-PR #3 підключає production base_url до окремого OAuth Worker; main ще очікує merge.
+GitHub backend, реальний repo, Open Authoring та editorial workflow працюють у production.
+PR #3 підключив production base_url до окремого OAuth Worker.
 OAuth App і Worker Secrets налаштовані власником; Worker увімкнено (`OAUTH_ENABLED=true`) —
-[налаштування](../workers/decap-oauth/README.md). Реальний login/E2E ще не перевірено.
+[налаштування](../workers/decap-oauth/README.md). Admin підтвердив login і всі п’ять колекцій.
+Editor `redaktor111` створив TEMP event через CMS/fork/PR #4; CI PASS → Admin approval/merge →
+успішний Cloudflare deployment → запис і Markdown видно на сайті. Cleanup — Git PR #6,
+обов’язковий CI → merge → повторний deployment. Це перевірка текстового запису без media.
 Жодних credentials у frontend/Git.
 
 - **Editor:** GitHub-акаунт без write/admin основного repo; лише контентні форми в CMS.
@@ -50,9 +53,12 @@ OAuth App і Worker Secrets налаштовані власником; Worker у
 
 Це НЕ RBAC Decap: Editor може запропонувати будь-які зміни у власному fork. Admin перевіряє весь
 diff: дозволено лише п’ять контентних папок та відповідні uploads. Branch protection вимагає PR
-та успішний Cloudflare Pages check. Поки є один довірений Admin, approvals=0: власник сам
+та успішний `PR CI` від GitHub Actions. Поки є один довірений Admin, approvals=0: власник сам
 перевіряє та merge; Editor не має upstream Write/Merge. З появою другого довіреного Admin/reviewer
 повернути approvals=1. Не виконувати PR-код із secrets.
+CI: Node 24.19.0, npm ci, build/lint/TypeScript; лише contents: read, без secrets/deployment.
+Перший fork workflow може вимагати разового Admin approval після перевірки diff.
+Cloudflare не збирає fork previews; production deployment автоматично виконується після merge.
 Публічний Open Authoring допускає сторонні PR. Конфігурація передбачає public repo (`public_repo`);
 private repo потребує окремого рішення щодо read-доступу, private forks та ширшого scope `repo`.
 
@@ -89,14 +95,10 @@ PR/review тут не відтворюються. Ctrl+C зупиняє proxy; �
 
 Послідовність GitHub → Pages → OAuth, параметри builder та rollback: [DEPLOYMENT.md](DEPLOYMENT.md).
 
-1. Визначити repository/видимість/main, акаунти та fork policy; увімкнути protections/CODEOWNERS.
-2. Налаштувати GitHub OAuth App і перевірений broker для Cloudflare (Worker/Pages Functions або
-   підтримуваний зовнішній сервіс). Secret — лише у hosting secrets; перевірити state/CSRF,
-   точні callback/origin/postMessage та доступ до repo; не логувати токени.
-3. Замінити repo/auth placeholders; підключити Pages: `npm run build`, output `dist`, Node з package.json.
-   Не задавати `SHOW_DEMO_CONTENT=true` у production. Домен/SEO/noindex — окремий етап запуску.
-4. Перевірити двома акаунтами Editor create/edit/upload/PR та Admin review/merge, відмову Editor
-   в прямому записі, конфлікти редагування, build після merge, media, HTTPS та фактичну CSP.
+1. Підключити custom domain; DNS/TLS/SEO/noindex змінювати окремим погодженим етапом.
+2. З появою другого довіреного Admin/reviewer повернути approvals=1.
+3. За потреби окремо перевірити production media/складне форматування та конфлікти редагування;
+   цей E2E тест використовував простий Markdown без зображень. Не задавати SHOW_DEMO_CONTENT=true.
 
 Офіційні джерела: [GitHub](https://decapcms.org/docs/github-backend/),
 [Open Authoring](https://decapcms.org/docs/open-authoring/), [workflow](https://decapcms.org/docs/editorial-workflows/),

@@ -41,7 +41,7 @@ Admin перевіряє зміст, права на media та `draft: false` �
 Production: **Editor → власний fork/PR → review → Admin merge → Astro build → Cloudflare Pages**.
 GitHub backend, реальний repo, Open Authoring та editorial workflow підготовлені.
 PR #3 підключає production base_url до окремого OAuth Worker; main ще очікує merge.
-OAuth App і Worker Secrets налаштовані власником; Worker поки `OAUTH_ENABLED=false` —
+OAuth App і Worker Secrets налаштовані власником; Worker увімкнено (`OAUTH_ENABLED=true`) —
 [налаштування](../workers/decap-oauth/README.md). Реальний login/E2E ще не перевірено.
 Жодних credentials у frontend/Git.
 

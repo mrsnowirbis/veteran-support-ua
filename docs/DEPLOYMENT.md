@@ -12,18 +12,19 @@ force pushes and branch deletion remain disabled. Editor receives no upstream Wr
 GitHub CI is not installed; whether the Pages check runs on Editor fork PRs must be tested before E2E.
 Do not weaken protection if a fork check is unavailable; configure suitable secret-free PR CI instead.
 
-OAuth Worker deployed with login disabled:
+OAuth Worker enabled by owner:
 `https://veteran-support-ua-oauth.mr-snowirbis.workers.dev`.
-`/auth` and `/callback`: 503 until owner setup; other paths: 404.
+Valid `/auth`: GitHub 302, exact callback/public_repo/PKCE S256, Secure/HttpOnly cookie.
+Invalid site/callback: 400; other paths: 404. No-store, strict CSP and no wildcard CORS verified.
 Worker logs enabled, Include Invocation logs disabled, traces disabled.
 Owner created OAuth App 3909261 and entered Client ID and both encrypted Worker Secrets;
-values were not read or copied. `OAUTH_ENABLED=false` pending activation confirmation.
+values were not read or copied. `OAUTH_ENABLED=true` verified after owner activation confirmation.
 PR #3 prepares Decap's real base_url; merge, login and Admin/Editor E2E are pending.
 Source, tests and setup: [workers/decap-oauth/README.md](../workers/decap-oauth/README.md).
 GitHub OAuth App fields: name `Veteran Support UA — Decap CMS`,
 Homepage `https://veteran-support-ua.pages.dev`,
 callback `https://veteran-support-ua-oauth.mr-snowirbis.workers.dev/callback`.
-Owner configured the App and entered secrets directly in Worker Secrets. Keep login disabled until activation approval.
+Owner configured the App, entered secrets directly in Worker Secrets and approved activation.
 Keep expiring access tokens enabled; after expiry, sign out and sign in again. No refresh token is retained.
 
 ## Поточний етап 5B

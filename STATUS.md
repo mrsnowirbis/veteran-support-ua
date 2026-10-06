@@ -7,11 +7,12 @@
   resolved conversations, stale approvals dismissed, no Admin bypass, no force push/deletion.
   Editor has no upstream Write/Merge rights; owner reviews and merges after checks.
   Restore approvals=1 when a second trusted Admin/reviewer is available.
-  Dedicated GitHub CI and fork-PR check availability remain unverified; OAuth is still disabled.
+  Dedicated GitHub CI and fork-PR check availability remain unverified.
 
 - Stage 6 OAuth preparation: separate Worker `veteran-support-ua-oauth` deployed at
-  https://veteran-support-ua-oauth.mr-snowirbis.workers.dev; /auth and /callback return 503
-  without owner configuration, other paths 404. HTTPS/no-store/strict CSP/no wildcard CORS verified.
+  https://veteran-support-ua-oauth.mr-snowirbis.workers.dev. Owner enabled OAuth;
+  /auth returns GitHub 302 with exact callback, public_repo, PKCE S256 and Secure/HttpOnly cookie;
+  invalid site/callback requests return 400, other paths 404. HTTPS/no-store/strict CSP/no wildcard CORS verified.
   Source and mock-provider security tests: workers/decap-oauth/; 5 tests and Worker ESLint PASS.
   Broker: encrypted 10-minute cookie, random state, PKCE S256, exact callback/origin/window checks,
   fixed public_repo scope, no logging of tokens/secrets. Worker logs remain enabled;
@@ -19,8 +20,8 @@
   OAuth App 3909261 created by owner; exact callback/Homepage, no wildcard/device flow,
   expiring access tokens verified. Owner added Client ID as Text and both Worker Secrets;
   only encrypted presence was inspected, never secret values. SITE_ORIGIN/AUTH_ORIGIN set;
-  OAUTH_ENABLED=false until explicit activation confirmation.
-  PR #3 prepares the production Decap base_url; main still awaits that PR and Worker activation.
+  OAUTH_ENABLED=true verified after owner activation confirmation.
+  PR #3 prepares the production Decap base_url; main still awaits that PR.
   Configuration checks: build, ESLint and TypeScript PASS; local /admin/ displays GitHub login,
   with no console warnings/errors. No login grant was performed; public UI/CSP unchanged.
   Real login, Admin/Editor E2E, fork checks and cleanup are not tested yet.

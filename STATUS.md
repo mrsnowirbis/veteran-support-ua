@@ -1,5 +1,26 @@
 # DONE
 
+- 2026-10-07: approved story «Поезія, написана в полоні: історія морпіха
+  Андрія Петрука» at /istorii/poeziia-v-poloni-andrii-petruk/ uses existing stories
+  fields and owner-supplied editorial text/excerpt. Source: Alla Miroshnychenko,
+  Ukrinform, 25 August 2026; active original link at end. Publication date is separate.
+  Only the two owner-provided photographs are published: book portrait as custom
+  cover; group photo after fundraising paragraph, neutral caption/alt «Після
+  повернення в Україну». Full proportions, Sharp WebP quality 88 (150,832/291,946
+  bytes), no EXIF, AI changes, source-photo downloads or original JPEGs in Git.
+  Asset-specific contain preserves face/book in existing 192px card frame; article
+  cover follows existing decorative-alt model, inline photo has meaningful alt.
+  Neutral content note reuses Markdown blockquote; no new warning system/schema.
+  No unconfirmed identities/details or event placeholder/link. Future published
+  conference event can be linked separately. No other content/schema/CMS/security/
+  OAuth/permissions/CI/noindex/domain changes; homepage template/design untouched.
+  Existing story feed naturally includes new public content.
+  PASS: build/lint/TypeScript/parser, existing smoke/approved homepage visual and
+  20-route browser checks, 320/390/1600 cover/inline/focus/source/headings/no overflow,
+  no console/CSP errors; real Decap record loads both images/body/source and fixture
+  edit/upload/save/build works. Fixtures/media removed; localhost proxy stopped.
+  Publication proceeds through PR, required CI, owner merge and Cloudflare Pages.
+
 - 2026-10-07: approved story «Від орендованого гаража до власного технологічного
   центру» at /istorii/vid-orendovanoho-harazha-do-tekhnolohichnoho-tsentru/ uses
   existing stories fields, exact owner-supplied text/quote/excerpt and Andrew Prit

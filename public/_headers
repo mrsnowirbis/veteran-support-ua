@@ -14,7 +14,7 @@
 # Recovery uses the same trusted player; other routes and Markdown stay restricted.
 /vidnovlennia/*
   ! Content-Security-Policy
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; frame-src https://www.youtube-nocookie.com
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://i.ytimg.com; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; frame-src https://www.youtube-nocookie.com
 
 # Decap has its own early meta CSP in admin/index.html. Detach only the inherited
 # policy here: adding another HTTP CSP would intersect with the public policy.

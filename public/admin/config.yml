@@ -253,7 +253,7 @@ collections:
           - ^https://[^\s/?#]+[^\s]*$
           - Вкажіть повну HTTPS-адресу або залиште порожнім.
       - name: image
-        label: Зображення
+        label: Обкладинка
         widget: image
         required: false
         choose_url: false

@@ -2,6 +2,7 @@
 import DefaultLayout from '../layouts/DefaultLayout.astro'
 import PageIntro from './PageIntro.astro'
 import ContentCard from './ContentCard.astro'
+import { youtubeThumbnail } from '../utils/youtube'
 import { loadContent, dateLabel, splitEvents, isExpired, dateTimeLabel, contentPath, localMedia } from '../utils/content'
 interface Props {
   kind: 'recovery' | 'stories' | 'films' | 'education' | 'events'
@@ -25,7 +26,7 @@ const categories =
 const eventGroups = splitEvents(data.events)
 ---
 
-<DefaultLayout title={title} description={description}
+<DefaultLayout title={title} description={description} allowYouTubeThumbnails={kind === 'recovery' && data.recovery.some((e) => !e.data.image && Boolean(youtubeThumbnail(e.data.video ?? '')))}
   ><PageIntro title={title} description={description} /><div class="shell section">
     {data[kind].some((entry) => entry.data.demo) && <p class="notice">
       Записи з позначкою «Демо» або «Демонстраційна подія» є прикладами, а не реальними історіями, рекомендаціями або пропозиціями.
@@ -54,6 +55,7 @@ const eventGroups = splitEvents(data.events)
                       description={e.data.description}
                       href={'/vidnovlennia/' + e.data.slug}
                       image={e.data.image}
+                      youtubeUrl={e.data.video}
                       meta={dateLabel(e.data.publishedDate)}
                       demo={e.data.demo}
                       index={index}

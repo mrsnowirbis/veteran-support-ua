@@ -1,5 +1,18 @@
 # DONE
 
+- 2026-10-07: recovery listing cards reuse the existing YouTube parser for fixed
+  i.ytimg.com/vi/<ID>/hqdefault.jpg thumbnails (no download/API/tracking parameters).
+  Existing CMS image/«Обкладинка» has priority; absent video/cover or failed/missing HQ
+  image retains the decorative fallback. Small listing-only script handles load failures.
+  Existing 130px card-art area/grid preserved, cover uses object-fit: cover and alt="".
+  Only recovery img-src gains https://i.ytimg.com; frame-src/other directives unchanged.
+  Homepage receives no thumbnail or fallback script. Content/schemas/other collections,
+  Header/Footer, OAuth, permissions, CI/CD/domain/noindex unchanged.
+  PASS: build/lint/TypeScript/parser, existing smoke/approved visual/17-route browser tests;
+  thumbnail 130px/cover/alt/lazy at 320/390/1600, network/placeholder/no-JS fallbacks.
+  Real local Decap cover upload/save -> build/card priority PASS. Fixtures/media removed,
+  loopback proxy stopped. Production thumbnail/playback checks follow PR CI/Admin/Pages.
+
 - 2026-10-07: recovery material «Як допомогти тим, хто страждає від миттєвої реакції
   на надзвичайні ситуації та кризу?» uses owner-confirmed h2FSXhe5HEg, neutral supplied
   introduction, exact CSPC/Алекс Маляр credit and https://www.icspc.org/en source.

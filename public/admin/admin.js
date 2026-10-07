@@ -20,9 +20,18 @@ window.addEventListener('DOMContentLoaded', async () => {
       name: 'preSave',
       handler: ({ entry }) => {
         let data = entry.get('data')
-        for (const field of ['location', 'registrationUrl', 'image', 'updatedDate', 'video', 'audio', 'contentWarning', 'poster', 'externalUrl', 'provider', 'deadline']) {
+        for (const field of ['location', 'registrationUrl', 'image', 'updatedDate', 'video', 'audio', 'contentWarning', 'poster', 'externalUrl', 'provider', 'deadline', 'year', 'studio', 'author', 'participants']) {
           const value = data.get(field)
           if (value == null || (typeof value === 'string' && !value.trim())) data = data.delete(field)
+        }
+        if (data.has('videos')) {
+          data = data.update('videos', (videos) => videos?.map((video) => {
+            for (const field of ['title', 'description']) {
+              const value = video.get(field)
+              if (value == null || (typeof value === 'string' && !value.trim())) video = video.delete(field)
+            }
+            return video
+          }) ?? [])
         }
         // Preserve existing public URLs. New stories/materials receive a stable ASCII URL.
         if (data.has('slug') && !data.get('slug')) {

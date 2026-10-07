@@ -325,6 +325,8 @@ collections:
         label: Рік
         widget: number
         value_type: int
+        required: false
+        hint: Лише підтверджений рік. Якщо невідомий — залиште порожнім.
       - name: description
         label: Короткий опис
         widget: text
@@ -341,6 +343,45 @@ collections:
         label: Попередження про чутливий зміст
         widget: string
         required: false
+      - name: studio
+        label: Студія
+        widget: string
+        required: false
+      - name: author
+        label: Авторство
+        widget: string
+        required: false
+        hint: Підтверджене формулювання, наприклад «Фільм Сергія Волкова».
+      - name: participants
+        label: Учасники проєкту
+        widget: text
+        required: false
+        hint: Додавайте імена та ролі лише після підтвердження і дозволу на публікацію.
+      - name: videos
+        label: Серії / відео
+        label_singular: Відео
+        widget: list
+        required: false
+        default: []
+        summary: '{{fields.url}}'
+        fields:
+          - name: url
+            label: Посилання YouTube
+            widget: string
+            required: true
+            hint: Скопіюйте HTTPS-посилання youtu.be або youtube.com/watch з YouTube. Код плеєра не потрібен.
+            pattern:
+              - '^https://(?:youtu\.be/[A-Za-z0-9_-]{11}/?(?:[?#][^\s]*)?|(?:www\.|m\.)?youtube\.com/watch\?[^\s]+)$'
+              - Вкажіть HTTPS-посилання на окреме відео YouTube.
+          - name: title
+            label: Назва серії
+            widget: string
+            required: false
+            hint: Якщо не підтверджена — залиште порожнім. На сайті буде «Серія 1», «Серія 2» тощо.
+          - name: description
+            label: Опис серії
+            widget: text
+            required: false
       - name: poster
         label: Постер
         widget: image

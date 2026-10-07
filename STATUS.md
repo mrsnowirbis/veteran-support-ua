@@ -1,5 +1,21 @@
 # DONE
 
+- 2026-10-07: approved story «Від орендованого гаража до власного технологічного
+  центру» at /istorii/vid-orendovanoho-harazha-do-tekhnolohichnoho-tsentru/ uses
+  existing stories fields, exact owner-supplied text/quote/excerpt and Andrew Prit
+  Facebook source link. No inferred business/service details or extra photos.
+  User screenshot cropped deterministically to photograph only (575x660), excluding
+  all Facebook/phone UI and mute overlay. Sharp WebP quality 88, 36,274 bytes;
+  original screenshot not published, no AI/resize/EXIF retention. Existing custom
+  image priority preserved. Only this listing cover gets object-position: 50% 0%;
+  article keeps full portrait with contain. Decorative alt follows current model.
+  No schema/CMS/security/header/OAuth/CI/domain/noindex changes; other content intact.
+  Homepage template/design unchanged; existing story feed naturally includes it.
+  PASS: build/lint/TypeScript/parser and existing smoke/approved visual/19-route
+  browser checks; cover/source/quote/focus/CSP/console and 320/390/1600 reflow;
+  Decap real-record fields/image load plus fixture edit/upload/save/build PASS.
+  Fixtures/media removed, loopback proxy stopped. PR/CI/Admin/Pages publication follows.
+
 - 2026-10-07: prepared approved Ukrainian Memoria 13 story at /istorii/memoria-13/.
   Owner-supplied editorial text, excerpt, UNITED24 Media source and QG7SG5FzmTw;
   source date 9 November 2025 is separate from site publication date 7 October 2026.

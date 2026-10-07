@@ -1,5 +1,26 @@
 # DONE
 
+- 2026-10-07: owner-approved recovery material «Не стрес нами керує, а ми ним:
+  практичні поради психолога Тетяни Марініної» at /vidnovlennia/ne-stres-namy-keruie/,
+  category «Стабілізаційні вправи». ArmyInform original page checked: psychologist
+  Tetiana Marinina, author Tetiana Holovatiuk, original date 12 August 2022.
+  Publication date on this site is 7 October 2026, original date separately in body.
+  Approved neutral text and four exercise summaries retained; no prevalence/diagnosis
+  claims about PTSD, promises of treatment or additional physiological claims.
+  Existing blockquote contains the approved information/discomfort disclaimer;
+  ArmyInform attribution and original HTTPS link present, no copied source images.
+  Existing recovery schema, YouTubeVideo/parser/thumbnail reused unchanged: exact
+  bwiO8CDZyxU, nocookie/lazy/16:9/no autoplay/fullscreen, immediate player, HQ thumbnail,
+  custom-cover priority and decorative fallback. Player uses existing detail layout.
+  PASS: build/lint/TypeScript/parser, existing smoke/approved homepage/browser tests
+  across 24 routes; 320/390/1600 card/player/source/disclaimer/headings/focus/no overflow.
+  Real local Decap recovery loads entry; fixture edit/upload/save/build preserves
+  category/date/URL and proves custom cover priority. Fixture/media removed, proxy stopped.
+  npm audit reports 9 existing vulnerabilities (7 high, 2 moderate); dependencies and
+  lockfile unchanged. Remediation is separate from this content-only publication.
+  No homepage/design, other content, schema, CSP, OAuth, roles, CI, noindex/domain changes.
+  Publication follows required PR CI, owner merge and automatic Pages deployment.
+
 - 2026-10-07: owner-approved story «Коли глина повертає до життя: історії Руслана
   Рижка та Сергія Райляна» at /istorii/hlyna-ruslan-ryzhko-serhii-railian/.
   Supplied text/excerpt retained; source «ЕтноЧари» as text because no confirmed

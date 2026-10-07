@@ -41,6 +41,11 @@ const stories = collection(
     slug,
     excerpt: text,
     image: media.optional(),
+    videos: z.array(z.object({
+      url: text.refine((value) => Boolean(youtubeId(value)), 'Use a valid HTTPS YouTube share/watch URL'),
+    })).default([]),
+    source: text.optional(),
+    externalUrl: external.optional(),
     publishedDate: z.coerce.date(),
     anonymous: z.boolean().default(true),
     relatedMaterials: z.array(reference('recovery')).default([]),

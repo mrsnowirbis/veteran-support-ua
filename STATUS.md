@@ -1,5 +1,21 @@
 # DONE
 
+- 2026-10-07: prepared approved Ukrainian Memoria 13 story at /istorii/memoria-13/.
+  Owner-supplied editorial text, excerpt, UNITED24 Media source and QG7SG5FzmTw;
+  source date 9 November 2025 is separate from site publication date 7 October 2026.
+  Stories gain optional ordered videos/source/externalUrl; old records keep empty
+  videos. Shared parser/YouTubeVideo/ContentCard/thumbnail failure fallback reused.
+  CMS story image labelled «Обкладинка»; custom image -> first video -> decorative art.
+  Trusted nocookie/lazy/fullscreen/16:9 player, no autoplay/API or Markdown iframe.
+  Stories routes receive only existing exact YouTube player/image host exceptions;
+  homepage/template/design, other content, OAuth/permissions/CI/noindex unchanged.
+  Existing homepage story feed naturally includes the new published story.
+  PASS: build/lint/TypeScript/parser; smoke/approved visual/18-route browser tests;
+  real local Decap source/text/cover edit/save -> build/render; future multi-video,
+  cover priority/no-video/draft/demo/failure fixtures; player/card 320/390/1600 reflow.
+  Temporary fixtures/media removed, loopback proxy stopped. Production playback
+  verification follows protected PR/CI/Admin/Pages publication.
+
 - 2026-10-07: all films listing cards reuse recovery's shared ContentCard/YouTube
   thumbnail utility and failure fallback: existing poster cover -> videos[0] HQ
   thumbnail -> decorative art. Future multi-video records work without code changes.

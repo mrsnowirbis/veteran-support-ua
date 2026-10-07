@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       name: 'preSave',
       handler: ({ entry }) => {
         let data = entry.get('data')
-        for (const field of ['location', 'registrationUrl', 'image', 'updatedDate', 'video', 'audio', 'contentWarning', 'poster', 'externalUrl', 'provider', 'deadline', 'year', 'studio', 'author', 'participants']) {
+        for (const field of ['location', 'registrationUrl', 'image', 'updatedDate', 'video', 'audio', 'contentWarning', 'poster', 'externalUrl', 'provider', 'deadline', 'year', 'studio', 'author', 'participants', 'source']) {
           const value = data.get(field)
           if (value == null || (typeof value === 'string' && !value.trim())) data = data.delete(field)
         }

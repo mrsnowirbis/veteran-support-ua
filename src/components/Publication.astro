@@ -18,7 +18,7 @@ const related = entry.collection === 'stories'
   ? (await Promise.all(entry.data.relatedMaterials.map((ref) => getEntry(ref)))).filter((item) => item && visibleContent(item)) : []
 const recoveryYouTube = entry.collection === 'recovery' && entry.data.video && youtubeId(entry.data.video)
 ---
-<DefaultLayout title={data.title} description={`${data.title}. ${description}`} image={image} type="article" allowYouTube={Boolean(recoveryYouTube) || (entry.collection === 'films' && entry.data.videos.length > 0)}>
+<DefaultLayout title={data.title} description={`${data.title}. ${description}`} image={image} type="article" allowYouTube={Boolean(recoveryYouTube) || ((entry.collection === 'films' || entry.collection === 'stories') && entry.data.videos.length > 0)}>
   <article class="shell reading section publication">
     <a class="back-link" href={'/' + section}>← {label}</a>
     <h1>{data.title}</h1>
@@ -50,6 +50,11 @@ const recoveryYouTube = entry.collection === 'recovery' && entry.data.video && y
     </>}
     {image && (localMedia(image) ? <img class="publication-image" src={image} alt="" loading="eager" decoding="async" /> : <p><a href={image} rel="noopener noreferrer">Переглянути зображення на зовнішньому сайті</a></p>)}
     <SafeContent><Content /></SafeContent>
+    {entry.collection === 'stories' && <>
+      {entry.data.videos.map((video, index) => <YouTubeVideo url={video.url} title={`${entry.data.title}${entry.data.videos.length > 1 ? ` — відео ${index + 1}` : ''}`} />)}
+      {entry.data.source && <p>Джерело: {entry.data.source}</p>}
+      {entry.data.externalUrl && <p><a href={entry.data.externalUrl} rel="noopener noreferrer">Оригінальний матеріал</a></p>}
+    </>}
     {entry.collection === 'films' && <>
       {entry.data.contentWarning && <p class="notice">{entry.data.contentWarning}</p>}
       {entry.data.videos.map((video, index) => <section class="category-section">

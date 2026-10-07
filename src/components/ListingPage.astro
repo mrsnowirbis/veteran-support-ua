@@ -27,7 +27,9 @@ const eventGroups = splitEvents(data.events)
 const hasYouTubeThumbnails =
   kind === 'recovery'
     ? data.recovery.some((e) => !e.data.image && Boolean(youtubeThumbnail(e.data.video ?? '')))
-    : kind === 'films' && data.films.some((e) => !e.data.poster && Boolean(youtubeThumbnail(e.data.videos[0]?.url ?? '')))
+    : kind === 'films'
+      ? data.films.some((e) => !e.data.poster && Boolean(youtubeThumbnail(e.data.videos[0]?.url ?? '')))
+      : kind === 'stories' && data.stories.some((e) => !e.data.image && Boolean(youtubeThumbnail(e.data.videos[0]?.url ?? '')))
 ---
 
 <DefaultLayout title={title} description={description} allowYouTubeThumbnails={hasYouTubeThumbnails}
@@ -82,6 +84,7 @@ const hasYouTubeThumbnails =
                   description={e.data.excerpt}
                   href={'/istorii/' + e.data.slug}
                   image={e.data.image}
+                  youtubeUrl={e.data.videos[0]?.url}
                   category={e.data.anonymous ? 'Анонімний формат' : undefined}
                   demo={e.data.demo}
                   index={index}

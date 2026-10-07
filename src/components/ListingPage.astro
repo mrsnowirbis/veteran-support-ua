@@ -24,9 +24,13 @@ const categories =
         'Дистанційні професії',
       ]
 const eventGroups = splitEvents(data.events)
+const hasYouTubeThumbnails =
+  kind === 'recovery'
+    ? data.recovery.some((e) => !e.data.image && Boolean(youtubeThumbnail(e.data.video ?? '')))
+    : kind === 'films' && data.films.some((e) => !e.data.poster && Boolean(youtubeThumbnail(e.data.videos[0]?.url ?? '')))
 ---
 
-<DefaultLayout title={title} description={description} allowYouTubeThumbnails={kind === 'recovery' && data.recovery.some((e) => !e.data.image && Boolean(youtubeThumbnail(e.data.video ?? '')))}
+<DefaultLayout title={title} description={description} allowYouTubeThumbnails={hasYouTubeThumbnails}
   ><PageIntro title={title} description={description} /><div class="shell section">
     {data[kind].some((entry) => entry.data.demo) && <p class="notice">
       Записи з позначкою «Демо» або «Демонстраційна подія» є прикладами, а не реальними історіями, рекомендаціями або пропозиціями.
@@ -117,6 +121,7 @@ const eventGroups = splitEvents(data.events)
                         meta={e.data.year === undefined ? undefined : (e.data.demo ? 'Умовний рік: ' : 'Рік: ') + e.data.year}
                         href={contentPath('kinoterapiia', e.id)}
                         image={e.data.poster}
+                        youtubeUrl={e.data.videos[0]?.url}
                         demo={e.data.demo}
                         index={index}
                       />

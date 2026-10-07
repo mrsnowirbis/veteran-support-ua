@@ -5,11 +5,11 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'
 
-# Trusted film components can embed only the privacy-enhanced YouTube player.
+# Trusted film components use the privacy-enhanced player and fixed thumbnail host.
 # Other public routes retain their original policy; Markdown cannot embed HTML players.
 /kinoterapiia/*
   ! Content-Security-Policy
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; frame-src https://www.youtube-nocookie.com
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://i.ytimg.com; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; frame-src https://www.youtube-nocookie.com
 
 # Recovery uses the same trusted player; other routes and Markdown stay restricted.
 /vidnovlennia/*

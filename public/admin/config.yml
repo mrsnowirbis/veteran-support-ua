@@ -390,7 +390,7 @@ collections:
             widget: text
             required: false
       - name: poster
-        label: Постер
+        label: Обкладинка
         widget: image
         required: false
         choose_url: false

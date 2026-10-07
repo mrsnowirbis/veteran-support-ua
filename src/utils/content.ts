@@ -7,7 +7,10 @@ export const contentPath = (section: string, id: string) =>
 export const localMedia = (value?: string) =>
   !!value && /^\/(?![\\/])/.test(value) && !value.includes('\\') && [...value].every((char) => char.charCodeAt(0) > 31)
 export const dateTimeLabel = (date: Date) =>
-  new Intl.DateTimeFormat('uk-UA', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Kyiv' }).format(date) + ' (Київ)'
+  // Date-only frontmatter coerces to UTC midnight; do not invent an event time.
+  date.toISOString().endsWith('T00:00:00.000Z')
+    ? dateLabel(date)
+    : new Intl.DateTimeFormat('uk-UA', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Kyiv' }).format(date) + ' (Київ)'
 export const dateLabel = (date: Date) =>
   new Intl.DateTimeFormat('uk-UA', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Kyiv' }).format(
     date,

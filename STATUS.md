@@ -1,5 +1,31 @@
 # DONE
 
+- 2026-10-07: approved real event «Голос ветеранів має бути почутий: Андрій
+  Петрук виступив на конференції» at /podii/holos-veteraniv-petruk-konferentsiia/.
+  Event date is 26 June 2026, not publication date. Existing events schema/Decap
+  fields reused; owner-supplied text/description preserved, no invented time,
+  conference name, organisers, roles, identities or medical details.
+  Actual attachment order differs from numbered descriptions: 1000007754 is the
+  wide round-table cover; 1000007755 is the outside inline portrait; 1000007763 is
+  the participants inline photo. Only these owner images optimized using Sharp
+  WebP quality 88 (174,282/273,002/97,748 bytes), full proportions/no AI/EXIF.
+  Originals remain in local attachments; only optimized assets under uploads/events.
+  Inline placement/captions/meaningful alt use existing sanitized Markdown.
+  Existing decorative cover model and 192px centered listing crop retained.
+  Reciprocal Markdown links use verified existing Petruk story slug and new event
+  route; both remain CMS-editable. Conference facts/photos attributed to volunteer
+  community; Ukrinform linked explicitly as additional biographical context only.
+  Minimal formatter convention: UTC midnight represents date-only, displays no
+  invented Kyiv 03:00; explicit other timestamps retain time. Documented in CMS.md.
+  PASS: build/lint/TypeScript/parser; existing smoke/approved homepage/21-route
+  browser checks; 320/390/1600 photos/date/source/keyboard/bidirectional links/no
+  overflow or console/CSP errors. Real Decap event loads cover/2 inline photos;
+  fixture cover upload/title/description/save/build preserves date-only and links;
+  timed fixture still shows 15:00 Kyiv, missing optionals work, draft/demo excluded.
+  Fixtures/media removed and localhost proxy stopped. No schema, homepage/layout,
+  other collections, OAuth, permissions, CI, CSP, noindex or domain changes.
+  Publication follows required PR CI, owner merge and automatic Pages deployment.
+
 - 2026-10-07: approved story «Поезія, написана в полоні: історія морпіха
   Андрія Петрука» at /istorii/poeziia-v-poloni-andrii-petruk/ uses existing stories
   fields and owner-supplied editorial text/excerpt. Source: Alla Miroshnychenko,

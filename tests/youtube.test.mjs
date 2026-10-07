@@ -3,10 +3,20 @@ import assert from 'node:assert/strict'
 import { youtubeId } from '../src/utils/youtube.ts'
 
 test('all approved series and share/watch tracking URLs resolve to an ID only', () => {
-  for (const id of ['JWTZF3IM4PM', '4V2dj40tKY4', 'aZUTd7QV3du', 'o3ISSODPPO8']) {
+  for (const id of ['JWTZF3lM4PM', '4V2dj40tKY4', 'aZUTd7QV3dU', 'o3ISSODPPO8']) {
     assert.equal(youtubeId(`https://youtu.be/${id}?si=tracking`), id)
     assert.equal(youtubeId(`https://www.youtube.com/watch?v=${id}&feature=shared`), id)
   }
+})
+
+test('ID case is preserved byte-for-byte, including lowercase l and uppercase U', () => {
+  for (const id of ['JWTZF3lM4PM', 'aZUTd7QV3dU']) {
+    const parsed = youtubeId(`https://youtu.be/${id}`)
+    assert.equal(parsed, id)
+    assert.deepEqual(Buffer.from(parsed, 'utf8'), Buffer.from(id, 'utf8'))
+  }
+  assert.notEqual(youtubeId('https://youtu.be/JWTZF3lM4PM'), 'JWTZF3IM4PM')
+  assert.notEqual(youtubeId('https://youtu.be/aZUTd7QV3dU'), 'aZUTd7QV3du')
 })
 
 test('reject unsafe schemes, spoofed hosts, credentials, ambiguous and malformed IDs', () => {

@@ -1,5 +1,23 @@
 # DONE
 
+- 2026-10-07: approved event «День разом: екскурсія до музею Пирогова та пікнік»
+  at /podii/den-razom-muzei-pyrohova-piknik/, event date 2026-10-03 displayed as
+  «3 жовтня 2026 року», with no invented time/location/identities/medical claims.
+  Five unique owner photos received: wide wooden-building group cover plus four
+  inline photos (gazebo preparation, forest guitar, picnic food, informal group).
+  Cover identified by content, not filename order; full proportions retained.
+  Sharp WebP quality 88, 1.28 MiB total, no EXIF/XMP/IPTC; input originals retained.
+  Existing events/CMS fields reused except optional imageAlt needed for owner's
+  exact accessible cover description. Older covers retain their decorative alt.
+  All five assets replaceable through existing CMS cover/body image tools.
+  Date-only labels use full Ukrainian year wording; timed events remain unchanged.
+  PASS: build/lint/TypeScript/parser, smoke/approved homepage/22-route browser
+  tests, 320/390/1600 images/crop/alt/proportions/keyboard/focus/no overflow;
+  real Decap load/edit/upload/save fixture preserves date/alt/four inline images,
+  absent optionals and draft/demo filtering. Fixtures removed, proxy stopped.
+  No homepage/design, other content, OAuth/permissions/CI/CSP/noindex/domain changes.
+  Publication uses required PR CI, owner merge and automatic Pages deployment.
+
 - 2026-10-07: approved real event «Голос ветеранів має бути почутий: Андрій
   Петрук виступив на конференції» at /podii/holos-veteraniv-petruk-konferentsiia/.
   Event date is 26 June 2026, not publication date. Existing events schema/Decap

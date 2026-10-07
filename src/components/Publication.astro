@@ -14,6 +14,7 @@ const [section, label] = sections[entry.collection]
 const data = entry.data
 const description = 'excerpt' in data ? data.excerpt : data.description
 const image = 'image' in data ? data.image : 'poster' in data ? data.poster : undefined
+const imageAlt = entry.collection === 'events' ? entry.data.imageAlt ?? '' : ''
 const related = entry.collection === 'stories'
   ? (await Promise.all(entry.data.relatedMaterials.map((ref) => getEntry(ref)))).filter((item) => item && visibleContent(item)) : []
 const recoveryYouTube = entry.collection === 'recovery' && entry.data.video && youtubeId(entry.data.video)
@@ -48,7 +49,7 @@ const recoveryYouTube = entry.collection === 'recovery' && entry.data.video && y
         {entry.data.participants && <p>{entry.data.participants}</p>}
       </div>
     </>}
-    {image && (localMedia(image) ? <img class="publication-image" src={image} alt="" loading="eager" decoding="async" /> : <p><a href={image} rel="noopener noreferrer">Переглянути зображення на зовнішньому сайті</a></p>)}
+    {image && (localMedia(image) ? <img class="publication-image" src={image} alt={imageAlt} loading="eager" decoding="async" /> : <p><a href={image} rel="noopener noreferrer">Переглянути зображення на зовнішньому сайті</a></p>)}
     <SafeContent><Content /></SafeContent>
     {entry.collection === 'stories' && <>
       {entry.data.videos.map((video, index) => <YouTubeVideo url={video.url} title={`${entry.data.title}${entry.data.videos.length > 1 ? ` — відео ${index + 1}` : ''}`} />)}

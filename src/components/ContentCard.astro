@@ -1,5 +1,6 @@
 ---
 import { localMedia } from '../utils/content'
+import { youtubeThumbnail } from '../utils/youtube'
 interface Props {
   title: string
   description: string
@@ -9,13 +10,16 @@ interface Props {
   demo?: boolean
   index?: number
   image?: string
+  youtubeUrl?: string
 }
-const { title, description, href, category, meta, demo = true, index = 0, image } = Astro.props
+const { title, description, href, category, meta, demo = true, index = 0, image, youtubeUrl } = Astro.props
+const thumbnail = !image && youtubeUrl ? youtubeThumbnail(youtubeUrl) : undefined
 ---
 
 <article class="content-card">
   {localMedia(image) ? <img class="cover" src={image} alt="" loading="lazy" decoding="async" /> : <div class:list={['card-art', 'art-' + (index % 3)]} aria-hidden="true">
     <span>{String(index + 1).padStart(2, '0')}</span><i></i>
+    {thumbnail && <img class="youtube-thumbnail" data-youtube-thumbnail src={thumbnail} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" width="480" height="360" />}
   </div>}
   <div class="card-copy">
     <div class="card-meta">{category && <span>{category}</span>}{demo && <span class="demo-tag">Демо</span>}</div><h3>
@@ -34,4 +38,8 @@ const { title, description, href, category, meta, demo = true, index = 0, image 
     </h3><p>{description}</p>{meta && <p class="card-date">{meta}</p>}
   </div>
 </article>
-<style>.cover { width: 100%; height: 12rem; object-fit: cover; }</style>
+<style>
+  .cover { width: 100%; height: 12rem; object-fit: cover; }
+  .youtube-thumbnail { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+  .youtube-thumbnail[hidden] { display: none; }
+</style>

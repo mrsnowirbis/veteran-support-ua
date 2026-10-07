@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { youtubeId } from '../src/utils/youtube.ts'
+import { youtubeId, youtubeThumbnail } from '../src/utils/youtube.ts'
 
 test('all approved series and share/watch tracking URLs resolve to an ID only', () => {
   for (const id of ['JWTZF3lM4PM', '4V2dj40tKY4', 'aZUTd7QV3dU', 'o3ISSODPPO8', 'h2FSXhe5HEg']) {
@@ -29,4 +29,10 @@ test('reject unsafe schemes, spoofed hosts, credentials, ambiguous and malformed
     'https://youtube.com/watch?v=%3Cscript%3E', 'https://youtu.be/short',
     ' https://youtu.be/JWTZF3IM4PM', 'https://youtu.be/\\JWTZF3IM4PM',
   ]) assert.equal(youtubeId(url), undefined, url)
+})
+
+test('thumbnail uses a fixed host and HQ variant, preserving ID and discarding tracking', () => {
+  assert.equal(youtubeThumbnail('https://youtu.be/h2FSXhe5HEg?si=tracking'), 'https://i.ytimg.com/vi/h2FSXhe5HEg/hqdefault.jpg')
+  assert.equal(youtubeThumbnail('https://www.youtube.com/watch?v=JWTZF3lM4PM'), 'https://i.ytimg.com/vi/JWTZF3lM4PM/hqdefault.jpg')
+  for (const value of ['https://i.ytimg.com/vi/h2FSXhe5HEg/hqdefault.jpg', 'https://evil.test/h2FSXhe5HEg', 'https://youtu.be/short', 'javascript:alert(1)']) assert.equal(youtubeThumbnail(value), undefined)
 })

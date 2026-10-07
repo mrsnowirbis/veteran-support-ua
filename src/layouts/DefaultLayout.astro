@@ -40,6 +40,7 @@ interface Props {
    */
   useTitleTemplate?: boolean
   allowYouTube?: boolean
+  allowYouTubeThumbnails?: boolean
 }
 
 const {
@@ -51,6 +52,7 @@ const {
   type = 'website',
   useTitleTemplate = true,
   allowYouTube = false,
+  allowYouTubeThumbnails = false,
 } = Astro.props
 
 // For social sharing, we need the full absolute URL
@@ -70,11 +72,12 @@ const imageUrl = imagePath ? new URL(imagePath, Astro.site).href : undefined
       import.meta.env.PROD && (
         <meta
           http-equiv="Content-Security-Policy"
-          content={"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'" + (allowYouTube ? '; frame-src https://www.youtube-nocookie.com' : '')}
+          content={"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:" + (allowYouTubeThumbnails ? ' https://i.ytimg.com' : '') + "; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'" + (allowYouTube ? '; frame-src https://www.youtube-nocookie.com' : '')}
         />
       )
     }
 
+    {allowYouTubeThumbnails && <script is:inline src="/scripts/youtube-thumbnails.js" defer></script>}
     <SEO
       noindex={true}
       nofollow={true}

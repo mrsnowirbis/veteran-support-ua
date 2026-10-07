@@ -16,3 +16,9 @@ export function youtubeId(value: string): string | undefined {
     return undefined
   }
 }
+
+/** Fixed YouTube image host/variant; editor URLs never become image src. */
+export function youtubeThumbnail(value: string): string | undefined {
+  const id = youtubeId(value)
+  return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : undefined
+}

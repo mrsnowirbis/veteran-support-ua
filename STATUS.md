@@ -1,5 +1,24 @@
 # DONE
 
+- 2026-10-08: owner-approved homepage preview fix. Recovery and story feeds now
+  pass their existing image/video fields to ContentCard; the shared youtubeThumbnail
+  helper and failure fallback are reused. Custom cover has priority, then the
+  first YouTube preview, then the original decorative artwork. No homepage iframe.
+  Homepage-only compact media keeps all six preview areas at the original 130px,
+  object-fit cover, unchanged card layout/radius and decorative alt model.
+  Both outdated demo descriptions replaced with the owner's neutral Ukrainian text.
+  Homepage enables the existing thumbnail script/meta CSP only when needed; exact
+  root HTTP CSP permits i.ytimg.com images without adding player/frame permissions.
+  Hero/Header/Footer, other sections, detail pages, article/media files, CMS schema,
+  OAuth, permissions, CI, dependencies, noindex and domain remain unchanged.
+  PASS: build, lint, TypeScript, four YouTube unit tests, existing 25-route browser
+  regression suite (only the old homepage thumbnail expectations adjusted in memory),
+  and homepage integration checks at 1600/390/320: all six exact covers/video IDs,
+  uniform 130px media, no image-loading shift/overflow/iframe, links/focus, CSP/console,
+  and shared fallback for network errors/small YouTube placeholders. Screenshots and
+  targeted browser harness are ignored local artifacts. Required PR CI and automatic
+  Pages deployment precede live homepage verification, as authorised by the owner.
+
 - 2026-10-08: owner-approved event «Рушник рутенських псевдо: історія, створена
   власноруч» at /podii/rushnyk-rutenskykh-psevdo/. Supplied event date 2027-01-28
   is retained exactly and displayed as «28 січня 2027 року»; the existing listing

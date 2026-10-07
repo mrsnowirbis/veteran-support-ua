@@ -11,12 +11,13 @@ interface Props {
   index?: number
   image?: string
   youtubeUrl?: string
+  compactMedia?: boolean
 }
-const { title, description, href, category, meta, demo = true, index = 0, image, youtubeUrl } = Astro.props
+const { title, description, href, category, meta, demo = true, index = 0, image, youtubeUrl, compactMedia = false } = Astro.props
 const thumbnail = !image && youtubeUrl ? youtubeThumbnail(youtubeUrl) : undefined
 ---
 
-<article class="content-card">
+<article class:list={['content-card', { 'compact-media': compactMedia }]}>
   {localMedia(image) ? <img class="cover" src={image} alt="" loading="lazy" decoding="async" /> : <div class:list={['card-art', 'art-' + (index % 3)]} aria-hidden="true">
     <span>{String(index + 1).padStart(2, '0')}</span><i></i>
     {thumbnail && <img class="youtube-thumbnail" data-youtube-thumbnail src={thumbnail} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" width="480" height="360" />}
@@ -42,6 +43,8 @@ const thumbnail = !image && youtubeUrl ? youtubeThumbnail(youtubeUrl) : undefine
   .cover { width: 100%; height: 12rem; object-fit: cover; }
   /* Keep the face and book visible together in this portrait, without enlarging cards. */
   .cover[src="/uploads/stories/andrii-petruk-book.webp"] { object-fit: contain; }
+  /* Homepage previews keep the original placeholder height for every media type. */
+  .compact-media > .cover { display: block; height: 130px; object-fit: cover; }
   .youtube-thumbnail { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
   .youtube-thumbnail[hidden] { display: none; }
 </style>

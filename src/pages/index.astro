@@ -6,7 +6,11 @@ import SupportIcon from '../components/SupportIcon.astro'
 import HeroArtwork from '../components/HeroArtwork.astro'
 import '../styles/approved-home.css'
 import { loadContent, dateLabel, splitEvents } from '../utils/content'
+import { youtubeThumbnail } from '../utils/youtube'
 const { recovery, stories, events } = await loadContent()
+const homeRecovery = recovery.slice(0, 3)
+const hasYouTubeThumbnails = homeRecovery.some((e) => !e.data.image && Boolean(youtubeThumbnail(e.data.video ?? '')))
+  || stories.some((e) => !e.data.image && Boolean(youtubeThumbnail(e.data.videos[0]?.url ?? '')))
 const directions = [
  { icon: 'heart', title: 'Психологічна допомога', description: 'Психологічна, медико-психологічна реабілітація.', href: '/otrymaty-dopomohu' },
  { icon: 'plant', title: 'Відновлення', description: 'Реабілітація, адаптація та повернення до активного життя', href: '/vidnovlennia' },
@@ -19,6 +23,7 @@ const directions = [
   title="Підтримка ветеранів — поруч на шляху відновлення"
   description="Простір підтримки ветеранів та їхніх близьких: відновлення, освіта, історії й спільнота."
   useTitleTemplate={false}
+  allowYouTubeThumbnails={hasYouTubeThumbnails}
 >
   <section class="approved-hero" aria-labelledby="hero-title">
     <HeroArtwork />
@@ -45,18 +50,20 @@ const directions = [
         <div><p class="eyebrow">Знання, які можуть стати опорою</p><h2>Матеріали для відновлення</h2></div><a
           class="text-link"
           href="/vidnovlennia">Усі матеріали →</a>
-      </div><p class="demo-note">Демонстраційні матеріали. Перевірений зміст буде додано пізніше.</p><div
+      </div><p class="demo-note">Практичні матеріали та перевірені ресурси для підтримки й відновлення.</p><div
         class="card-grid"
       >
         {
-          recovery
-            .slice(0, 3)
+          homeRecovery
             .map((e, index) => (
               <ContentCard
                 title={e.data.title}
                 description={e.data.description}
                 category={e.data.category}
                 href={'/vidnovlennia/' + e.data.slug}
+                image={e.data.image}
+                youtubeUrl={e.data.video}
+                compactMedia={true}
                 demo={e.data.demo}
                 index={index}
               />
@@ -70,13 +77,16 @@ const directions = [
       <div><p class="eyebrow">Кожен шлях має значення</p><h2>Шлях відновлення</h2></div><a
         class="text-link"
         href="/istorii">Усі історії →</a>
-    </div><p class="demo-note">Макети історій без реальних біографій і персональних даних.</p><div class="card-grid">
+    </div><p class="demo-note">Історії людей, які проходять власний шлях відновлення та повернення до активного життя.</p><div class="card-grid">
       {
         stories.map((e, index) => (
           <ContentCard
             title={e.data.title}
             description={e.data.excerpt}
             href={'/istorii/' + e.data.slug}
+            image={e.data.image}
+            youtubeUrl={e.data.videos[0]?.url}
+            compactMedia={true}
             category="Історія відновлення"
             demo={e.data.demo}
             index={index}

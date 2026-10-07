@@ -1,5 +1,18 @@
 # DONE
 
+- 2026-10-07: all films listing cards reuse recovery's shared ContentCard/YouTube
+  thumbnail utility and failure fallback: existing poster cover -> videos[0] HQ
+  thumbnail -> decorative art. Future multi-video records work without code changes.
+  Real first-series ID remains JWTZF3lM4PM (lowercase l); content/schema unchanged.
+  Existing optional poster upload is labelled «Обкладинка» in Decap; no new fields.
+  Only film img-src adds https://i.ytimg.com; player/CSP directives otherwise unchanged.
+  Homepage/design/assets, other collections, OAuth/permissions/CI/noindex untouched.
+  PASS: build/lint/TypeScript/parser tests; existing smoke/approved visual/17-route
+  browser checks; real local Decap cover upload/save -> build -> card priority;
+  future first-video/own-cover/no-video/draft/demo fixtures; 320/390/1600 no overflow,
+  130px/object-fit/alt/lazy and network/placeholder fallbacks. Fixtures/media removed,
+  loopback proxy stopped. Publication follows protected PR CI/Admin/Pages workflow.
+
 - 2026-10-07: recovery listing cards reuse the existing YouTube parser for fixed
   i.ytimg.com/vi/<ID>/hqdefault.jpg thumbnails (no download/API/tracking parameters).
   Existing CMS image/«Обкладинка» has priority; absent video/cover or failed/missing HQ

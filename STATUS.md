@@ -1,5 +1,27 @@
 # DONE
 
+- 2026-10-07: owner-approved story «Коли глина повертає до життя: історії Руслана
+  Рижка та Сергія Райляна» at /istorii/hlyna-ruslan-ryzhko-serhii-railian/.
+  Supplied text/excerpt retained; source «ЕтноЧари» as text because no confirmed
+  URL exists in prepared records. No guessed links, dates of injuries, identities
+  of mentor, diagnoses or claims of treatment. Publication date is 7 October 2026.
+  Four owner images matched by content: working-with-clay montage as custom cover;
+  Ruslan portrait and pottery, Serhii pottery inline at the requested positions.
+  Sharp WebP quality 88, original 1080x1280 proportions, 465,164 bytes combined,
+  no EXIF/XMP/IPTC; embedded captions/text preserved and input originals retained.
+  Existing stories schema/Decap cover/body/source fields unchanged. Only the new
+  cover uses the existing contain pattern in listing CSS to keep face/hands/cup
+  visible within the unchanged 192px card area; other covers remain unchanged.
+  Homepage code/Hero/layout unchanged; its existing stories feed adds this entry.
+  Existing decorative cover alt model retained, three meaningful inline alts.
+  PASS: build/lint/TypeScript/parser; smoke/approved homepage/23-route browser
+  checks; desktop/320/390 cover, inline proportions, headings/focus/no overflow;
+  actual local Decap stories title/source/cover/three inline images load, fixture
+  edit/upload/save/build retains slug/date/source/body and absent URL/video;
+  draft/demo excluded. Fixtures removed and localhost proxy stopped.
+  No other content, design, OAuth, roles, CI, CSP, noindex or domain changes.
+  Publication follows required PR CI, owner merge and automatic Pages deployment.
+
 - 2026-10-07: approved event «День разом: екскурсія до музею Пирогова та пікнік»
   at /podii/den-razom-muzei-pyrohova-piknik/, event date 2026-10-03 displayed as
   «3 жовтня 2026 року», with no invented time/location/identities/medical claims.

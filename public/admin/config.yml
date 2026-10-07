@@ -130,7 +130,7 @@ collections:
         widget: text
         required: true
       - name: image
-        label: Зображення
+        label: Обкладинка
         widget: image
         required: false
         choose_url: false
@@ -145,6 +145,32 @@ collections:
         format: YYYY-MM-DDTHH:mm:ssZ
         picker_utc: false
         time_format: false
+      - name: videos
+        label: Відео YouTube
+        widget: list
+        required: false
+        default: []
+        summary: '{{fields.url}}'
+        hint: Без обкладинки картка використовує прев'ю першого відео. Порядок можна змінити.
+        fields:
+          - name: url
+            label: Посилання YouTube
+            widget: string
+            required: true
+            pattern:
+              - ^https://(?:youtu\.be/[A-Za-z0-9_-]{11}/?(?:[?#][^\s]*)?|(?:(?:www\.|m\.)?youtube\.com)/watch\?[^\s]*v=[A-Za-z0-9_-]{11}(?:[&#][^\s]*)?)$
+              - Вставте HTTPS-посилання Поділитися або watch з YouTube.
+      - name: source
+        label: Джерело
+        widget: string
+        required: false
+      - name: externalUrl
+        label: URL джерела
+        widget: string
+        required: false
+        pattern:
+          - ^https://[^\s/?#]+[^\s]*$
+          - Посилання має починатися з https://.
       - name: anonymous
         label: Анонімна історія
         widget: boolean

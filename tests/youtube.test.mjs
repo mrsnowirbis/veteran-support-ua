@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { youtubeId } from '../src/utils/youtube.ts'
 
 test('all approved series and share/watch tracking URLs resolve to an ID only', () => {
-  for (const id of ['JWTZF3lM4PM', '4V2dj40tKY4', 'aZUTd7QV3dU', 'o3ISSODPPO8']) {
+  for (const id of ['JWTZF3lM4PM', '4V2dj40tKY4', 'aZUTd7QV3dU', 'o3ISSODPPO8', 'h2FSXhe5HEg']) {
     assert.equal(youtubeId(`https://youtu.be/${id}?si=tracking`), id)
     assert.equal(youtubeId(`https://www.youtube.com/watch?v=${id}&feature=shared`), id)
   }

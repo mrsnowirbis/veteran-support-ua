@@ -27,6 +27,7 @@ const recovery = collection(
     publishedDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     author: text,
+    externalUrl: external.optional(),
     image: media.optional(),
     video: media.optional(),
     audio: media.optional(),

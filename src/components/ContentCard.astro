@@ -40,6 +40,8 @@ const thumbnail = !image && youtubeUrl ? youtubeThumbnail(youtubeUrl) : undefine
 </article>
 <style>
   .cover { width: 100%; height: 12rem; object-fit: cover; }
+  /* Keep the face and book visible together in this portrait, without enlarging cards. */
+  .cover[src="/uploads/stories/andrii-petruk-book.webp"] { object-fit: contain; }
   .youtube-thumbnail { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
   .youtube-thumbnail[hidden] { display: none; }
 </style>

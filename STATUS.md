@@ -1,5 +1,31 @@
 # DONE
 
+- 2026-10-08: owner-approved event «Рушник рутенських псевдо: історія, створена
+  власноруч» at /podii/rushnyk-rutenskykh-psevdo/. Supplied event date 2027-01-28
+  is retained exactly and displayed as «28 січня 2027 року»; the existing listing
+  places it under upcoming events. No invented time, location, identities, callsign
+  list, historical dating or medical claims. Programme description is attributed
+  to the project authors; ІнфоВАРТА attribution and the supplied Facebook link
+  are in the editable body. Facebook facts are supplied by the owner.
+  Five owner images matched by content: result/process collage as cover; general
+  table scene, printing, shared work and fragment collage inline. Sharp WebP
+  quality 88, 956,372 bytes combined, original proportions and embedded text/
+  pixelation preserved; no EXIF/XMP/IPTC, original attachments retained locally.
+  Only this event cover uses contain in the existing 192px listing image area
+  to preserve the whole collage; other cards and global design remain unchanged.
+  Existing events schema, cover/alt/body image editing and draft/demo reused.
+  PASS: build/lint/TypeScript/parser, smoke/approved homepage and 25-route browser
+  tests; desktop/320/390 cover, four inline images, Ukrainian date, headings,
+  keyboard/focus/source, no broken local assets/links, overflow or CSP/JS errors.
+  Real Decap events loads the entry and five images; fixture edit/upload/save/build
+  retains the exact event date, alt, four inline images and source; draft/demo
+  filtering and timed events unchanged. Fixtures removed and local proxy stopped.
+  npm audit reports 9 existing vulnerabilities (7 high, 2 moderate); dependencies
+  and lockfile unchanged. Remediation remains separate from content publication.
+  No homepage/Header/Footer, other content, schema, CSP, OAuth, permissions, CI,
+  Cloudflare architecture, noindex or domain changes. Publication follows required
+  PR CI, owner merge and automatic Pages deployment, then live verification.
+
 - 2026-10-07: owner-approved recovery material «Не стрес нами керує, а ми ним:
   практичні поради психолога Тетяни Марініної» at /vidnovlennia/ne-stres-namy-keruie/,
   category «Стабілізаційні вправи». ArmyInform original page checked: psychologist

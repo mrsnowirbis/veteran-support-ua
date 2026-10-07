@@ -3,6 +3,7 @@ import { render, getEntry } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import DefaultLayout from '../layouts/DefaultLayout.astro'
 import SafeContent from './SafeContent.astro'
+import YouTubeVideo from './YouTubeVideo.astro'
 import { dateLabel, dateTimeLabel, isExpired, visibleContent, localMedia } from '../utils/content'
 interface Props { entry: CollectionEntry<'events' | 'stories' | 'recovery' | 'films' | 'education'> }
 const { entry } = Astro.props
@@ -15,7 +16,7 @@ const image = 'image' in data ? data.image : 'poster' in data ? data.poster : un
 const related = entry.collection === 'stories'
   ? (await Promise.all(entry.data.relatedMaterials.map((ref) => getEntry(ref)))).filter((item) => item && visibleContent(item)) : []
 ---
-<DefaultLayout title={data.title} description={`${data.title}. ${description}`} image={image} type="article">
+<DefaultLayout title={data.title} description={`${data.title}. ${description}`} image={image} type="article" allowYouTube={entry.collection === 'films' && entry.data.videos.length > 0}>
   <article class="shell reading section publication">
     <a class="back-link" href={'/' + section}>← {label}</a>
     <h1>{data.title}</h1>
@@ -31,19 +32,31 @@ const related = entry.collection === 'stories'
       {entry.data.updatedDate && <p>Оновлено: <time datetime={entry.data.updatedDate.toISOString()}>{dateLabel(entry.data.updatedDate)}</time></p>}
     </>}
     {entry.collection === 'stories' && entry.data.anonymous && <p class="muted">Анонімна історія</p>}
-    {entry.collection === 'films' && <>
-      <p>{entry.data.year} · {entry.data.themes.join(' · ')}</p>
-      {entry.data.contentWarning && <p class="notice">Зверніть увагу: {entry.data.contentWarning}</p>}
-      {entry.data.externalUrl && <p><a href={entry.data.externalUrl} rel="noopener noreferrer">Офіційна сторінка фільму</a></p>}
-    </>}
     {entry.collection === 'education' && <>
       <p>{entry.data.category}{entry.data.provider && ` · ${entry.data.provider}`}</p>
       {entry.data.deadline && <p>{isExpired(entry.data.deadline) ? 'Термін минув · ' : 'Подати заявку до '}{dateLabel(entry.data.deadline)}</p>}
       {entry.data.externalUrl && !isExpired(entry.data.deadline) && <p><a href={entry.data.externalUrl} rel="noopener noreferrer">Умови участі</a></p>}
     </>}
     <p class="lead">{description}</p>
+    {entry.collection === 'films' && <>
+      <div class="film-credits">
+        {entry.data.studio && <p>Студія «{entry.data.studio}»</p>}
+        {entry.data.author && <p>{entry.data.author}</p>}
+        {entry.data.year !== undefined && <p>{entry.data.year}</p>}
+        {entry.data.participants && <p>{entry.data.participants}</p>}
+      </div>
+    </>}
     {image && (localMedia(image) ? <img class="publication-image" src={image} alt="" loading="eager" decoding="async" /> : <p><a href={image} rel="noopener noreferrer">Переглянути зображення на зовнішньому сайті</a></p>)}
     <SafeContent><Content /></SafeContent>
+    {entry.collection === 'films' && <>
+      {entry.data.contentWarning && <p class="notice">{entry.data.contentWarning}</p>}
+      {entry.data.videos.map((video, index) => <section class="category-section">
+        <h2>Серія {index + 1}{video.title && ` — ${video.title}`}</h2>
+        <YouTubeVideo url={video.url} title={`Серія ${index + 1}${video.title ? ` — ${video.title}` : ''}: ${entry.data.title}`} />
+        {video.description && <p>{video.description}</p>}
+      </section>)}
+      {entry.data.externalUrl && <p><a href={entry.data.externalUrl} rel="noopener noreferrer">Оригінальний YouTube-матеріал</a></p>}
+    </>}
     {entry.collection === 'recovery' && <>
       {entry.data.audio && <p><a href={entry.data.audio} rel="noopener noreferrer">Аудіоматеріал</a></p>}
       {entry.data.video && <p><a href={entry.data.video} rel="noopener noreferrer">Відеоматеріал</a></p>}
@@ -55,5 +68,6 @@ const related = entry.collection === 'stories'
 </DefaultLayout>
 <style>
   .publication { overflow-wrap: anywhere; }
+  .film-credits { margin-block: 1rem 1.5rem; }
   .publication-image { display: block; width: 100%; height: auto; max-height: 38rem; object-fit: contain; border-radius: 1rem; margin-block: 1.5rem; }
 </style>

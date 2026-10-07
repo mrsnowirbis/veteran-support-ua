@@ -1,0 +1,49 @@
+---
+import { youtubeId } from '../utils/youtube'
+interface Props { url: string; title: string }
+const { url, title } = Astro.props
+const id = youtubeId(url)
+---
+{id && <youtube-video>
+  <p class="muted">Плеєр завантажиться після натискання. Після цього дані про перегляд обробляє YouTube.</p>
+  <div class="video-frame" hidden>
+    <button class="button" type="button" hidden aria-label={`Показати відео: ${title}`}>Показати відео</button>
+  </div>
+  <template>
+    <iframe
+      src={`https://www.youtube-nocookie.com/embed/${id}`}
+      title={title}
+      width="640" height="360"
+      loading="lazy"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allow="fullscreen; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </template>
+  <p><a href={`https://www.youtube.com/watch?v=${id}`} rel="noopener noreferrer">Переглянути на YouTube — {title}</a></p>
+</youtube-video>}
+<script>
+  class YouTubeVideo extends HTMLElement {
+    connectedCallback() {
+      const button = this.querySelector('button')
+      const template = this.querySelector('template')
+      const container = this.querySelector('.video-frame')
+      if (!button || !template || !container) return
+      container.removeAttribute('hidden')
+      button.hidden = false
+      button.addEventListener('click', () => {
+        container.append(template.content.cloneNode(true))
+        button.remove()
+        container.querySelector('iframe')?.focus()
+      }, { once: true })
+    }
+  }
+  if (!customElements.get('youtube-video')) customElements.define('youtube-video', YouTubeVideo)
+</script>
+<style>
+  youtube-video { display: block; }
+  .video-frame { display: grid; place-items: center; width: 100%; min-width: 0; aspect-ratio: 16 / 9; min-height: 200px; background: var(--soft); border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; }
+  .video-frame :global(iframe) { display: block; width: 100%; min-width: 0; height: 100%; min-height: 200px; border: 0; }
+  button[hidden] { display: none; }
+  .video-frame[hidden] { display: none; }
+</style>

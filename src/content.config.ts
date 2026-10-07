@@ -1,6 +1,7 @@
 import { defineCollection, reference } from 'astro:content'
 import { glob } from 'astro/loaders'
 import { z } from 'astro/zod'
+import { youtubeId } from './utils/youtube'
 
 const text = z.string().min(1)
 const slug = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
@@ -49,9 +50,17 @@ const films = collection(
   'films',
   z.object({
     title: text,
-    year: z.number().int(),
+    year: z.number().int().optional(),
     description: text,
     themes: z.array(text),
+    studio: text.optional(),
+    author: text.optional(),
+    participants: text.optional(),
+    videos: z.array(z.object({
+      url: text.refine((value) => Boolean(youtubeId(value)), 'Use a valid HTTPS YouTube share/watch URL'),
+      title: text.optional(),
+      description: text.optional(),
+    })).default([]),
     contentWarning: text.optional(),
     poster: media.optional(),
     externalUrl: external.optional(),

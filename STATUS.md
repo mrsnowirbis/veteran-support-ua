@@ -1,5 +1,17 @@
 # DONE
 
+- 2026-10-07: prepared approved «Донбаський синдром» material for publication through PR/CI.
+  Studio «Віател», film by Сергій Волков; full Ukrainian introduction, exact warning,
+  four supplied YouTube series. No invented year, episode details or participant names.
+  Existing films schema/Decap support optional credits/year/participants and ordered videos.
+  Click-to-load youtube-nocookie, lazy iframe, strict URL parsing, keyboard/no-JS fallback.
+  Film-route CSP exception only; homepage/design, other collections, OAuth and CI unchanged.
+  Local build/lint/TypeScript, security and browser tests, real Decap edit/save → fixture
+  build/render PASS; fixture removed. External playback requires production verification.
+  No dependencies, credentials, local event/uploads or unrelated OAuth changes included.
+  Deployment follows existing protected main workflow; noindex remains enabled.
+
+
 - Stage 6 CI/CMS E2E, 2026-10-07: PR #5 added `.github/workflows/pr-ci.yml`.
   `pull_request` to main; Node 24.19.0, npm ci, build, lint and TypeScript PASS.
   Official Actions pinned to release SHAs; contents: read, no persisted credentials,

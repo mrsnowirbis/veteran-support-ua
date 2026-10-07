@@ -39,6 +39,7 @@ interface Props {
    * Set to false to use the title as-is without appending site name
    */
   useTitleTemplate?: boolean
+  allowYouTube?: boolean
 }
 
 const {
@@ -49,6 +50,7 @@ const {
   author = themeConfig.seo.author ?? '',
   type = 'website',
   useTitleTemplate = true,
+  allowYouTube = false,
 } = Astro.props
 
 // For social sharing, we need the full absolute URL
@@ -68,7 +70,7 @@ const imageUrl = imagePath ? new URL(imagePath, Astro.site).href : undefined
       import.meta.env.PROD && (
         <meta
           http-equiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"
+          content={"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'" + (allowYouTube ? '; frame-src https://www.youtube-nocookie.com' : '')}
         />
       )
     }

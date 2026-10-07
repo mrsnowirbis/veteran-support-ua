@@ -1,0 +1,22 @@
+import test from 'node:test'
+import assert from 'node:assert/strict'
+import { youtubeId } from '../src/utils/youtube.ts'
+
+test('all approved series and share/watch tracking URLs resolve to an ID only', () => {
+  for (const id of ['JWTZF3IM4PM', '4V2dj40tKY4', 'aZUTd7QV3du', 'o3ISSODPPO8']) {
+    assert.equal(youtubeId(`https://youtu.be/${id}?si=tracking`), id)
+    assert.equal(youtubeId(`https://www.youtube.com/watch?v=${id}&feature=shared`), id)
+  }
+})
+
+test('reject unsafe schemes, spoofed hosts, credentials, ambiguous and malformed IDs', () => {
+  for (const url of [
+    'javascript:alert(1)', 'http://youtu.be/JWTZF3IM4PM', '//youtu.be/JWTZF3IM4PM',
+    'https://youtu.be.evil.test/JWTZF3IM4PM', 'https://evil.test/watch?v=JWTZF3IM4PM',
+    'https://user:password@youtu.be/JWTZF3IM4PM', 'https://youtu.be:8443/JWTZF3IM4PM',
+    'https://youtu.be/JWTZF3IM4PM/extra', 'https://youtu.be/%4aWTZF3IM4PM',
+    'https://youtube.com/watch?v=JWTZF3IM4PM&v=4V2dj40tKY4',
+    'https://youtube.com/watch?v=%3Cscript%3E', 'https://youtu.be/short',
+    ' https://youtu.be/JWTZF3IM4PM', 'https://youtu.be/\\JWTZF3IM4PM',
+  ]) assert.equal(youtubeId(url), undefined, url)
+})

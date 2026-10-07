@@ -24,6 +24,20 @@ Admin перевіряє зміст, права на media та `draft: false` �
 місце, онлайн/офлайн і реєстрацію за наявності. Окремого URL онлайн-зустрічі немає у schema.
 Минулі події залишаються в архіві; дата/термін оновлюються при наступній статичній збірці.
 
+## Кінотерапія: документальні цикли
+
+Один запис може містити кілька відео у списку «Серії / відео». Вставте HTTPS-посилання
+YouTube; назву й опис серії можна залишити порожніми та доповнити пізніше. Нумерація
+відповідає порядку списку. Студія, авторство, учасники та рік — необов'язкові;
+публікуйте лише підтверджені відомості. Невідомий рік не заповнювати.
+
+«Донбаський синдром» підготовлено за підтвердженими власником даними: студія «Віател»,
+фільм Сергія Волкова, чотири серії. Назви/описи серій, рік та імена учасників не вигадані.
+YouTube-плеєр завантажується лише після натискання; пряме посилання працює без JavaScript.
+Вбудовування — через `youtube-nocookie`, без autoplay, з lazy loading. Прев'ю з YouTube
+не завантажуються і не копіюються в Git. URL перевіряє schema, iframe створює лише
+довірений Astro-компонент; iframe у Markdown залишається забороненим.
+
 ## Media
 
 Кожна колекція: `public/uploads/<collection>/` → `/uploads/<collection>/...`.
@@ -70,7 +84,10 @@ Git зберігає історію. Admin перевіряє тип/розмі�
 не приймає HTML/SVG/виконувані файли. Дозволені колекції UI не обмежують файлові права Git.
 
 Markdown очищується під час build наявним sanitize-html: без scripts, event handlers, inline styles,
-iframe та небезпечних URL. MDX не використовується. Публічні CSP/headers не змінено.
+iframe та небезпечних URL. MDX не використовується. Лише `/kinoterapiia/*` отримує
+`frame-src https://www.youtube-nocookie.com`; meta CSP дозволяє цей host лише матеріалам
+із відео. Решта публічної CSP та admin CSP збережені. iframe передає тільки origin через
+`strict-origin-when-cross-origin`, як вимагає [YouTube](https://developers.google.com/youtube/terms/required-minimum-functionality#api-client-identity-and-credentials).
 Admin-only CSP лишається як у пілоті: точний CDN script, `unsafe-eval` для AJV, inline styles,
 GitHub API/avatars, blob/data media та loopback proxy. Inline scripts заборонені;
 X-Frame-Options DENY/noindex/no-store збережені. Заголовки Cloudflare перевірити після deployment.

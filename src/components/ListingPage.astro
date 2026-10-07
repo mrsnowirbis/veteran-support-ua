@@ -112,7 +112,7 @@ const eventGroups = splitEvents(data.events)
                         title={e.data.title}
                         description={e.data.description}
                         category={e.data.themes.join(' · ')}
-                        meta={(e.data.demo ? 'Умовний рік: ' : 'Рік: ') + e.data.year}
+                        meta={e.data.year === undefined ? undefined : (e.data.demo ? 'Умовний рік: ' : 'Рік: ') + e.data.year}
                         href={contentPath('kinoterapiia', e.id)}
                         image={e.data.poster}
                         demo={e.data.demo}

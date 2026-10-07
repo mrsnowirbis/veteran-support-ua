@@ -5,6 +5,12 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'
 
+# Trusted film components can embed only the privacy-enhanced YouTube player.
+# Other public routes retain their original policy; Markdown cannot embed HTML players.
+/kinoterapiia/*
+  ! Content-Security-Policy
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; frame-src https://www.youtube-nocookie.com
+
 # Decap has its own early meta CSP in admin/index.html. Detach only the inherited
 # policy here: adding another HTTP CSP would intersect with the public policy.
 /admin/*

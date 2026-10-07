@@ -12,9 +12,9 @@ contentWarning: Матеріал містить розмови про бойов
 studio: Віател
 author: Фільм Сергія Волкова
 videos:
-  - url: https://youtu.be/JWTZF3IM4PM
+  - url: https://youtu.be/JWTZF3lM4PM
   - url: https://youtu.be/4V2dj40tKY4
-  - url: https://youtu.be/aZUTd7QV3du
+  - url: https://youtu.be/aZUTd7QV3dU
   - url: https://youtu.be/o3ISSODPPO8
 draft: false
 demo: false

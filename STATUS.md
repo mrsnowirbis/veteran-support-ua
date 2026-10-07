@@ -1,5 +1,15 @@
 # DONE
 
+- 2026-10-07: correct owner-confirmed YouTube IDs: series 1 `JWTZF3lM4PM` (lowercase l),
+  series 3 `aZUTd7QV3dU` (final uppercase U); series 2 and 4 unchanged.
+  Parser preserves ID bytes/case, with regression tests. Film players are now ordinary
+  visible lazy youtube-nocookie iframes, responsive 16:9, named per series, fullscreen,
+  no autoplay/API/key/client script/intermediate button. Direct source links retained.
+  Existing scoped CSP unchanged. No homepage, other collections, OAuth, permissions,
+  CI architecture, domain or indexing changes. Build, lint, TypeScript, parser tests and
+  existing browser checks PASS; direct iframe/no-JS/16:9 checks PASS at 320/390/1600.
+  Publication follows PR CI/Admin/Pages.
+
 - 2026-10-07: prepared approved «Донбаський синдром» material for publication through PR/CI.
   Studio «Віател», film by Сергій Волков; full Ukrainian introduction, exact warning,
   four supplied YouTube series. No invented year, episode details or participant names.

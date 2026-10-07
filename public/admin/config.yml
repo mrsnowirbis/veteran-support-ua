@@ -242,9 +242,16 @@ collections:
         picker_utc: false
         time_format: false
       - name: author
-        label: Автор
+        label: Авторство / джерело
         widget: string
         required: true
+      - name: externalUrl
+        label: Сайт джерела
+        widget: string
+        required: false
+        pattern:
+          - ^https://[^\s/?#]+[^\s]*$
+          - Вкажіть повну HTTPS-адресу або залиште порожнім.
       - name: image
         label: Зображення
         widget: image
@@ -255,14 +262,14 @@ collections:
             max_file_size: 2097152
         hint: JPG, PNG або WebP до 2 МБ. Лише публічні матеріали з дозволом на використання.
       - name: video
-        label: Відео
+        label: Відео / посилання YouTube
         widget: file
         required: false
-        choose_url: false
+        choose_url: true
         media_library:
           config:
             max_file_size: 10485760
-        hint: Лише публічні медіа до 10 МБ; перевірте права та відсутність приватних даних.
+        hint: Вставте HTTPS-посилання youtu.be або youtube.com/watch через вибір URL, без коду iframe. Або завантажте публічний файл до 10 МБ з дозволом на використання.
       - name: audio
         label: Аудіо
         widget: file

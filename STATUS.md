@@ -1,5 +1,19 @@
 # DONE
 
+- 2026-10-07: recovery material «Як допомогти тим, хто страждає від миттєвої реакції
+  на надзвичайні ситуації та кризу?» uses owner-confirmed h2FSXhe5HEg, neutral supplied
+  introduction, exact CSPC/Алекс Маляр credit and https://www.icspc.org/en source.
+  No inferred techniques/biographies/medical advice. Existing recovery.video reused;
+  only optional externalUrl added. Decap accepts video URL/file and source credit/URL.
+  Shared YouTube parser/component renders trusted nocookie/lazy/fullscreen/16:9 iframe;
+  non-YouTube media remain links. Exact host CSP exception scoped to recovery routes;
+  per-page meta exception only for valid YouTube. Markdown iframe prohibition retained.
+  Other collections, homepage layout/assets, OAuth, CI, permissions/domain/noindex untouched.
+  PASS: build/lint/TypeScript/parser tests; existing smoke/approved visual/all-route browser
+  checks; recovery 320/390/1600, 16:9/no-JS, source/warning and scoped CSP checks.
+  Real local Decap edit/save -> fixture build/render PASS; fixture removed/proxy stopped.
+  Production playback verification follows the protected PR/CI/Admin/Pages workflow.
+
 - 2026-10-07: correct owner-confirmed YouTube IDs: series 1 `JWTZF3lM4PM` (lowercase l),
   series 3 `aZUTd7QV3dU` (final uppercase U); series 2 and 4 unchanged.
   Parser preserves ID bytes/case, with regression tests. Film players are now ordinary

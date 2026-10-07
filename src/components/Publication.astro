@@ -4,6 +4,7 @@ import type { CollectionEntry } from 'astro:content'
 import DefaultLayout from '../layouts/DefaultLayout.astro'
 import SafeContent from './SafeContent.astro'
 import YouTubeVideo from './YouTubeVideo.astro'
+import { youtubeId } from '../utils/youtube'
 import { dateLabel, dateTimeLabel, isExpired, visibleContent, localMedia } from '../utils/content'
 interface Props { entry: CollectionEntry<'events' | 'stories' | 'recovery' | 'films' | 'education'> }
 const { entry } = Astro.props
@@ -15,8 +16,9 @@ const description = 'excerpt' in data ? data.excerpt : data.description
 const image = 'image' in data ? data.image : 'poster' in data ? data.poster : undefined
 const related = entry.collection === 'stories'
   ? (await Promise.all(entry.data.relatedMaterials.map((ref) => getEntry(ref)))).filter((item) => item && visibleContent(item)) : []
+const recoveryYouTube = entry.collection === 'recovery' && entry.data.video && youtubeId(entry.data.video)
 ---
-<DefaultLayout title={data.title} description={`${data.title}. ${description}`} image={image} type="article" allowYouTube={entry.collection === 'films' && entry.data.videos.length > 0}>
+<DefaultLayout title={data.title} description={`${data.title}. ${description}`} image={image} type="article" allowYouTube={Boolean(recoveryYouTube) || (entry.collection === 'films' && entry.data.videos.length > 0)}>
   <article class="shell reading section publication">
     <a class="back-link" href={'/' + section}>← {label}</a>
     <h1>{data.title}</h1>
@@ -59,7 +61,10 @@ const related = entry.collection === 'stories'
     </>}
     {entry.collection === 'recovery' && <>
       {entry.data.audio && <p><a href={entry.data.audio} rel="noopener noreferrer">Аудіоматеріал</a></p>}
-      {entry.data.video && <p><a href={entry.data.video} rel="noopener noreferrer">Відеоматеріал</a></p>}
+      {entry.data.video && (recoveryYouTube
+        ? <YouTubeVideo url={entry.data.video} title={entry.data.title} />
+        : <p><a href={entry.data.video} rel="noopener noreferrer">Відеоматеріал</a></p>)}
+      {entry.data.externalUrl && <p><a href={entry.data.externalUrl} rel="noopener noreferrer">Сайт джерела</a></p>}
     </>}
     {related.length > 0 && <section class="category-section"><h2>Пов’язані матеріали</h2><ul class="related-links">
       {related.map((item) => item && <li><a href={'/vidnovlennia/' + item.data.slug}>{item.data.title}</a></li>)}

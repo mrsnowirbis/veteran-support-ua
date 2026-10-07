@@ -195,7 +195,7 @@ const hasYouTubeThumbnails =
                   <time class="event-date" datetime={e.data.date.toISOString()}>{dateTimeLabel(e.data.date)}</time>
                   <div>
                     {e.data.demo && <span class="demo-tag">Демонстраційна подія</span>}
-                    {localMedia(e.data.image) && <img class="event-cover" src={e.data.image} alt="" loading="lazy" decoding="async" />}
+                    {localMedia(e.data.image) && <img class="event-cover" src={e.data.image} alt={e.data.imageAlt ?? ''} loading="lazy" decoding="async" />}
                     <h3><a href={contentPath('podii', e.id)}>{e.data.title}</a></h3>
                     <p>{e.data.description}</p>
                     <p>

@@ -104,6 +104,7 @@ const events = collection(
     online: z.boolean().default(false),
     registrationUrl: external.optional(),
     image: media.optional(),
+    imageAlt: text.optional(),
     ...state,
   }),
 )

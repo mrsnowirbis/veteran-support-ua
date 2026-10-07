@@ -72,6 +72,11 @@ collections:
           config:
             max_file_size: 2097152
         hint: JPG, PNG або WebP до 2 МБ. Лише публічні матеріали з дозволом на використання.
+      - name: imageAlt
+        label: Опис обкладинки для доступності
+        widget: string
+        required: false
+        hint: Коротко опишіть фото, без непідтверджених імен або статусів людей.
       - name: draft
         label: Приховати на сайті (чернетка)
         widget: boolean

@@ -81,4 +81,7 @@ const recoveryYouTube = entry.collection === 'recovery' && entry.data.video && y
   .publication { overflow-wrap: anywhere; }
   .film-credits { margin-block: 1rem 1.5rem; }
   .publication-image { display: block; width: 100%; height: auto; max-height: 38rem; object-fit: contain; border-radius: 1rem; margin-block: 1.5rem; }
+  /* Compact personal illustration; other article images retain their existing presentation. */
+  .publication :global(.article-body img[src="/uploads/recovery/ptashechka-chevron.png"]) { display: block; width: 20rem; max-width: 100%; height: auto; border-radius: 0; margin-inline: auto; }
+  .publication :global(.article-body p:has(> img[src="/uploads/recovery/ptashechka-chevron.png"]) + p) { text-align: center; }
 </style>

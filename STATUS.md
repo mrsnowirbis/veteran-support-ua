@@ -1,46 +1,39 @@
-# IN PROGRESS
-
-- 2026-10-08: recovery draft ««Ми не вміємо малювати»: як працює творча
-  майстерня «Пташки»» prepared on codex/ptashka-creative-workshop in the separate
-  2026-10-08/recovery-astro-schema-decap-cms-listing/site checkout.
-  Slug tvorcha-maisternia-ptashky; draft:true deliberately excludes it from public
-  output until the mandatory personal chevron 1000003204.png and photographs
-  1000007700.jpg / 1000007686.jpg are supplied. Only five JPG attachments arrived;
-  the three missing files were not found in Codex/Documents/Pictures/Downloads/Desktop.
-  Body comments mark their requested positions; no broken image references or
-  invented substitutes. Add the chevron immediately after the first introduction
-  of Ірина with exact supplied alt and caption; preserve PNG alpha and proportions,
-  use a compact article-local image rule, never as cover. Then add the two missing
-  photographs in their supplied order/positions and rerun complete media checks.
-  Approved title, summary and paragraphs retained without diagnoses, treatment
-  claims, participant identification, unconfirmed names/locations or session dates.
-  Publication date 2026-10-08 is separate from the undated workshop sessions;
-  the required author/source field identifies the workshop, not an inferred author.
-  «Творче відновлення» appended to existing Astro enum, Decap select and listing
-  categories; existing values/order unchanged, no other category mappings found.
-  No new schema fields. Editor note added to docs/CMS.md.
-  Supplied 1000007695 cover and 1000007697/7693/7688 inline photographs converted
-  through the existing Sharp rotate/resize/WebP pipeline (quality 82, effort 6),
-  514,306 bytes total; original pixel dimensions and proportions retained.
-  Decoder and RIFF chunk checks confirm no EXIF/XMP/IPTC/ICC; no face processing.
-  Original attachments stay local/ignored. Optional tulip photograph not added.
-  MP4 not supplied or used; existing video architecture untouched.
-  PASS: build, lint, TypeScript, four existing YouTube tests. Pinned actual Decap
-  local UI loads the draft and preserves title/body/cover/inline alt; a disposable
-  fixture selects the new category, edits/saves description and builds successfully.
-  Fixture detail/listing/homepage at 1600/390/320: local media loads, inline aspect
-  ratios and cover contain, exact alt/headings, keyboard/focus, no overflow, CSP/JS
-  errors. The existing homepage limit remains three recovery cards; custom cover
-  uses the existing shared card implementation. Fixture removed and production
-  build confirms the real draft is absent. Ignored QA scripts/screenshots available
-  in work/ and outputs/. Full chevron/missing-photo checks are pending.
-  npm audit retains the nine previously documented findings (seven high, two
-  moderate); dependencies and lockfile unchanged. No homepage/design/CSP/OAuth,
-  CI, permissions, noindex or hosting changes. No remote PR/merge/deployment yet.
-  Resume with the three missing files, complete checks, set draft:false, then
-  required PR CI → merge → automatic Cloudflare Pages → production verification.
-
 # DONE
+
+- 2026-10-08: owner-approved recovery material «Ми не вміємо малювати»: як працює
+  творча майстерня «Пташки» at /vidnovlennia/tvorcha-maisternia-ptashky/.
+  Supplied title, summary and text retained without diagnoses, treatment effects,
+  official therapy status, inferred qualifications, participant identities or
+  unconfirmed institutions/session dates. Publication date is 2026-10-08;
+  required author/source field identifies the workshop, not an inferred writer.
+  New category «Творче відновлення» appended consistently to Astro enum, Decap
+  select and listing/category anchors. Existing categories/order/content unchanged;
+  no new schema fields or category mappings. Editor documentation updated.
+  Cover: 1000007695. Inline order: personal chevron 1000003204, owner-supplied
+  replacement process photograph 1000007692 (instead of absent 1000007700),
+  1000007697, 1000007693, 1000007686, 1000007688. Exact requested alt descriptions;
+  personal chevron caption follows its first introduction of Ірина. The chevron
+  is PNG 697x906 with alpha, limited to 320px through an existing article-local
+  source selector; no background added or global image styling changed.
+  Six photos use existing Sharp rotate/resize/WebP pipeline, quality 82/effort 6,
+  original dimensions/proportions retained. PNG is lossless and every RGBA pixel
+  matches its source. All seven assets total 2,410,341 bytes: no EXIF/XMP/IPTC/ICC
+  or GPS; WebP and PNG chunks verified. No face processing; originals stay ignored.
+  Optional tulip photograph and absent MP4 not used; no new video architecture.
+  Existing recovery CMS fields and shared custom-cover/YouTube/placeholder card
+  logic reused; homepage limit stays three, with no layout/sorting/code changes.
+  PASS: build, lint, TypeScript, four YouTube tests, 26-route browser regression
+  (SEO/semantics/headings/local links/assets/anchors/320/390/1600/console/CSP),
+  targeted detail/listing/homepage image loading/aspect ratio/alt/compact alpha
+  chevron/caption/keyboard/focus/no overflow. Actual pinned Decap loads the entry
+  and all editable alt fields; disposable fixture selects the new category and
+  edit/save/build preserves date/slug/body/six inline images/caption/cover and
+  absent video/audio. Fixture removed and loopback proxy stopped; QA artifacts
+  stay in ignored work/outputs. npm audit retains nine previously documented
+  findings (seven high, two moderate); dependencies and lockfile unchanged.
+  No homepage/Header/Footer/other content, OAuth, CSP, CI, permissions, noindex
+  or hosting changes. Release uses required PR CI, authorised merge and automatic
+  Cloudflare Pages deployment, followed by live article/CMS/category/home checks.
 
 - 2026-10-08: owner-approved homepage preview fix. Recovery and story feeds now
   pass their existing image/video fields to ContentCard; the shared youtubeThumbnail

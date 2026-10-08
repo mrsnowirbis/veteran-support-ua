@@ -1,5 +1,40 @@
 # DONE
 
+- 2026-10-08: owner-approved recovery material «Ми не вміємо малювати»: як працює
+  творча майстерня «Пташки» at /vidnovlennia/tvorcha-maisternia-ptashky/.
+  Supplied title, summary and text retained without diagnoses, treatment effects,
+  official therapy status, inferred qualifications, participant identities or
+  unconfirmed institutions/session dates. Publication date is 2026-10-08;
+  required author/source field identifies the workshop, not an inferred writer.
+  New category «Творче відновлення» appended consistently to Astro enum, Decap
+  select and listing/category anchors. Existing categories/order/content unchanged;
+  no new schema fields or category mappings. Editor documentation updated.
+  Cover: 1000007695. Inline order: personal chevron 1000003204, owner-supplied
+  replacement process photograph 1000007692 (instead of absent 1000007700),
+  1000007697, 1000007693, 1000007686, 1000007688. Exact requested alt descriptions;
+  personal chevron caption follows its first introduction of Ірина. The chevron
+  is PNG 697x906 with alpha, limited to 320px through an existing article-local
+  source selector; no background added or global image styling changed.
+  Six photos use existing Sharp rotate/resize/WebP pipeline, quality 82/effort 6,
+  original dimensions/proportions retained. PNG is lossless and every RGBA pixel
+  matches its source. All seven assets total 2,410,341 bytes: no EXIF/XMP/IPTC/ICC
+  or GPS; WebP and PNG chunks verified. No face processing; originals stay ignored.
+  Optional tulip photograph and absent MP4 not used; no new video architecture.
+  Existing recovery CMS fields and shared custom-cover/YouTube/placeholder card
+  logic reused; homepage limit stays three, with no layout/sorting/code changes.
+  PASS: build, lint, TypeScript, four YouTube tests, 26-route browser regression
+  (SEO/semantics/headings/local links/assets/anchors/320/390/1600/console/CSP),
+  targeted detail/listing/homepage image loading/aspect ratio/alt/compact alpha
+  chevron/caption/keyboard/focus/no overflow. Actual pinned Decap loads the entry
+  and all editable alt fields; disposable fixture selects the new category and
+  edit/save/build preserves date/slug/body/six inline images/caption/cover and
+  absent video/audio. Fixture removed and loopback proxy stopped; QA artifacts
+  stay in ignored work/outputs. npm audit retains nine previously documented
+  findings (seven high, two moderate); dependencies and lockfile unchanged.
+  No homepage/Header/Footer/other content, OAuth, CSP, CI, permissions, noindex
+  or hosting changes. Release uses required PR CI, authorised merge and automatic
+  Cloudflare Pages deployment, followed by live article/CMS/category/home checks.
+
 - 2026-10-08: owner-approved homepage preview fix. Recovery and story feeds now
   pass their existing image/video fields to ContentCard; the shared youtubeThumbnail
   helper and failure fallback are reused. Custom cover has priority, then the

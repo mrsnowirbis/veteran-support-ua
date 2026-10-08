@@ -258,6 +258,7 @@ collections:
           - Майндфулнес
           - Психологічні рекомендації
           - Психоедукація
+          - Творче відновлення
       - name: publishedDate
         label: Дата публікації
         widget: datetime

@@ -23,7 +23,7 @@ const recovery = collection(
     title: text,
     slug,
     description: text,
-    category: z.enum(['Стабілізаційні вправи', 'Майндфулнес', 'Психологічні рекомендації', 'Психоедукація']),
+    category: z.enum(['Стабілізаційні вправи', 'Майндфулнес', 'Психологічні рекомендації', 'Психоедукація', 'Творче відновлення']),
     publishedDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     author: text,

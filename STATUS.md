@@ -1,7 +1,7 @@
 # DONE
 
-- 2026-10-08: owner-approved recovery material «Ми не вміємо малювати»: як працює
-  творча майстерня «Пташки» at /vidnovlennia/tvorcha-maisternia-ptashky/.
+- 2026-10-08: owner-approved recovery material «Як працює творча майстерня»
+  at /vidnovlennia/tvorcha-maisternia-ptashky/. Title shortened at the owner's request.
   Supplied title, summary and text retained without diagnoses, treatment effects,
   official therapy status, inferred qualifications, participant identities or
   unconfirmed institutions/session dates. Publication date is 2026-10-08;

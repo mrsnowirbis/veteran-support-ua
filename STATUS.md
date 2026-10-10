@@ -1,5 +1,24 @@
 # DONE
 
+- 2026-10-10: local, unpublished «Про нас» watercolor experiment on
+  codex/about-watercolor-experiment, based on main 6f62fdb.
+  Only pro-nas.astro is styled: existing milk background, blue/gold CSS washes
+  confined to desktop margins, compact mobile corner and a quiet title stroke.
+  Intro aligned with the existing 820px reading column; text, headings, type,
+  palette tokens, Header/Footer, SEO, scripts and content are unchanged.
+  No new images, dependencies, JavaScript, animation or components. Decorative
+  pseudo-elements have no semantic content and cannot intercept pointer input.
+  New page-only CSS: 2,437 bytes (662 gzip). All other 26 generated HTML files
+  and all existing build assets are byte-identical to the before snapshot.
+  PASS: build, lint, TypeScript, four YouTube tests and before/after headless Edge
+  visual QA at 1600/390/320: no overflow, preserved content/type/SEO/Header/Footer,
+  loaded images, keyboard focus, no CSP/console errors or external requests.
+  npm audit still reports nine existing findings (seven high, two moderate);
+  no dependency/lockfile changes. Screenshots/reports are ignored local outputs.
+  Browser-tool runtime was unavailable; existing bundled Playwright used for
+  local render verification. Other browser engines have not been checked.
+  No push, PR, merge, deployment or production change; awaits visual comparison.
+
 - 2026-10-08: owner-approved recovery material «Як працює творча майстерня»
   at /vidnovlennia/tvorcha-maisternia-ptashky/. Title shortened at the owner's request.
   Supplied title, summary and text retained without diagnoses, treatment effects,

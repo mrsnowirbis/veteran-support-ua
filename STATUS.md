@@ -1,5 +1,38 @@
 # DONE
 
+- 2026-10-10: owner-approved «Про нас» watercolor integration on
+  codex/about-watercolor-experiment, continuing the CSS experiment afd4a13.
+  pro-nas.astro replaces the pigment pseudo-elements/title stroke with the
+  supplied «Корни и опора» artwork. Desktop retains the complete landscape on
+  the right, with HTML copy on a milk surface at the left. Mobile places a
+  right-side crop below the copy; tree, roots, sprout and sunrise remain visible.
+  Local masks dissolve the artwork into the existing background. Reading
+  content, headings, type, colors, navigation, Header/Footer, SEO and scripts
+  are unchanged; no new dependencies, JS, animation or shared components.
+  Existing Sharp resize/WebP pipeline converts the 2,588,703-byte 1983x793 PNG
+  to about-roots-support.webp (1600x640, 170,868 bytes) and the mobile crop
+  (780x571, 122,160 bytes), quality 82/effort 6. Originals are not copied into
+  the site. Both optimized assets contain no EXIF/XMP/ICC metadata. Responsive
+  picture loads exactly one variant; empty alt and aria-hidden on img exclude
+  the decoration from the accessibility tree; pointer-events stay disabled.
+  New page-only CSS: 1,112 bytes (436 gzip). All other 26 generated HTML files
+  and every pre-existing shared asset are byte-identical to afd4a13's build.
+  PASS: build, lint, TypeScript, four YouTube tests and before/after headless Edge
+  visual QA at 1600/390/320: no overflow, preserved content/type/SEO/Header/Footer,
+  loaded images, keyboard focus, no CSP/console errors or external requests.
+  Additional 900/901 breakpoint checks pass; measured hero-copy contrast is
+  at least 7.42:1 at all five widths. Screenshots/reports: ignored outputs/about-art.
+  npm audit retains nine existing findings (seven high, two moderate), without
+  dependency/lockfile changes. Verification used existing bundled Playwright
+  and local Edge; other browser engines have not been checked. Hero is taller
+  than the CSS-only experiment; mobile intentionally omits the left landscape.
+  Publication authorised by the owner after desktop/390/320 visual review.
+  Release checks repeated after synchronising with current main: build, lint,
+  TypeScript and all four existing tests pass; diff remains only this page,
+  the two optimized images and STATUS.md. Publication uses required PR CI,
+  existing main protection and automatic Pages deployment. No design/content,
+  dependency, CMS/OAuth or architecture changes; next-page artwork is deferred.
+
 - 2026-10-08: owner-approved recovery material «Як працює творча майстерня»
   at /vidnovlennia/tvorcha-maisternia-ptashky/. Title shortened at the owner's request.
   Supplied title, summary and text retained without diagnoses, treatment effects,

@@ -1,6 +1,6 @@
 # DONE
 
-- 2026-10-10: local, unpublished «Про нас» approved watercolor integration on
+- 2026-10-10: owner-approved «Про нас» watercolor integration on
   codex/about-watercolor-experiment, continuing the CSS experiment afd4a13.
   pro-nas.astro replaces the pigment pseudo-elements/title stroke with the
   supplied «Корни и опора» artwork. Desktop retains the complete landscape on
@@ -26,7 +26,12 @@
   dependency/lockfile changes. Verification used existing bundled Playwright
   and local Edge; other browser engines have not been checked. Hero is taller
   than the CSS-only experiment; mobile intentionally omits the left landscape.
-  No push, PR, merge, deployment or production change; awaits visual comparison.
+  Publication authorised by the owner after desktop/390/320 visual review.
+  Release checks repeated after synchronising with current main: build, lint,
+  TypeScript and all four existing tests pass; diff remains only this page,
+  the two optimized images and STATUS.md. Publication uses required PR CI,
+  existing main protection and automatic Pages deployment. No design/content,
+  dependency, CMS/OAuth or architecture changes; next-page artwork is deferred.
 
 - 2026-10-08: owner-approved recovery material «Як працює творча майстерня»
   at /vidnovlennia/tvorcha-maisternia-ptashky/. Title shortened at the owner's request.
